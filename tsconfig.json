@@ -25,7 +25,7 @@
     ],
     "paths": {
       "@ng-matero/ng-select": [
-        "projects/ng-select/public-api"
+        "projects/ng-select/src/public-api"
       ]
     }
   },
