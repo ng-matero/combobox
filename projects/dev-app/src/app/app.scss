@@ -1,0 +1,12 @@
+/* stylelint-disable no-invalid-position-at-import-rule */
+:host.ant-theme ::ng-deep {
+	@import '../../../ng-select/themes/ant.design.theme';
+}
+
+:host.default-theme ::ng-deep {
+	@import '../../../ng-select/themes/default.theme';
+}
+
+:host.material-theme ::ng-deep {
+	@import '../../../ng-select/themes/material.theme';
+}

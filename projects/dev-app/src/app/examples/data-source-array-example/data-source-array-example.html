@@ -1,0 +1,16 @@
+<p>You can also set array of objects as items input</p>
+
+<ng-select
+  [(ngModel)]="selectedPersonId"
+  [items]="people"
+  bindLabel="name"
+  bindValue="id"
+/>
+
+<hr />
+<p>
+  While array of objects is the most common items source, you may want to set simple array of
+  strings, numbers, booleans
+</p>
+
+<ng-select [(ngModel)]="selectedSimpleItem" [items]="simpleItems" />
