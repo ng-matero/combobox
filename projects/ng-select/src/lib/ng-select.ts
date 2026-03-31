@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-output-rename */
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   booleanAttribute,
@@ -12,8 +12,6 @@ import {
   EventEmitter,
   forwardRef,
   HostAttributeToken,
-  HostBinding,
-  HostListener,
   inject,
   InjectionToken,
   Input,
@@ -71,7 +69,20 @@ export const SELECTION_MODEL_FACTORY = new InjectionToken<SelectionModelFactory>
   selector: 'ng-select',
   templateUrl: './ng-select.html',
   styleUrl: './ng-select.scss',
-  imports: [NgTemplateOutlet, NgItemLabel, NgDropdownPanel, NgClass],
+  imports: [NgTemplateOutlet, NgItemLabel, NgDropdownPanel],
+  host: {
+    'class': 'ng-select',
+    '[class.ng-select-single]': '!multiple',
+    '[class.ng-select-multiple]': 'multiple',
+    '[class.ng-select-typeahead]': 'typeahead',
+    '[class.ng-select-taggable]': 'addTag',
+    '[class.ng-select-searchable]': 'searchable',
+    '[class.ng-select-clearable]': 'clearable',
+    '[class.ng-select-opened]': 'isOpen',
+    '[class.ng-select-filtered]': 'filtered',
+    '[class.ng-select-disabled]': 'disabled',
+    '(keydown)': 'handleKeyDown($event)',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -83,16 +94,23 @@ export const SELECTION_MODEL_FACTORY = new InjectionToken<SelectionModelFactory>
   ],
 })
 export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, ControlValueAccessor {
-  @Input() ariaLabelDropdown: string = 'Options List';
+  private _cdr = inject(ChangeDetectorRef);
+  private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private _config = inject(NgSelectConfig);
+  readonly newSelectionModel = inject(SELECTION_MODEL_FACTORY, { optional: true });
+  readonly autoFocus = inject(new HostAttributeToken('autofocus'), { optional: true });
+  readonly classes = inject(new HostAttributeToken('class'), { optional: true });
+
+  @Input() ariaLabelDropdown = 'Options List';
   @Input() bindLabel!: string;
   @Input() bindValue!: string;
   @Input() ariaLabel?: string;
   @Input({ transform: booleanAttribute }) markFirst = true;
   @Input() placeholder?: string;
-  @Input() fixedPlaceholder: boolean = false;
+  @Input() fixedPlaceholder = false;
   @Input() notFoundText?: string;
   @Input() typeToSearchText?: string;
-  @Input() preventToggleOnRightClick: boolean = false;
+  @Input() preventToggleOnRightClick = false;
   @Input() addTagText?: string;
   @Input() loadingText?: string;
   @Input() clearAllText?: string;
@@ -122,31 +140,70 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) searchWhileComposing = true;
   @Input({ transform: numberAttribute }) minTermLength = 0;
   @Input({ transform: booleanAttribute }) editableSearchTerm = false;
+  @Input() typeahead?: Subject<string>;
+  @Input({ transform: booleanAttribute }) multiple = false;
+  @Input() addTag: boolean | AddTagFn = false;
+  @Input({ transform: booleanAttribute }) searchable = true;
+  @Input({ transform: booleanAttribute }) clearable = true;
+  @Input() keyDownFn = (_: KeyboardEvent) => true;
+  @Input() isOpen?: boolean = false;
+
   @Input() ngClass = null;
 
   @Input()
-  @HostBinding('class.ng-select-typeahead')
-  typeahead?: Subject<string>;
+  get items() {
+    return this._items;
+  }
+  set items(value: readonly any[] | null | undefined) {
+    this._itemsAreUsed = true;
+    this._items = value ?? [];
+  }
+  private _items: readonly any[] = [];
 
-  @Input({ transform: booleanAttribute })
-  @HostBinding('class.ng-select-multiple')
-  multiple = false;
-
-  @Input()
-  @HostBinding('class.ng-select-taggable')
-  addTag: boolean | AddTagFn = false;
-
-  @Input({ transform: booleanAttribute })
-  @HostBinding('class.ng-select-searchable')
-  searchable = true;
-
-  @Input({ transform: booleanAttribute })
-  @HostBinding('class.ng-select-clearable')
-  clearable = true;
+  get disabled() {
+    return this.readonly || this._disabled;
+  }
+  private _disabled = false;
 
   @Input()
-  @HostBinding('class.ng-select-opened')
-  isOpen?: boolean = false;
+  get compareWith() {
+    return this._compareWith;
+  }
+  set compareWith(fn: CompareWithFn) {
+    if (fn != null && !isFunction(fn)) {
+      throw Error('`compareWith` must be a function.');
+    }
+    this._compareWith = fn;
+  }
+  private _compareWith!: CompareWithFn;
+
+  @Input()
+  get clearSearchOnAdd() {
+    if (isDefined(this._clearSearchOnAdd)) {
+      return this._clearSearchOnAdd;
+    } else if (isDefined(this._config.clearSearchOnAdd)) {
+      return this._config.clearSearchOnAdd;
+    }
+    return this.closeOnSelect;
+  }
+  set clearSearchOnAdd(value) {
+    this._clearSearchOnAdd = value;
+  }
+  private _clearSearchOnAdd?: boolean;
+
+  @Input()
+  get deselectOnClick() {
+    if (isDefined(this._deselectOnClick)) {
+      return this._deselectOnClick;
+    } else if (isDefined(this._config.deselectOnClick)) {
+      return this._config.deselectOnClick;
+    }
+    return this.multiple;
+  }
+  set deselectOnClick(value) {
+    this._deselectOnClick = value;
+  }
+  private _deselectOnClick?: boolean;
 
   // output events
   @Output('blur') blurEvent = new EventEmitter();
@@ -160,6 +217,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Output('remove') removeEvent = new EventEmitter();
   @Output() scroll = new EventEmitter<{ start: number; end: number }>();
   @Output() scrollToEnd = new EventEmitter();
+
+  @ViewChild(forwardRef(() => NgDropdownPanel)) dropdownPanel!: NgDropdownPanel;
+  @ViewChild('searchInput', { static: true }) searchInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('clearButton') clearButton!: ElementRef<HTMLSpanElement>;
+  @ContentChildren(NgOption, { descendants: true }) ngOptions!: QueryList<NgOption>;
 
   // custom templates
   @ContentChild(NgOptionTemplate, { read: TemplateRef })
@@ -189,24 +251,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 
-  @ViewChild(forwardRef(() => NgDropdownPanel))
-  dropdownPanel!: NgDropdownPanel;
-  @ViewChild('searchInput', { static: true })
-  searchInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('clearButton')
-  clearButton!: ElementRef<HTMLSpanElement>;
-  @ContentChildren(NgOption, { descendants: true })
-  ngOptions!: QueryList<NgOption>;
-
-  @HostBinding('class.ng-select') useDefaultClass = true;
-
-  config = inject(NgSelectConfig);
-  private _cdr = inject(ChangeDetectorRef);
-  private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly newSelectionModel = inject(SELECTION_MODEL_FACTORY, { optional: true });
-  readonly autoFocus = inject(new HostAttributeToken('autofocus'), { optional: true });
-  readonly classes = inject(new HostAttributeToken('class'), { optional: true });
-
   itemsList: ItemsList;
   viewPortItems: NgOptionItem[] = [];
   searchTerm: string | null = null;
@@ -216,84 +260,13 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   escapeHTML = true;
   tabFocusOnClear = true;
   private _itemsAreUsed?: boolean;
-  private readonly _defaultLabel = 'label';
   private _primitive: any;
   private _manualOpen?: boolean;
   private _pressedKeys: string[] = [];
   private _isComposing = false;
+  private readonly _defaultLabel = 'label';
   private readonly _destroy$ = new Subject<void>();
   private readonly _keyPress$ = new Subject<string>();
-
-  constructor() {
-    this._mergeGlobalConfig(this.config);
-    this.itemsList = new ItemsList(
-      this,
-      this.newSelectionModel ? this.newSelectionModel() : DefaultSelectionModelFactory()
-    );
-  }
-
-  @HostBinding('class.ng-select-filtered') get filtered() {
-    return (!!this.searchTerm && this.searchable) || this._isComposing;
-  }
-
-  @HostBinding('class.ng-select-single') get single() {
-    return !this.multiple;
-  }
-
-  @Input()
-  get items() {
-    return this._items;
-  }
-  set items(value: readonly any[] | null | undefined) {
-    this._itemsAreUsed = true;
-    this._items = value ?? [];
-  }
-  private _items: readonly any[] = [];
-
-  @HostBinding('class.ng-select-disabled') get disabled() {
-    return this.readonly || this._disabled;
-  }
-  private _disabled = false;
-
-  @Input()
-  get compareWith() {
-    return this._compareWith;
-  }
-  set compareWith(fn: CompareWithFn) {
-    if (fn != null && !isFunction(fn)) {
-      throw Error('`compareWith` must be a function.');
-    }
-    this._compareWith = fn;
-  }
-  private _compareWith!: CompareWithFn;
-
-  @Input()
-  get clearSearchOnAdd() {
-    if (isDefined(this._clearSearchOnAdd)) {
-      return this._clearSearchOnAdd;
-    } else if (isDefined(this.config.clearSearchOnAdd)) {
-      return this.config.clearSearchOnAdd;
-    }
-    return this.closeOnSelect;
-  }
-  set clearSearchOnAdd(value) {
-    this._clearSearchOnAdd = value;
-  }
-  private _clearSearchOnAdd?: boolean;
-
-  @Input()
-  get deselectOnClick() {
-    if (isDefined(this._deselectOnClick)) {
-      return this._deselectOnClick;
-    } else if (isDefined(this.config.deselectOnClick)) {
-      return this.config.deselectOnClick;
-    }
-    return this.multiple;
-  }
-  set deselectOnClick(value) {
-    this._deselectOnClick = value;
-  }
-  private _deselectOnClick?: boolean;
 
   get selectedItems() {
     return this.itemsList.selectedItems;
@@ -329,6 +302,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     );
   }
 
+  get filtered() {
+    return (!!this.searchTerm && this.searchable) || this._isComposing;
+  }
+
   private get _editableSearchTerm() {
     return this.editableSearchTerm && !this.multiple;
   }
@@ -342,12 +319,23 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     return term && term.length >= this.minTermLength;
   }
 
-  @Input() keyDownFn = (_: KeyboardEvent) => true;
+  private _onChange = (_: any) => {};
+  private _onTouched = () => {};
 
-  clearItem = (item: any) => {
-    const option = this.selectedItems.find(x => x.value === item)!;
-    this.unselect(option);
+  trackByOption = (_: number, item: NgOptionItem) => {
+    if (this.trackByFn) {
+      return this.trackByFn(item.value);
+    }
+    return item;
   };
+
+  constructor() {
+    this._mergeGlobalConfig();
+    this.itemsList = new ItemsList(
+      this,
+      this.newSelectionModel ? this.newSelectionModel() : DefaultSelectionModelFactory()
+    );
+  }
 
   ngOnInit() {
     this._handleKeyPresses();
@@ -391,49 +379,72 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._destroy$.complete();
   }
 
-  @HostListener('keydown', ['$event'])
-  handleKeyDown($event: KeyboardEvent) {
-    const keyName = $event.key;
+  writeValue(value: any): void {
+    this.itemsList.clearSelected();
+    this._handleWriteValue(value);
+    this._cdr.markForCheck();
+  }
+
+  registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._disabled = isDisabled;
+    this._cdr.markForCheck();
+  }
+
+  clearItem = (item: any) => {
+    const option = this.selectedItems.find(x => x.value === item)!;
+    this.unselect(option);
+  };
+
+  handleKeyDown(e: KeyboardEvent) {
+    const keyName = e.key;
     if (Object.values(KeyCode).includes(keyName as KeyCode)) {
-      if (this.keyDownFn($event) === false) {
+      if (this.keyDownFn(e) === false) {
         return;
       }
-      this.handleKeyCode($event);
+      this.handleKeyCode(e);
     } else if (keyName && keyName.length === 1) {
       this._keyPress$.next(keyName.toLocaleLowerCase());
     }
   }
 
-  handleKeyCode($event: KeyboardEvent) {
-    const target = $event.target;
+  handleKeyCode(e: KeyboardEvent) {
+    const target = e.target;
 
     if (this.clearButton && this.clearButton.nativeElement === target) {
-      this.handleKeyCodeClear($event);
+      this.handleKeyCodeClear(e);
     } else {
-      this.handleKeyCodeInput($event);
+      this.handleKeyCodeInput(e);
     }
   }
 
-  handleKeyCodeInput($event: KeyboardEvent) {
-    switch ($event.key) {
+  handleKeyCodeInput(e: KeyboardEvent) {
+    switch (e.key) {
       case KeyCode.ArrowDown:
-        this._handleArrowDown($event);
+        this._handleArrowDown(e);
         break;
       case KeyCode.ArrowUp:
-        this._handleArrowUp($event);
+        this._handleArrowUp(e);
         break;
       case KeyCode.Space:
-        this._handleSpace($event);
+        this._handleSpace(e);
         break;
       case KeyCode.Enter:
-        this._handleEnter($event);
+        this._handleEnter(e);
         break;
       case KeyCode.Tab:
-        this._handleTab($event);
+        this._handleTab(e);
         break;
       case KeyCode.Esc:
         this.close();
-        $event.preventDefault();
+        e.preventDefault();
         break;
       case KeyCode.Backspace:
         this._handleBackspace();
@@ -441,22 +452,22 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  handleKeyCodeClear($event: KeyboardEvent) {
-    switch ($event.key) {
+  handleKeyCodeClear(e: KeyboardEvent) {
+    switch (e.key) {
       case KeyCode.Enter:
         this.handleClearClick();
-        $event.preventDefault();
+        e.preventDefault();
         break;
     }
   }
 
-  handleMousedown($event: MouseEvent) {
-    if (this.preventToggleOnRightClick && $event.button === 2) {
+  handleMousedown(e: MouseEvent) {
+    if (this.preventToggleOnRightClick && e.button === 2) {
       return;
     }
-    const target = $event.target as HTMLElement;
+    const target = e.target as HTMLElement;
     if (target.tagName !== 'INPUT') {
-      $event.preventDefault();
+      e.preventDefault();
     }
 
     if (target.classList.contains('ng-clear-wrapper')) {
@@ -510,25 +521,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
     this.itemsList.clearSelected();
     this._updateNgModel();
-  }
-
-  writeValue(value: any): void {
-    this.itemsList.clearSelected();
-    this._handleWriteValue(value);
-    this._cdr.markForCheck();
-  }
-
-  registerOnChange(fn: any): void {
-    this._onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this._onTouched = fn;
-  }
-
-  setDisabledState(state: boolean): void {
-    this._disabled = state;
-    this._cdr.markForCheck();
   }
 
   toggle() {
@@ -659,14 +651,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  trackByOption = (_: number, item: NgOptionItem) => {
-    if (this.trackByFn) {
-      return this.trackByFn(item.value);
-    }
-
-    return item;
-  };
-
   showNoItemsFound() {
     const empty = this.itemsList.filteredItems.length === 0;
     return (
@@ -715,7 +699,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.open();
   }
 
-  onInputFocus($event: FocusEvent) {
+  onInputFocus(e: FocusEvent) {
     if (this.focused) {
       return;
     }
@@ -725,13 +709,13 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
 
     this.element.classList.add('ng-select-focused');
-    this.focusEvent.emit($event);
+    this.focusEvent.emit(e);
     this.focused = true;
   }
 
-  onInputBlur($event: FocusEvent) {
+  onInputBlur(e: FocusEvent) {
     this.element.classList.remove('ng-select-focused');
-    this.blurEvent.emit($event);
+    this.blurEvent.emit(e);
     if (!this.isOpen && !this.disabled) {
       this._onTouched();
     }
@@ -753,10 +737,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       this._cdr.detectChanges();
     }
   }
-
-  private _onChange = (_: any) => {};
-
-  private _onTouched = () => {};
 
   private _setSearchTermFromItems() {
     const selected = this.selectedItems?.[0];
@@ -924,7 +904,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   private _setTabFocusOnClear() {
     this.tabFocusOnClear = isDefined(this.tabFocusOnClearButton)
       ? !!this.tabFocusOnClearButton
-      : this.config.tabFocusOnClear;
+      : this._config.tabFocusOnClear;
     this._cdr.markForCheck();
   }
 
@@ -995,11 +975,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  private _handleTab($event: KeyboardEvent) {
+  private _handleTab(e: KeyboardEvent) {
     if (this.isOpen === false) {
-      if (this.showClear() && !$event.shiftKey && this.tabFocusOnClear) {
+      if (this.showClear() && !e.shiftKey && this.tabFocusOnClear) {
         this.focusOnClear();
-        $event.preventDefault();
+        e.preventDefault();
       } else if (!this.addTag) {
         return;
       }
@@ -1008,10 +988,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     if (this.selectOnTab) {
       if (this.itemsList.markedItem) {
         this.toggleItem(this.itemsList.markedItem);
-        $event.preventDefault();
+        e.preventDefault();
       } else if (this.showAddTag) {
         this.selectTag();
-        $event.preventDefault();
+        e.preventDefault();
       } else {
         this.close();
       }
@@ -1020,7 +1000,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  private _handleEnter($event: KeyboardEvent) {
+  private _handleEnter(e: KeyboardEvent) {
     if (this.isOpen || this._manualOpen) {
       if (this.itemsList.markedItem) {
         this.toggleItem(this.itemsList.markedItem);
@@ -1033,18 +1013,18 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       return;
     }
 
-    $event.preventDefault();
+    e.preventDefault();
   }
 
-  private _handleSpace($event: KeyboardEvent) {
+  private _handleSpace(e: KeyboardEvent) {
     if (this.isOpen || this._manualOpen) {
       return;
     }
     this.open();
-    $event.preventDefault();
+    e.preventDefault();
   }
 
-  private _handleArrowDown($event: KeyboardEvent) {
+  private _handleArrowDown(e: KeyboardEvent) {
     if (this._nextItemIsTag(+1)) {
       this.itemsList.unmarkItem();
       this._scrollToTag();
@@ -1053,10 +1033,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       this._scrollToMarked();
     }
     this.open();
-    $event.preventDefault();
+    e.preventDefault();
   }
 
-  private _handleArrowUp($event: KeyboardEvent) {
+  private _handleArrowUp(e: KeyboardEvent) {
     if (!this.isOpen) {
       return;
     }
@@ -1068,7 +1048,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       this.itemsList.markPreviousItem();
       this._scrollToMarked();
     }
-    $event.preventDefault();
+    e.preventDefault();
   }
 
   private _nextItemIsTag(nextStep: number) {
@@ -1093,20 +1073,20 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  private _mergeGlobalConfig(config: NgSelectConfig) {
-    this.placeholder = this.placeholder || config.placeholder;
-    this.fixedPlaceholder = this.fixedPlaceholder || config.fixedPlaceholder;
-    this.notFoundText = this.notFoundText || config.notFoundText;
-    this.typeToSearchText = this.typeToSearchText || config.typeToSearchText;
-    this.addTagText = this.addTagText || config.addTagText;
-    this.loadingText = this.loadingText || config.loadingText;
-    this.clearAllText = this.clearAllText || config.clearAllText;
-    this.virtualScroll = this.getVirtualScroll(config);
-    this.openOnEnter = isDefined(this.openOnEnter) ? this.openOnEnter : config.openOnEnter;
-    this.appendTo = this.appendTo || config.appendTo;
-    this.bindValue = this.bindValue || config.bindValue!;
-    this.bindLabel = this.bindLabel || config.bindLabel!;
-    this.appearance = this.appearance || config.appearance;
+  private _mergeGlobalConfig() {
+    this.placeholder = this.placeholder || this._config.placeholder;
+    this.fixedPlaceholder = this.fixedPlaceholder || this._config.fixedPlaceholder;
+    this.notFoundText = this.notFoundText || this._config.notFoundText;
+    this.typeToSearchText = this.typeToSearchText || this._config.typeToSearchText;
+    this.addTagText = this.addTagText || this._config.addTagText;
+    this.loadingText = this.loadingText || this._config.loadingText;
+    this.clearAllText = this.clearAllText || this._config.clearAllText;
+    this.virtualScroll = this.getVirtualScroll(this._config);
+    this.openOnEnter = isDefined(this.openOnEnter) ? this.openOnEnter : this._config.openOnEnter;
+    this.appendTo = this.appendTo || this._config.appendTo;
+    this.bindValue = this.bindValue || this._config.bindValue!;
+    this.bindLabel = this.bindLabel || this._config.bindLabel!;
+    this.appearance = this.appearance || this._config.appearance;
     this._setTabFocusOnClear();
   }
 

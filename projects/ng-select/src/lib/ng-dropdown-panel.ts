@@ -42,12 +42,12 @@ const SCROLL_SCHEDULER =
     }
     <div
       #scroll
-      role="listbox"
-      class="ng-dropdown-panel-items scroll-host"
+      class="ng-dropdown-panel-items ng-select-virtual-scroll-host"
       [attr.aria-label]="ariaLabelDropdown"
+      role="listbox"
     >
-      <div #padding [class.total-padding]="virtualScroll"></div>
-      <div #content [class.scrollable-content]="virtualScroll && items.length">
+      <div #padding [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
+      <div #content [class.ng-select-virtual-scroll-content]="virtualScroll && items.length">
         <ng-content />
       </div>
     </div>
