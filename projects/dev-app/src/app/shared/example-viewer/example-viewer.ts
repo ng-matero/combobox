@@ -47,7 +47,7 @@ export class ExampleViewer implements OnInit {
   title = '';
 
   get sourcePath() {
-    return `https://github.com/ng-matero/combobox/tree/main/projects/dev-app/app/examples/${this.example}`;
+    return `https://github.com/ng-matero/combobox/tree/main/projects/dev-app/src/app/examples/${this.example}`;
   }
 
   ngOnInit() {

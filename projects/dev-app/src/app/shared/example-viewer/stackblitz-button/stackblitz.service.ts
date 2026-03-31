@@ -17,13 +17,10 @@ const TEMPLATE_FILES = [
 
 const angularVersion = '>=15.0.0';
 const dependencies = {
-  '@angular/animations': angularVersion,
   '@angular/common': angularVersion,
   '@angular/compiler': angularVersion,
   '@angular/core': angularVersion,
   '@angular/forms': angularVersion,
-  '@angular/http': angularVersion,
-  '@angular/localize': angularVersion,
   '@angular/platform-browser': angularVersion,
   '@angular/router': angularVersion,
   '@ng-matero/ng-select': '*',

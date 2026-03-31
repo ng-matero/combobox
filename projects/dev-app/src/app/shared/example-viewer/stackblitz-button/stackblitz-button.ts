@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { StackblitzService } from './stackblitz.service';
 
 @Component({
-  selector: 'stackblitz-button',
+  selector: 'app-stackblitz-button',
   templateUrl: './stackblitz-button.html',
   styles: `
     svg {
