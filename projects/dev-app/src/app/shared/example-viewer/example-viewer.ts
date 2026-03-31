@@ -10,7 +10,9 @@ import {
 import { EXAMPLE_COMPONENTS } from '../../examples/examples';
 import { StackblitzButton } from './stackblitz-button/stackblitz-button';
 
-@Directive({ selector: '[example-host]' })
+@Directive({
+  selector: '[appExampleHost]',
+})
 export class ExampleHostDirective {
   viewContainerRef = inject(ViewContainerRef);
 }

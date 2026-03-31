@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgSelectConfig } from '@ng-matero/ng-select';
@@ -10,7 +10,6 @@ import { LayoutSidenav } from './layout/sidenav';
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.Default,
   imports: [LayoutHeader, LayoutSidenav, RouterOutlet],
   host: {
     '[class]': 'themeClass',
@@ -18,7 +17,6 @@ import { LayoutSidenav } from './layout/sidenav';
 })
 export class App implements OnInit {
   title = '';
-  version = (window as any)['ngSelectVersion'];
   dir: 'ltr' | 'rtl' = 'ltr';
   theme: 'default' | 'ant' | 'material' = 'default';
 

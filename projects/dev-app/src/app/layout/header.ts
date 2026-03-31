@@ -6,18 +6,10 @@ type langDir = 'ltr' | 'rtl';
 type theme = 'default' | 'ant' | 'material';
 
 @Component({
-  selector: 'layout-header',
+  selector: 'app-layout-header',
   template: `
-    <nav class="navbar navbar-expand flex-column flex-md-row bd-navbar">
-      <a class="navbar-brand" href="#">
-        <img
-          src="https://angular.io/assets/images/logos/angular/angular.svg"
-          width="32px"
-          height="32px"
-          alt=""
-        />
-        @ng-matero/ng-select
-      </a>
+    <nav class="container flex-wrap flex-lg-nowrap">
+      <a class="navbar-brand" href="#">@ng-matero/ng-select</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -32,7 +24,7 @@ type theme = 'default' | 'ant' | 'material';
 
       <div class="collapse navbar-collapse">
         <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-secondary btn-sm" style="width: 150px;" ngbDropdownToggle>
+          <button class="btn btn-outline-secondary" ngbDropdownToggle>
             {{ theme }}
           </button>
           <div ngbDropdownMenu>
@@ -48,8 +40,7 @@ type theme = 'default' | 'ant' | 'material';
 
         <div ngbDropdown class="d-inline-block ml-2">
           <button
-            class="btn btn-outline-secondary btn-sm text-uppercase"
-            style="width: 60px;"
+            class="btn btn-outline-secondary text-uppercase"
             ngbDropdownToggle
           >
             {{ dir }}
@@ -68,6 +59,16 @@ type theme = 'default' | 'ant' | 'material';
       </div>
     </nav>
   `,
+  styles: `
+    :host {
+      box-shadow: 0 3px 8px 0 rgba(116, 129, 141, 0.1);
+      border-bottom: 1px solid #d4dadf;
+      background-color: #fff;
+    }
+  `,
+  host: {
+    class: 'navbar navbar-expand-lg bd-navbar sticky-top',
+  },
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, FormsModule],
 })
 export class LayoutHeader {
