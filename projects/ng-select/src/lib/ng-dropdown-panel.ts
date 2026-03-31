@@ -68,11 +68,11 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() items: NgOptionItem[] = [];
   @Input() markedItem?: NgOptionItem;
   @Input() position: DropdownPosition = 'auto';
-  @Input() appendTo!: string;
-  @Input() bufferAmount!: number;
+  @Input() appendTo?: string;
+  @Input() bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll = false;
-  @Input() headerTemplate!: TemplateRef<any>;
-  @Input() footerTemplate!: TemplateRef<any>;
+  @Input() headerTemplate?: TemplateRef<any>;
+  @Input() footerTemplate?: TemplateRef<any>;
   @Input() filterValue: string | null = null;
   @Input() ariaLabelDropdown: string | null = null;
 

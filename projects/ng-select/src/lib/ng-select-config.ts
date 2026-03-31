@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class NgSelectConfig {
-  placeholder = '';
-  fixedPlaceholder = false;
+  placeholder?: string;
+  fixedPlaceholder = true;
   notFoundText = 'No items found';
   typeToSearchText = 'Type to search';
   addTagText = 'Add item';
   loadingText = 'Loading...';
   clearAllText = 'Clear all';
+  ariaLabelDropdown = 'Options List';
   disableVirtualScroll = true;
   openOnEnter = true;
-  appendTo = '';
-  bindValue = '';
-  bindLabel = '';
+  appendTo?: string;
+  bindValue?: string;
+  bindLabel?: string;
   appearance = 'underline';
-  clearSearchOnAdd = false;
-  deselectOnClick = false;
+  clearSearchOnAdd?: boolean;
+  deselectOnClick?: boolean;
   tabFocusOnClear = true;
 }

@@ -88,27 +88,27 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() bindValue!: string;
   @Input() ariaLabel?: string;
   @Input({ transform: booleanAttribute }) markFirst = true;
-  @Input() placeholder!: string;
+  @Input() placeholder?: string;
   @Input() fixedPlaceholder: boolean = false;
-  @Input() notFoundText!: string;
-  @Input() typeToSearchText!: string;
+  @Input() notFoundText?: string;
+  @Input() typeToSearchText?: string;
   @Input() preventToggleOnRightClick: boolean = false;
-  @Input() addTagText!: string;
-  @Input() loadingText!: string;
-  @Input() clearAllText!: string;
-  @Input() appearance!: string;
+  @Input() addTagText?: string;
+  @Input() loadingText?: string;
+  @Input() clearAllText?: string;
+  @Input() appearance?: string;
   @Input() dropdownPosition: DropdownPosition = 'auto';
-  @Input() appendTo!: string;
+  @Input() appendTo?: string;
   @Input({ transform: booleanAttribute }) loading = false;
   @Input({ transform: booleanAttribute }) closeOnSelect = true;
   @Input({ transform: booleanAttribute }) hideSelected = false;
   @Input({ transform: booleanAttribute }) selectOnTab = false;
-  @Input({ transform: booleanAttribute }) openOnEnter!: boolean;
+  @Input({ transform: booleanAttribute }) openOnEnter?: boolean;
   @Input({ transform: numberAttribute }) maxSelectedItems!: number;
-  @Input() groupBy!: string | ((value: any) => any);
+  @Input() groupBy?: string | ((value: any) => any);
   @Input() groupValue?: GroupValueFn;
   @Input({ transform: numberAttribute }) bufferAmount = 4;
-  @Input({ transform: booleanAttribute }) virtualScroll!: boolean;
+  @Input({ transform: booleanAttribute }) virtualScroll?: boolean;
   @Input({ transform: booleanAttribute }) selectableGroup = false;
   @Input({ transform: booleanAttribute }) selectableGroupAsModel = true;
   @Input() searchFn: SearchFn | null = null;
@@ -116,7 +116,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) clearOnBackspace = true;
   @Input() labelForId: string | null = null;
   @Input() inputAttrs: Record<string, string> = {};
-  @Input({ transform: numberAttribute }) tabIndex!: number;
+  @Input({ transform: numberAttribute }) tabIndex?: number;
   @Input() tabFocusOnClearButton?: boolean;
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) searchWhileComposing = true;
@@ -126,7 +126,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @Input()
   @HostBinding('class.ng-select-typeahead')
-  typeahead!: Subject<string>;
+  typeahead?: Subject<string>;
 
   @Input({ transform: booleanAttribute })
   @HostBinding('class.ng-select-multiple')
@@ -163,31 +163,31 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   // custom templates
   @ContentChild(NgOptionTemplate, { read: TemplateRef })
-  optionTemplate!: TemplateRef<any>;
+  optionTemplate?: TemplateRef<any>;
   @ContentChild(NgOptgroupTemplate, { read: TemplateRef })
-  optgroupTemplate!: TemplateRef<any>;
+  optgroupTemplate?: TemplateRef<any>;
   @ContentChild(NgLabelTemplate, { read: TemplateRef })
-  labelTemplate!: TemplateRef<any>;
+  labelTemplate?: TemplateRef<any>;
   @ContentChild(NgMultiLabelTemplate, { read: TemplateRef })
-  multiLabelTemplate!: TemplateRef<any>;
+  multiLabelTemplate?: TemplateRef<any>;
   @ContentChild(NgHeaderTemplate, { read: TemplateRef })
-  headerTemplate!: TemplateRef<any>;
+  headerTemplate?: TemplateRef<any>;
   @ContentChild(NgFooterTemplate, { read: TemplateRef })
-  footerTemplate!: TemplateRef<any>;
+  footerTemplate?: TemplateRef<any>;
   @ContentChild(NgNotFoundTemplate, { read: TemplateRef })
-  notFoundTemplate!: TemplateRef<any>;
+  notFoundTemplate?: TemplateRef<any>;
   @ContentChild(NgPlaceholderTemplate, { read: TemplateRef })
-  placeholderTemplate!: TemplateRef<any>;
+  placeholderTemplate?: TemplateRef<any>;
   @ContentChild(NgTypeToSearchTemplate, { read: TemplateRef })
-  typeToSearchTemplate!: TemplateRef<any>;
+  typeToSearchTemplate?: TemplateRef<any>;
   @ContentChild(NgLoadingTextTemplate, { read: TemplateRef })
-  loadingTextTemplate!: TemplateRef<any>;
+  loadingTextTemplate?: TemplateRef<any>;
   @ContentChild(NgTagTemplate, { read: TemplateRef })
-  tagTemplate!: TemplateRef<any>;
+  tagTemplate?: TemplateRef<any>;
   @ContentChild(NgLoadingSpinnerTemplate, { read: TemplateRef })
-  loadingSpinnerTemplate!: TemplateRef<any>;
+  loadingSpinnerTemplate?: TemplateRef<any>;
   @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
-  clearButtonTemplate!: TemplateRef<any>;
+  clearButtonTemplate?: TemplateRef<any>;
 
   @ViewChild(forwardRef(() => NgDropdownPanel))
   dropdownPanel!: NgDropdownPanel;
@@ -212,13 +212,13 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   searchTerm: string | null = null;
   dropdownId = newId();
   element = this._elementRef.nativeElement;
-  focused!: boolean;
+  focused?: boolean;
   escapeHTML = true;
   tabFocusOnClear = true;
-  private _itemsAreUsed!: boolean;
+  private _itemsAreUsed?: boolean;
   private readonly _defaultLabel = 'label';
   private _primitive: any;
-  private _manualOpen!: boolean;
+  private _manualOpen?: boolean;
   private _pressedKeys: string[] = [];
   private _isComposing = false;
   private readonly _destroy$ = new Subject<void>();
@@ -279,7 +279,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   set clearSearchOnAdd(value) {
     this._clearSearchOnAdd = value;
   }
-  private _clearSearchOnAdd = false;
+  private _clearSearchOnAdd?: boolean;
 
   @Input()
   get deselectOnClick() {
@@ -293,7 +293,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   set deselectOnClick(value) {
     this._deselectOnClick = value;
   }
-  private _deselectOnClick = false;
+  private _deselectOnClick?: boolean;
 
   get selectedItems() {
     return this.itemsList.selectedItems;
@@ -701,7 +701,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
     this.searchTerm = term;
     if (this._isTypeahead && (this._validTerm || this.minTermLength === 0)) {
-      this.typeahead.next(term);
+      this.typeahead?.next(term);
     }
 
     if (!this._isTypeahead) {
@@ -969,7 +969,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   private _changeSearch(searchTerm: string | null) {
     this.searchTerm = searchTerm;
     if (this._isTypeahead) {
-      this.typeahead.next(searchTerm!);
+      this.typeahead?.next(searchTerm!);
     }
   }
 
@@ -1104,8 +1104,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.virtualScroll = this.getVirtualScroll(config);
     this.openOnEnter = isDefined(this.openOnEnter) ? this.openOnEnter : config.openOnEnter;
     this.appendTo = this.appendTo || config.appendTo;
-    this.bindValue = this.bindValue || config.bindValue;
-    this.bindLabel = this.bindLabel || config.bindLabel;
+    this.bindValue = this.bindValue || config.bindValue!;
+    this.bindLabel = this.bindLabel || config.bindLabel!;
     this.appearance = this.appearance || config.appearance;
     this._setTabFocusOnClear();
   }
