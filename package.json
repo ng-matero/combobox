@@ -15,6 +15,7 @@
     "lint:ts": "eslint \"projects/**/*.ts\" --fix",
     "lint:scss": "stylelint \"projects/**/*.scss\" --fix",
     "build:lib": "ng build ng-select && cp README.md dist/ng-select",
+    "test:lib": "ng test ng-select",
     "publish": "npm run build:lib && cd dist/ng-select && npm publish",
     "deploy": "npm run build && ng deploy",
     "prepare": "husky install"
