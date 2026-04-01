@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgOption, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
@@ -8,16 +8,11 @@ import { NgOption, NgSelect } from '@ng-matero/ng-select';
   styleUrl: './forms-with-options-example.scss',
   imports: [FormsModule, ReactiveFormsModule, NgSelect, NgOption],
 })
-export class FormsWithOptionsExample implements OnInit {
+export class FormsWithOptionsExample {
   private fb = inject(FormBuilder);
 
-  basePath = '';
   heroForm = this.fb.group({
     heroId: 'batman',
     agree: null,
   });
-
-  ngOnInit() {
-    this.basePath = window.location.host.includes('localhost') ? '' : '/ng-select';
-  }
 }
