@@ -99,14 +99,15 @@ export class ItemsList {
       findBy = item => this._ngSelect.compareWith(item.value, value);
     } else if (this._ngSelect.bindValue) {
       findBy = item =>
-        !item.children && this.resolveNested(item.value, this._ngSelect.bindValue) === value;
+        !item.children &&
+        this.resolveNested(item.value, this._ngSelect.bindValue as string) === value;
     } else {
       findBy = item =>
         item.value === value ||
         !!(
           !item.children &&
           item.label &&
-          item.label === this.resolveNested(value, this._ngSelect.bindLabel)
+          item.label === this.resolveNested(value, this._ngSelect.bindLabel as string)
         );
     }
     return this._items.find(item => findBy(item))!;
@@ -236,7 +237,7 @@ export class ItemsList {
   mapItem(item: any, index: number | null): NgOptionItem {
     const label = isDefined(item.$ngOptionLabel)
       ? item.$ngOptionLabel
-      : this.resolveNested(item, this._ngSelect.bindLabel);
+      : this.resolveNested(item, this._ngSelect.bindLabel as string);
     const value = isDefined(item.$ngOptionValue) ? item.$ngOptionValue : item;
     return {
       index,
@@ -397,7 +398,9 @@ export class ItemsList {
         disabled: !this._ngSelect.selectableGroup,
         htmlId: newId(),
       };
-      const groupKey = isGroupByFn ? this._ngSelect.bindLabel : (this._ngSelect.groupBy as string);
+      const groupKey = isGroupByFn
+        ? (this._ngSelect.bindLabel as string)
+        : (this._ngSelect.groupBy as string);
       const groupValue =
         this._ngSelect.groupValue ||
         (() => {

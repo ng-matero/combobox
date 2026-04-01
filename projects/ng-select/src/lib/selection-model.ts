@@ -26,8 +26,8 @@ export class DefaultSelectionModel implements SelectionModel {
     }
     if (multiple) {
       if (item.parent) {
-        const childrenCount = item.parent.children!.length;
-        const selectedCount = item.parent.children!.filter(x => x.selected).length;
+        const childrenCount = item.parent.children?.length;
+        const selectedCount = item.parent.children?.filter(x => x.selected).length;
         item.parent.selected = childrenCount === selectedCount;
       } else if (item.children) {
         this._setChildrenSelectedState(item.children, true);

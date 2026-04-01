@@ -102,8 +102,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   readonly classes = inject(new HostAttributeToken('class'), { optional: true });
 
   @Input() ariaLabelDropdown = 'Options List';
-  @Input() bindLabel!: string;
-  @Input() bindValue!: string;
+  @Input() bindLabel?: string;
+  @Input() bindValue?: string;
   @Input() ariaLabel?: string;
   @Input({ transform: booleanAttribute }) markFirst = true;
   @Input() placeholder?: string;
@@ -148,7 +148,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() keyDownFn = (_: KeyboardEvent) => true;
   @Input() isOpen?: boolean = false;
 
-  @Input() ngClass = null;
+  @Input() panelClass?: string;
 
   @Input()
   get items() {
@@ -251,11 +251,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 
+  dropdownId = newId();
+  element = this._elementRef.nativeElement;
   itemsList: ItemsList;
   viewPortItems: NgOptionItem[] = [];
   searchTerm: string | null = null;
-  dropdownId = newId();
-  element = this._elementRef.nativeElement;
   focused?: boolean;
   escapeHTML = true;
   tabFocusOnClear = true;
@@ -626,7 +626,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     if (isFunction(this.addTag)) {
       tag = (this.addTag as AddTagFn)(this.searchTerm!);
     } else {
-      tag = this._primitive ? this.searchTerm : { [this.bindLabel]: this.searchTerm };
+      tag = this._primitive ? this.searchTerm : { [this.bindLabel as string]: this.searchTerm };
     }
 
     const handleTag = (item: any) =>
@@ -842,7 +842,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
           this.itemsList.select(this.itemsList.mapItem(val, null));
         } else if (this.bindValue) {
           item = {
-            [this.bindLabel]: null,
+            [this.bindLabel as string]: null,
             [this.bindValue]: val,
           };
           this.itemsList.select(this.itemsList.mapItem(item, null));
@@ -1084,8 +1084,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.virtualScroll = this.getVirtualScroll(this._config);
     this.openOnEnter = isDefined(this.openOnEnter) ? this.openOnEnter : this._config.openOnEnter;
     this.appendTo = this.appendTo || this._config.appendTo;
-    this.bindValue = this.bindValue || this._config.bindValue!;
-    this.bindLabel = this.bindLabel || this._config.bindLabel!;
+    this.bindValue = this.bindValue || this._config.bindValue;
+    this.bindLabel = this.bindLabel || this._config.bindLabel;
     this.appearance = this.appearance || this._config.appearance;
     this._setTabFocusOnClear();
   }

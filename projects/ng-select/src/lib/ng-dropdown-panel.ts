@@ -61,8 +61,8 @@ const SCROLL_SCHEDULER =
     }
   `,
   imports: [NgTemplateOutlet],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() items: NgOptionItem[] = [];
