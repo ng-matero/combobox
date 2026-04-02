@@ -14,8 +14,10 @@
     "lint": "ng lint --fix && npm run lint:scss",
     "lint:ts": "eslint \"projects/**/*.ts\" --fix",
     "lint:scss": "stylelint \"projects/**/*.scss\" --fix",
-    "build:lib": "ng build ng-select && cp README.md dist/ng-select",
     "test:lib": "ng test ng-select",
+    "build:lib": "ng build ng-select && npm run build:themes && npm run copy-sass && cp README.md dist/ng-select",
+    "build:themes": "sass --style=compressed projects/ng-select/themes/:dist/ng-select/themes",
+    "copy-sass": "mkdir -p dist/ng-select/scss && cp projects/ng-select/**/*.scss dist/ng-select/scss",
     "publish": "npm run build:lib && cd dist/ng-select && npm publish",
     "deploy": "npm run build && ng deploy",
     "prepare": "husky install"

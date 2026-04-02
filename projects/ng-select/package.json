@@ -1,9 +1,55 @@
 {
   "name": "@ng-matero/ng-select",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Angular Select - All in One UI Select, Multiselect and Autocomplete",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "nzbin<nzb329@163.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-matero/combobox.git"
+  },
+  "homepage": "https://ng-matero.github.io/combobox/",
+  "keywords": [
+    "angular",
+    "angular-select",
+    "ng-select",
+    "ngx-select",
+    "ui-select",
+    "multi-select",
+    "autocomplete",
+    "combobox",
+    "dropdown"
+  ],
+  "bugs": {
+    "url": "https://github.com/ng-matero/combobox/issues"
+  },
+  "exports": {
+    "./scss/ant.design.theme": {
+      "style": "./scss/ant.design.theme.scss"
+    },
+    "./scss/default.theme": {
+      "style": "./scss/default.theme.scss"
+    },
+    "./scss/material.theme": {
+      "style": "./scss/material.theme.scss"
+    },
+    "./themes/ant.design.theme.css": {
+      "style": "./themes/ant.design.theme.css"
+    },
+    "./themes/default.theme.css": {
+      "style": "./themes/default.theme.css"
+    },
+    "./themes/material.theme.css": {
+      "style": "./themes/material.theme.css"
+    }
+  },
   "peerDependencies": {
-    "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0"
+    "@angular/common": ">=17.0.0",
+    "@angular/core": ">=17.0.0",
+    "@angular/forms": ">=17.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
