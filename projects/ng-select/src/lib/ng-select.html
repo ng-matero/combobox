@@ -98,7 +98,7 @@
   <ng-dropdown-panel
     class="ng-dropdown-panel"
     [class.ng-select-multiple]="multiple"
-    [class]="appendTo ? (panelClass ? [classes, panelClass] : classes) : null"
+    [class]="appendTo ? _panelClass : null"
     [id]="dropdownId"
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"

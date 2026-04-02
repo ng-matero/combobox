@@ -101,54 +101,59 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   readonly autoFocus = inject(new HostAttributeToken('autofocus'), { optional: true });
   readonly classes = inject(new HostAttributeToken('class'), { optional: true });
 
-  @Input() ariaLabelDropdown = 'Options List';
   @Input() bindLabel?: string;
   @Input() bindValue?: string;
-  @Input() ariaLabel?: string;
-  @Input({ transform: booleanAttribute }) markFirst = true;
   @Input() placeholder?: string;
   @Input() fixedPlaceholder = false;
-  @Input() notFoundText?: string;
-  @Input() typeToSearchText?: string;
-  @Input() preventToggleOnRightClick = false;
-  @Input() addTagText?: string;
-  @Input() loadingText?: string;
-  @Input() clearAllText?: string;
-  @Input() appearance?: string;
-  @Input() dropdownPosition: DropdownPosition = 'auto';
   @Input() appendTo?: string;
+  @Input() dropdownPosition: DropdownPosition = 'auto';
+  @Input({ transform: booleanAttribute }) readonly = false;
+  @Input({ transform: booleanAttribute }) multiple = false;
+  @Input({ transform: booleanAttribute }) searchable = true;
+  @Input({ transform: booleanAttribute }) clearable = true;
+  @Input() clearAllText?: string;
   @Input({ transform: booleanAttribute }) loading = false;
+  @Input() loadingText?: string;
   @Input({ transform: booleanAttribute }) closeOnSelect = true;
+  @Input({ transform: booleanAttribute }) clearOnBackspace = true;
   @Input({ transform: booleanAttribute }) hideSelected = false;
   @Input({ transform: booleanAttribute }) selectOnTab = false;
   @Input({ transform: booleanAttribute }) openOnEnter?: boolean;
-  @Input({ transform: numberAttribute }) maxSelectedItems!: number;
-  @Input() groupBy?: string | ((value: any) => any);
-  @Input() groupValue?: GroupValueFn;
-  @Input({ transform: numberAttribute }) bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll?: boolean;
+  @Input({ transform: numberAttribute }) bufferAmount = 4;
   @Input({ transform: booleanAttribute }) selectableGroup = false;
   @Input({ transform: booleanAttribute }) selectableGroupAsModel = true;
+  @Input({ transform: booleanAttribute }) searchWhileComposing = true;
+  @Input({ transform: booleanAttribute }) editableSearchTerm = false;
+  @Input({ transform: numberAttribute }) maxSelectedItems = Infinity;
+  @Input({ transform: numberAttribute }) minTermLength = 0;
+  @Input({ transform: booleanAttribute }) markFirst = true;
+  @Input() addTag: boolean | AddTagFn = false;
+  @Input() addTagText?: string;
+  @Input() notFoundText?: string;
+  @Input() preventToggleOnRightClick = false;
+  @Input() typeahead?: Subject<string>;
+  @Input() typeToSearchText?: string;
+  @Input() groupBy?: string | ((value: any) => any);
+  @Input() groupValue?: GroupValueFn;
   @Input() searchFn: SearchFn | null = null;
+  @Input() keyDownFn = (_: KeyboardEvent) => true;
   @Input() trackByFn: TrackByFn | null = null;
-  @Input({ transform: booleanAttribute }) clearOnBackspace = true;
   @Input() labelForId: string | null = null;
   @Input() inputAttrs: Record<string, string> = {};
+  @Input() appearance?: string;
+  @Input() ariaLabelDropdown = 'Options List';
+  @Input() ariaLabel?: string;
   @Input({ transform: numberAttribute }) tabIndex?: number;
   @Input() tabFocusOnClearButton?: boolean;
-  @Input({ transform: booleanAttribute }) readonly = false;
-  @Input({ transform: booleanAttribute }) searchWhileComposing = true;
-  @Input({ transform: numberAttribute }) minTermLength = 0;
-  @Input({ transform: booleanAttribute }) editableSearchTerm = false;
-  @Input() typeahead?: Subject<string>;
-  @Input({ transform: booleanAttribute }) multiple = false;
-  @Input() addTag: boolean | AddTagFn = false;
-  @Input({ transform: booleanAttribute }) searchable = true;
-  @Input({ transform: booleanAttribute }) clearable = true;
-  @Input() keyDownFn = (_: KeyboardEvent) => true;
+
   @Input() isOpen?: boolean = false;
 
   @Input() panelClass?: string;
+
+  get _panelClass() {
+    return [this.classes, this.panelClass].filter(v => !!v).join(' ');
+  }
 
   @Input()
   get items() {
@@ -220,8 +225,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @ViewChild(forwardRef(() => NgDropdownPanel)) dropdownPanel!: NgDropdownPanel;
   @ViewChild('searchInput', { static: true }) searchInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('clearButton') clearButton!: ElementRef<HTMLSpanElement>;
-  @ContentChildren(NgOption, { descendants: true }) ngOptions!: QueryList<NgOption>;
+  @ViewChild('clearButton') clearButton?: ElementRef<HTMLSpanElement>;
+  @ContentChildren(NgOption, { descendants: true }) ngOptions?: QueryList<NgOption>;
 
   // custom templates
   @ContentChild(NgOptionTemplate, { read: TemplateRef })
@@ -776,8 +781,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     };
 
     const handleOptionChange = () => {
-      const changedOrDestroyed = merge(this.ngOptions.changes, this._destroy$);
-      merge(...this.ngOptions.map(option => option.stateChange$))
+      const changedOrDestroyed = merge(this.ngOptions!.changes, this._destroy$);
+      merge(...this.ngOptions!.map(option => option.stateChange$))
         .pipe(takeUntil(changedOrDestroyed))
         .subscribe(option => {
           const item = this.itemsList.findItem(option.value);
@@ -787,13 +792,13 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
         });
     };
 
-    this.ngOptions.changes
-      .pipe(startWith(this.ngOptions), takeUntil(this._destroy$))
-      .subscribe(options => {
+    this.ngOptions!.changes.pipe(startWith(this.ngOptions), takeUntil(this._destroy$)).subscribe(
+      options => {
         this.bindLabel = this._defaultLabel;
         mapNgOptions(options);
         handleOptionChange();
-      });
+      }
+    );
   }
 
   private _isValidWriteValue(value: any) {
