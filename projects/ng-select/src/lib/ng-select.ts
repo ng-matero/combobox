@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-output-rename */
 import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
