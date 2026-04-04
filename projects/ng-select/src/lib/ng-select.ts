@@ -503,7 +503,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       return;
     }
 
-    if (target.classList.contains('ng-value-icon')) {
+    if (target.classList.contains('ng-value-remove')) {
       return;
     }
 

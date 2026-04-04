@@ -4424,7 +4424,7 @@ describe('NgSelect', () => {
           control.triggerEventHandler(
             'mousedown',
             createEvent({
-              classList: { contains: (term: string) => term === 'ng-value-icon' },
+              classList: { contains: (term: string) => term === 'ng-value-remove' },
             })
           );
         };

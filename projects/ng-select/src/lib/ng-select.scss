@@ -91,7 +91,7 @@
       @include wrap-text;
     }
 
-    .ng-value-icon {
+    .ng-value-remove {
       display: none;
     }
 
@@ -103,7 +103,7 @@
   }
 
   &.ng-select-multiple {
-    &.ng-select-disabled .ng-value-icon {
+    &.ng-select-disabled .ng-value-remove {
       display: none;
     }
 
@@ -120,11 +120,11 @@
       white-space: nowrap;
     }
 
-    .ng-value-icon {
+    .ng-value-remove {
       cursor: pointer;
     }
 
-    .ng-value-disabled .ng-value-icon {
+    .ng-value-disabled .ng-value-remove {
       display: none;
     }
 

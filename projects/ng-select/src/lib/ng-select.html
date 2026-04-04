@@ -25,7 +25,7 @@
               [ngItemLabel]="item.label || ''"
               [escape]="escapeHTML"
             ></span>
-            <span class="ng-value-icon" (click)="unselect(item)" role="button">×</span>
+            <span class="ng-value-remove" (click)="unselect(item)" role="button">×</span>
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="labelTemplate || defaultLabelTemplate"

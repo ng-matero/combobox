@@ -18,7 +18,7 @@
           <img [src]="$any(item).avatar_url" width="20px" height="20px" alt="" />
           {{ $any(item).login }}
         </span>
-        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+        <span class="ng-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
       </div>
     }
     @if (items.length > 2) {
