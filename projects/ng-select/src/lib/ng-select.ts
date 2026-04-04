@@ -55,6 +55,8 @@ import {
   DropdownPosition,
   GroupValueFn,
   NgOptionItem,
+  ScrollEvent,
+  SearchEvent,
   SearchFn,
   TrackByFn,
 } from './ng-select-types';
@@ -100,6 +102,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   readonly newSelectionModel = inject(SELECTION_MODEL_FACTORY, { optional: true });
   readonly autoFocus = inject(new HostAttributeToken('autofocus'), { optional: true });
   readonly classes = inject(new HostAttributeToken('class'), { optional: true });
+  _classList: Record<string, boolean> = {};
 
   @Input() bindLabel?: string;
   @Input() bindValue?: string;
@@ -128,10 +131,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: numberAttribute }) maxSelectedItems = Infinity;
   @Input({ transform: numberAttribute }) minTermLength = 0;
   @Input({ transform: booleanAttribute }) markFirst = true;
+  @Input({ transform: booleanAttribute }) preventToggleOnRightClick = false;
   @Input() addTag: boolean | AddTagFn = false;
   @Input() addTagText?: string;
   @Input() notFoundText?: string;
-  @Input() preventToggleOnRightClick = false;
   @Input() typeahead?: Subject<string>;
   @Input() typeToSearchText?: string;
   @Input() groupBy?: string | ((value: any) => any);
@@ -147,12 +150,24 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: numberAttribute }) tabIndex?: number;
   @Input() tabFocusOnClearButton?: boolean;
 
+  // isOpen should allow undefined value, so avoid using booleanAttribute!
   @Input() isOpen?: boolean = false;
 
-  @Input() panelClass?: string;
+  @Input()
+  set panelClass(value: string | string[] | Record<string, any> | undefined) {
+    const newClassList: Record<string, boolean> = {};
+    this.classes?.split(/\s+/).forEach(c => (newClassList[c] = true));
 
-  get _panelClass() {
-    return [this.classes, this.panelClass].filter(v => !!v).join(' ');
+    if (typeof value === 'string') {
+      value.split(/\s+/).forEach(c => c && (newClassList[c] = true));
+    } else if (Array.isArray(value)) {
+      value.forEach(c => c && (newClassList[c] = true));
+    } else if (value && typeof value === 'object') {
+      Object.entries(value).forEach(([k, v]) => v && (newClassList[k] = true));
+    }
+
+    this._classList = newClassList;
+    this._cdr.markForCheck();
   }
 
   @Input()
@@ -211,17 +226,17 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   private _deselectOnClick?: boolean;
 
   // output events
-  @Output('blur') blurEvent = new EventEmitter();
-  @Output('focus') focusEvent = new EventEmitter();
-  @Output('change') changeEvent = new EventEmitter();
-  @Output('open') openEvent = new EventEmitter();
-  @Output('close') closeEvent = new EventEmitter();
-  @Output('search') searchEvent = new EventEmitter<{ term: string; items: any[] }>();
-  @Output('clear') clearEvent = new EventEmitter();
-  @Output('add') addEvent = new EventEmitter();
-  @Output('remove') removeEvent = new EventEmitter();
-  @Output() scroll = new EventEmitter<{ start: number; end: number }>();
-  @Output() scrollToEnd = new EventEmitter();
+  @Output('blur') blurEvent = new EventEmitter<FocusEvent>();
+  @Output('focus') focusEvent = new EventEmitter<FocusEvent>();
+  @Output('change') changeEvent = new EventEmitter<any>();
+  @Output('open') openEvent = new EventEmitter<void>();
+  @Output('close') closeEvent = new EventEmitter<void>();
+  @Output('search') searchEvent = new EventEmitter<SearchEvent>();
+  @Output('clear') clearEvent = new EventEmitter<void>();
+  @Output('add') addEvent = new EventEmitter<any>();
+  @Output('remove') removeEvent = new EventEmitter<any>();
+  @Output() scroll = new EventEmitter<ScrollEvent>();
+  @Output() scrollToEnd = new EventEmitter<void>();
 
   @ViewChild(forwardRef(() => NgDropdownPanel)) dropdownPanel!: NgDropdownPanel;
   @ViewChild('searchInput', { static: true }) searchInput!: ElementRef<HTMLInputElement>;
@@ -336,6 +351,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   constructor() {
     this._mergeGlobalConfig();
+    this.classes?.split(/\s+/).forEach(c => (this._classList[c] = true));
     this.itemsList = new ItemsList(
       this,
       this.newSelectionModel ? this.newSelectionModel() : DefaultSelectionModelFactory()

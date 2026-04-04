@@ -22,7 +22,7 @@ import {
 import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
 import { auditTime, takeUntil } from 'rxjs/operators';
 import { NgDropdownPanelUtils } from './ng-dropdown-panel-utils';
-import { DropdownPosition, NgOptionItem } from './ng-select-types';
+import { DropdownPosition, NgOptionItem, ScrollEvent } from './ng-select-types';
 import { isDefined } from './ng-select-utils';
 
 const CSS_POSITIONS: readonly string[] = ['top', 'right', 'bottom', 'left'];
@@ -76,8 +76,8 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() filterValue: string | null = null;
   @Input() ariaLabelDropdown: string | null = null;
 
-  @Output() update = new EventEmitter<any[]>();
-  @Output() scroll = new EventEmitter<{ start: number; end: number }>();
+  @Output() update = new EventEmitter<NgOptionItem[]>();
+  @Output() scroll = new EventEmitter<ScrollEvent>();
   @Output() scrollToEnd = new EventEmitter<void>();
   @Output() outsideClick = new EventEmitter<void>();
 

@@ -23,3 +23,13 @@ export type GroupValueFn = (key: string | any, children: any[]) => string | any;
 export type SearchFn = (term: string, item: any) => boolean;
 
 export type TrackByFn = (item: any) => any;
+
+export interface SearchEvent {
+  term: string;
+  items: any[];
+}
+
+export interface ScrollEvent {
+  start: number;
+  end: number;
+}

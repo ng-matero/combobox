@@ -2006,7 +2006,7 @@ describe('NgSelect', () => {
         triggerKeyDownEvent(
           getNgSelectElement(fixture),
           KeyCode.Enter,
-          select.clearButton.nativeElement
+          select.clearButton?.nativeElement
         );
         expect(handleClearClick).toHaveBeenCalled();
       }));
@@ -4632,12 +4632,12 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `
-                <div class="container"></div>
-                <ng-select [items]="cities"
-                        [ngClass]="{ someClass: visible }"
-                        appendTo=".container"
-                        [(ngModel)]="selectedCity">
-                </ng-select>`,
+          <div class="container"></div>
+          <ng-select [items]="cities"
+                  [panelClass]="{ someClass: visible }"
+                  appendTo=".container"
+                  [(ngModel)]="selectedCity">
+          </ng-select>`,
         config
       );
 
@@ -4686,12 +4686,12 @@ describe('NgSelect', () => {
     const fixture = createTestingModule(
       NgSelectTestComponent,
       `
-                <div class="container"></div>
-                <ng-select [items]="cities"
-                        [ngClass]="{ someClass: visible }"
-                        appendTo=".container"
-                        [(ngModel)]="selectedCity">
-                </ng-select>`,
+        <div class="container"></div>
+        <ng-select [items]="cities"
+                [panelClass]="{ someClass: visible }"
+                appendTo=".container"
+                [(ngModel)]="selectedCity">
+        </ng-select>`,
       config
     );
 

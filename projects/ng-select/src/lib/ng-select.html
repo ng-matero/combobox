@@ -98,7 +98,7 @@
   <ng-dropdown-panel
     class="ng-dropdown-panel"
     [class.ng-select-multiple]="multiple"
-    [class]="appendTo ? _panelClass : null"
+    [class]="appendTo ? _classList : null"
     [id]="dropdownId"
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"
@@ -112,7 +112,7 @@
     [ariaLabelDropdown]="ariaLabelDropdown"
     (update)="viewPortItems = $event"
     (scroll)="scroll.emit($event)"
-    (scrollToEnd)="scrollToEnd.emit($event)"
+    (scrollToEnd)="scrollToEnd.emit()"
     (outsideClick)="close()"
   >
     <ng-container>
