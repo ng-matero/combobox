@@ -35,11 +35,11 @@ export class OutputEventsExample implements OnInit {
     this.events.push({ name: '(change)', value: $event });
   }
 
-  onFocus($event: Event) {
+  onFocus($event: FocusEvent) {
     this.events.push({ name: '(focus)', value: $event });
   }
 
-  onBlur($event: Event) {
+  onBlur($event: FocusEvent) {
     this.events.push({ name: '(blur)', value: $event });
   }
 
@@ -63,8 +63,8 @@ export class OutputEventsExample implements OnInit {
     this.events.push({ name: '(clear)', value: null });
   }
 
-  onScrollToEnd($event: Event) {
-    this.events.push({ name: '(scrollToEnd)', value: $event });
+  onScrollToEnd() {
+    this.events.push({ name: '(scrollToEnd)', value: null });
   }
 
   onSearch($event: any) {
