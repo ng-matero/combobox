@@ -25,7 +25,7 @@
               [ngItemLabel]="item.label || ''"
               [escape]="escapeHTML"
             ></span>
-            <span class="ng-value-icon" (click)="unselect(item)" aria-hidden="true">×</span>
+            <span class="ng-value-icon" (click)="unselect(item)" role="button">×</span>
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="labelTemplate || defaultLabelTemplate"
@@ -54,12 +54,14 @@
         (blur)="onInputBlur($event)"
         (compositionend)="onCompositionEnd(searchInput.value)"
         (compositionstart)="onCompositionStart()"
-        [attr.aria-activedescendant]="isOpen ? itemsList.markedItem?.htmlId : null"
-        [attr.aria-controls]="isOpen ? dropdownId : null"
-        [attr.aria-expanded]="isOpen"
-        [attr.aria-label]="ariaLabel"
+        [tabIndex]="tabIndex"
         [attr.id]="labelForId"
-        [attr.tabindex]="tabIndex"
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-labelledby]="ariaLabelledby"
+        [attr.aria-describedby]="ariaDescribedby"
+        [attr.aria-expanded]="isOpen"
+        [attr.aria-controls]="isOpen ? dropdownId : null"
+        [attr.aria-activedescendant]="isOpen ? itemsList.markedItem?.htmlId : null"
         aria-autocomplete="list"
         role="combobox"
       />
@@ -80,11 +82,11 @@
       <span
         #clearButton
         class="ng-clear-wrapper"
-        title="{{ clearAllText }}"
-        role="button"
+        [title]="clearAllText"
         [attr.tabindex]="tabFocusOnClear ? 0 : -1"
+        role="button"
       >
-        <span class="ng-clear" aria-hidden="true">×</span>
+        <span class="ng-clear">×</span>
       </span>
     }
   }
@@ -100,6 +102,7 @@
     [class.ng-select-multiple]="multiple"
     [class]="appendTo ? _classList : null"
     [id]="dropdownId"
+    [ariaLabelDropdown]="ariaLabelDropdown"
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"
     [appendTo]="appendTo"
@@ -109,7 +112,6 @@
     [filterValue]="searchTerm"
     [items]="itemsList.filteredItems"
     [markedItem]="itemsList.markedItem"
-    [ariaLabelDropdown]="ariaLabelDropdown"
     (update)="viewPortItems = $event"
     (scroll)="scroll.emit($event)"
     (scrollToEnd)="scrollToEnd.emit()"

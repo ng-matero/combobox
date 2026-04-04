@@ -115,6 +115,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) searchable = true;
   @Input({ transform: booleanAttribute }) clearable = true;
   @Input() clearAllText?: string;
+  @Input() tabFocusOnClearButton?: boolean;
   @Input({ transform: booleanAttribute }) loading = false;
   @Input() loadingText?: string;
   @Input({ transform: booleanAttribute }) closeOnSelect = true;
@@ -142,13 +143,14 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() searchFn: SearchFn | null = null;
   @Input() keyDownFn = (_: KeyboardEvent) => true;
   @Input() trackByFn: TrackByFn | null = null;
-  @Input() labelForId: string | null = null;
-  @Input() inputAttrs: Record<string, string> = {};
   @Input() appearance?: string;
-  @Input() ariaLabelDropdown = 'Options List';
-  @Input() ariaLabel?: string;
   @Input({ transform: numberAttribute }) tabIndex?: number;
-  @Input() tabFocusOnClearButton?: boolean;
+  @Input() labelForId: string | null = null;
+  @Input() ariaLabel?: string;
+  @Input() ariaLabelledby?: string;
+  @Input() ariaDescribedby?: string;
+  @Input() ariaLabelDropdown = 'Options List';
+  @Input() inputAttrs: Record<string, string> = {};
 
   // isOpen should allow undefined value, so avoid using booleanAttribute!
   @Input() isOpen?: boolean = false;
@@ -909,11 +911,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   private _setInputAttributes() {
     const input = this.searchInput.nativeElement;
     const attributes: Record<string, string> = {
-      'type': 'text',
-      'autocorrect': 'off',
-      'autocapitalize': 'off',
-      'autocomplete': 'off',
-      'aria-controls': this.dropdownId,
+      type: 'text',
+      autocorrect: 'off',
+      autocapitalize: 'off',
+      autocomplete: 'off',
       ...this.inputAttrs,
     };
 
