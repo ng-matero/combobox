@@ -75,17 +75,11 @@
     <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate" />
   }
 
-  @if (showClear()) {
+  @if (showClearButton) {
     @if (clearButtonTemplate) {
       <ng-container [ngTemplateOutlet]="clearButtonTemplate" />
     } @else {
-      <span
-        #clearButton
-        class="ng-clear-wrapper"
-        [title]="clearAllText"
-        [attr.tabindex]="tabFocusOnClear ? 0 : -1"
-        role="button"
-      >
+      <span #clearButton class="ng-clear-wrapper" [title]="clearAllText" role="button">
         <span class="ng-clear">×</span>
       </span>
     }
@@ -117,68 +111,68 @@
     (scrollToEnd)="scrollToEnd.emit()"
     (outsideClick)="close()"
   >
-    <ng-container>
-      @for (item of viewPortItems; track trackByOption($index, item)) {
-        <div
-          class="ng-option"
-          [class.ng-option-disabled]="item.disabled"
-          [class.ng-option-selected]="item.selected"
-          [class.ng-optgroup]="item.children"
-          [class.ng-option]="!item.children"
-          [class.ng-option-child]="!!item.parent"
-          [class.ng-option-marked]="item === itemsList.markedItem"
-          [attr.id]="item?.htmlId"
-          [attr.role]="item.children ? 'group' : 'option'"
-          [attr.aria-selected]="item.selected"
-          [attr.aria-setsize]="itemsList.filteredItems.length"
-          [attr.aria-posinset]="item.index! + 1"
-          (click)="toggleItem(item)"
-          (mouseover)="onItemHover(item)"
-        >
-          <ng-template #defaultOptionTemplate>
-            <span
-              class="ng-option-label"
-              [ngItemLabel]="item.label || ''"
-              [escape]="escapeHTML"
-            ></span>
-          </ng-template>
-          <ng-template
-            [ngTemplateOutlet]="
-              item.children
-                ? optgroupTemplate || defaultOptionTemplate
-                : optionTemplate || defaultOptionTemplate
-            "
-            [ngTemplateOutletContext]="{
-              item: item.value,
-              item$: item,
-              index: item.index,
-              searchTerm: searchTerm,
-            }"
-          />
-        </div>
-      }
-      @if (showAddTag) {
-        <div
-          class="ng-option"
-          [class.ng-option-marked]="!itemsList.markedItem"
-          (click)="selectTag()"
-          (mouseover)="itemsList.unmarkItem()"
-          role="option"
-        >
-          <ng-template #defaultTagTemplate>
-            <span>
-              <span class="ng-tag-label">{{ addTagText }}</span>
-              "{{ searchTerm }}"
-            </span>
-          </ng-template>
-          <ng-template
-            [ngTemplateOutlet]="tagTemplate || defaultTagTemplate"
-            [ngTemplateOutletContext]="{ searchTerm: searchTerm }"
-          />
-        </div>
-      }
-    </ng-container>
-    @if (showNoItemsFound()) {
+    @for (item of viewPortItems; track trackByOption($index, item)) {
+      <div
+        class="ng-option"
+        [class.ng-option-disabled]="item.disabled"
+        [class.ng-option-selected]="item.selected"
+        [class.ng-optgroup]="item.children"
+        [class.ng-option]="!item.children"
+        [class.ng-option-child]="!!item.parent"
+        [class.ng-option-marked]="item === itemsList.markedItem"
+        [attr.id]="item?.htmlId"
+        [attr.role]="item.children ? 'group' : 'option'"
+        [attr.aria-selected]="item.selected"
+        [attr.aria-setsize]="itemsList.filteredItems.length"
+        [attr.aria-posinset]="item.index! + 1"
+        (click)="toggleItem(item)"
+        (mouseover)="onItemHover(item)"
+      >
+        <ng-template #defaultOptionTemplate>
+          <span
+            class="ng-option-label"
+            [ngItemLabel]="item.label || ''"
+            [escape]="escapeHTML"
+          ></span>
+        </ng-template>
+        <ng-template
+          [ngTemplateOutlet]="
+            item.children
+              ? optgroupTemplate || defaultOptionTemplate
+              : optionTemplate || defaultOptionTemplate
+          "
+          [ngTemplateOutletContext]="{
+            item: item.value,
+            item$: item,
+            index: item.index,
+            searchTerm: searchTerm,
+          }"
+        />
+      </div>
+    }
+
+    @if (showAddTag) {
+      <div
+        class="ng-option"
+        [class.ng-option-marked]="!itemsList.markedItem"
+        (click)="selectTag()"
+        (mouseover)="itemsList.unmarkItem()"
+        role="option"
+      >
+        <ng-template #defaultTagTemplate>
+          <span>
+            <span class="ng-tag-label">{{ addTagText }}</span>
+            "{{ searchTerm }}"
+          </span>
+        </ng-template>
+        <ng-template
+          [ngTemplateOutlet]="tagTemplate || defaultTagTemplate"
+          [ngTemplateOutletContext]="{ searchTerm: searchTerm }"
+        />
+      </div>
+    }
+
+    @if (showNoItemsFound) {
       <ng-template #defaultNotFoundTemplate>
         <div class="ng-option ng-option-disabled">{{ notFoundText }}</div>
       </ng-template>
@@ -187,7 +181,7 @@
         [ngTemplateOutletContext]="{ searchTerm: searchTerm }"
       />
     }
-    @if (showTypeToSearch()) {
+    @if (showTypeToSearch) {
       <ng-template #defaultTypeToSearchTemplate>
         <div class="ng-option ng-option-disabled">{{ typeToSearchText }}</div>
       </ng-template>
@@ -207,7 +201,7 @@
 
 <!-- Always present aria-live region -->
 <div class="ng-select-visually-hidden" aria-atomic="true" aria-live="polite" role="status">
-  @if (isOpen && showNoItemsFound()) {
+  @if (isOpen && showNoItemsFound) {
     {{ notFoundText }}
   }
 </div>

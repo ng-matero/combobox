@@ -114,7 +114,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) searchable = true;
   @Input({ transform: booleanAttribute }) clearable = true;
   @Input() clearAllText?: string;
-  @Input() tabFocusOnClearButton?: boolean;
   @Input({ transform: booleanAttribute }) loading = false;
   @Input() loadingText?: string;
   @Input({ transform: booleanAttribute }) closeOnSelect = true;
@@ -279,7 +278,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   searchTerm: string | null = null;
   focused?: boolean;
   escapeHTML = true;
-  tabFocusOnClear = true;
   private _itemsAreUsed?: boolean;
   private _primitive: any;
   private _manualOpen?: boolean;
@@ -340,6 +338,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     return term && term.length >= this.minTermLength;
   }
 
+  get showClearButton() {
+    return this.clearable && (this.hasValue || this.searchTerm) && !this.disabled;
+  }
+
   private _onChange = (_: any) => {};
   private _onTouched = () => {};
 
@@ -382,7 +384,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     if (changes['inputAttrs']) {
       this._setInputAttributes();
     }
-    this._setTabFocusOnClear();
   }
 
   ngAfterViewInit() {
@@ -662,18 +663,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  showClear() {
-    return this.clearable && (this.hasValue || this.searchTerm) && !this.disabled;
-  }
-
-  focusOnClear() {
-    this.blur();
-    if (this.clearButton) {
-      this.clearButton.nativeElement.focus();
-    }
-  }
-
-  showNoItemsFound() {
+  get showNoItemsFound() {
     const empty = this.itemsList.filteredItems.length === 0;
     return (
       ((empty && !this._isTypeahead && !this.loading) ||
@@ -682,7 +672,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     );
   }
 
-  showTypeToSearch() {
+  get showTypeToSearch() {
     const empty = this.itemsList.filteredItems.length === 0;
     return empty && this._isTypeahead && !this._validTerm && !this.loading;
   }
@@ -922,13 +912,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
   }
 
-  private _setTabFocusOnClear() {
-    this.tabFocusOnClear = isDefined(this.tabFocusOnClearButton)
-      ? !!this.tabFocusOnClearButton
-      : this._config.tabFocusOnClear;
-    this._cdr.markForCheck();
-  }
-
   private _updateNgModel() {
     const model = [];
     for (const item of this.selectedItems) {
@@ -998,10 +981,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   private _handleTab(e: KeyboardEvent) {
     if (this.isOpen === false) {
-      if (this.showClear() && !e.shiftKey && this.tabFocusOnClear) {
-        this.focusOnClear();
-        e.preventDefault();
-      } else if (!this.addTag) {
+      if (!this.addTag) {
         return;
       }
     }
@@ -1108,7 +1088,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.bindValue = this.bindValue || this._config.bindValue;
     this.bindLabel = this.bindLabel || this._config.bindLabel;
     this.appearance = this.appearance || this._config.appearance;
-    this._setTabFocusOnClear();
   }
 
   /**
