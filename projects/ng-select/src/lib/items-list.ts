@@ -1,6 +1,6 @@
 import { NgSelect } from './ng-select';
 import { NgOptionItem } from './ng-select-types';
-import { isDefined, isFunction, isObject, newId } from './ng-select-utils';
+import { isDefined, isFunction, isObject } from './ng-select-utils';
 import * as searchHelper from './search-helper';
 import { SelectionModel } from './selection-model';
 
@@ -244,7 +244,7 @@ export class ItemsList {
       label: isDefined(label) ? label.toString() : '',
       value,
       disabled: item.disabled,
-      htmlId: `${this._ngSelect.dropdownId}-${index}`,
+      htmlId: `${this._ngSelect._uid}-option-${index}`,
     };
   }
 
@@ -325,7 +325,7 @@ export class ItemsList {
       return -1;
     }
 
-    if (this._markedIndex > -1 && this.markedItem === undefined) {
+    if (this._markedIndex > -1 && this.markedItem == null) {
       return -1;
     }
 
@@ -375,10 +375,11 @@ export class ItemsList {
 
   private _flatten(groups: OptionGroups) {
     const isGroupByFn = isFunction(this._ngSelect.groupBy);
-    const items = [];
-    for (const key of Array.from(groups.keys())) {
+    const items: NgOptionItem[] = [];
+    let groupIndex = 0;
+    for (const key of groups.keys()) {
       let i = items.length;
-      if (key === undefined) {
+      if (key == null) {
         const withoutGroup = groups.get(undefined) || [];
         items.push(
           ...withoutGroup.map(x => {
@@ -392,11 +393,11 @@ export class ItemsList {
       const isObjectKey = isObject(key);
       const parent: NgOptionItem = {
         label: isObjectKey ? '' : String(key),
-        children: undefined,
+        children: null,
         parent: null,
         index: i++,
         disabled: !this._ngSelect.selectableGroup,
-        htmlId: newId(),
+        htmlId: `${this._ngSelect._uid}-group-${groupIndex}-heading`,
       };
       const groupKey = isGroupByFn
         ? (this._ngSelect.bindLabel as string)
@@ -411,7 +412,7 @@ export class ItemsList {
         });
       const children = groups.get(key)!.map(x => {
         x.parent = parent;
-        x.children = undefined;
+        x.children = null;
         x.index = i++;
         return x;
       });
@@ -422,6 +423,7 @@ export class ItemsList {
       );
       items.push(parent);
       items.push(...children);
+      groupIndex++;
     }
     return items;
   }

@@ -3681,12 +3681,12 @@ describe('NgSelect', () => {
         const fixture = createTestingModule(
           NgSelectTestComponent,
           `<ng-select [items]="cities"
-                        [typeahead]="filter"
-                        [editableSearchTerm]="true"
-                        bindValue="id"
-                        bindLabel="name"
-                        [(ngModel)]="selectedCity">
-                    </ng-select>`
+                      [typeahead]="filter"
+                      [editableSearchTerm]="true"
+                      bindValue="id"
+                      bindLabel="name"
+                      [(ngModel)]="selectedCity">
+            </ng-select>`
         );
         expect(fixture.componentInstance.select.editableSearchTerm).toBeTruthy();
         const select = fixture.componentInstance.select;
@@ -3750,11 +3750,11 @@ describe('NgSelect', () => {
       fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
-                        inputId="lbl"
-                        (change)="onChange($event)"
-                        notFoundText="No items found (aria-live)"
-                        bindLabel="name">
-                </ng-select>`
+                    inputId="lbl"
+                    (change)="onChange($event)"
+                    notFoundText="No items found (aria-live)"
+                    bindLabel="name">
+          </ng-select>`
       );
       select = fixture.componentInstance.select;
       input = fixture.debugElement.query(By.css('input')).nativeElement;
@@ -3780,11 +3780,11 @@ describe('NgSelect', () => {
       expect(input.hasAttribute('aria-controls')).toBe(false);
     }));
 
-    it('should set aria-controls to dropdownId on open', fakeAsync(() => {
+    it('should set aria-controls to listboxId on open', fakeAsync(() => {
       triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
       tickAndDetectChanges(fixture);
 
-      expect(input.getAttribute('aria-controls')).toBe(select.dropdownId);
+      expect(input.getAttribute('aria-controls')).toBe(select.listboxId);
     }));
 
     it('should set aria-activedecendant equal to chosen item on open', fakeAsync(() => {
@@ -4514,9 +4514,9 @@ describe('Grouping', () => {
     const fixture = createTestingModule(
       NgSelectGroupingTestComponent,
       `<ng-select [items]="accounts"
-                        groupBy="country"
-                        [(ngModel)]="selectedAccount">
-                </ng-select>`
+                  groupBy="country"
+                  [(ngModel)]="selectedAccount">
+        </ng-select>`
     );
 
     tickAndDetectChanges(fixture);
@@ -4530,10 +4530,10 @@ describe('Grouping', () => {
     expect(items[0].disabled).toBeTruthy();
     expect(items[0].value).toEqual({ country: 'United States' });
 
-    expect(items[1].children).toBeUndefined();
+    expect(items[1].children).toBeNull();
     expect(items[1].parent).toBe(items[0]);
 
-    expect(items[2].children).toBeUndefined();
+    expect(items[2].children).toBeNull();
     expect(items[2].parent).toBe(items[0]);
 
     expect(items[3].label).toBe('Argentina');
@@ -4547,9 +4547,9 @@ describe('Grouping', () => {
     const fixture = createTestingModule(
       NgSelectGroupingTestComponent,
       `<ng-select [items]="groupedAccounts"
-                        groupBy="accounts"
-                        [(ngModel)]="selectedAccount">
-                </ng-select>`
+                  groupBy="accounts"
+                  [(ngModel)]="selectedAccount">
+        </ng-select>`
     );
 
     tickAndDetectChanges(fixture);
@@ -4562,10 +4562,10 @@ describe('Grouping', () => {
     expect(items[0].disabled).toBeTruthy();
     expect(items[0].value).toEqual(jasmine.objectContaining({ country: 'United States' }));
 
-    expect(items[1].children).toBeUndefined();
+    expect(items[1].children).toBeNull();
     expect(items[1].parent).toBe(items[0]);
 
-    expect(items[2].children).toBeUndefined();
+    expect(items[2].children).toBeNull();
     expect(items[2].parent).toBe(items[0]);
 
     expect(items[3].value).toEqual(jasmine.objectContaining({ country: 'Argentina' }));
@@ -4578,9 +4578,9 @@ describe('Grouping', () => {
     const fixture = createTestingModule(
       NgSelectGroupingTestComponent,
       `<ng-select [items]="accounts"
-                        groupBy="country"
-                        [(ngModel)]="selectedAccount">
-                </ng-select>`
+                  groupBy="country"
+                  [(ngModel)]="selectedAccount">
+        </ng-select>`
     );
 
     tickAndDetectChanges(fixture);
@@ -4591,7 +4591,12 @@ describe('Grouping', () => {
         email: 'henry@email.com',
         age: 10,
       } as any,
-      { name: 'Meg', email: 'meg@email.com', age: 7, country: null } as any,
+      {
+        name: 'Meg',
+        email: 'meg@email.com',
+        age: 7,
+        country: null,
+      } as any,
       {
         name: 'Meg',
         email: 'meg@email.com',

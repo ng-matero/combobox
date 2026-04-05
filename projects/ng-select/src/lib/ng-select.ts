@@ -59,7 +59,7 @@ import {
   SearchFn,
   TrackByFn,
 } from './ng-select-types';
-import { isDefined, isFunction, isObject, isPromise, KeyCode, newId } from './ng-select-utils';
+import { isDefined, isFunction, isObject, isPromise, KeyCode } from './ng-select-utils';
 import { DefaultSelectionModelFactory, SelectionModelFactory } from './selection-model';
 
 export const SELECTION_MODEL_FACTORY = new InjectionToken<SelectionModelFactory>(
@@ -104,6 +104,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   readonly autoFocus = inject(new HostAttributeToken('autofocus'), { optional: true });
   readonly classes = inject(new HostAttributeToken('class'), { optional: true });
   _classList: Record<string, boolean> = {};
+
+  _uid = `ng-select-${nextUniqueId++}`;
 
   @Input() bindLabel = this._config.bindLabel;
   @Input() bindValue = this._config.bindValue;
@@ -169,8 +171,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._classList = newClassList;
     this._cdr.markForCheck();
   }
-
-  private _uid = `ng-select-${nextUniqueId++}`;
 
   @Input()
   get inputId() {
@@ -272,7 +272,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 
-  dropdownId = newId();
   element = this._elementRef.nativeElement;
   itemsList: ItemsList;
   viewPortItems: NgOptionItem[] = [];
@@ -355,6 +354,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   get showTypeToSearch() {
     const empty = this.itemsList.filteredItems.length === 0;
     return empty && this._isTypeahead && !this._validTerm && !this.loading;
+  }
+
+  get listboxId() {
+    return `${this._uid}-listbox`;
   }
 
   private _onChange = (_: any) => {};

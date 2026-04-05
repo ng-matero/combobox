@@ -9,7 +9,7 @@ export interface NgOptionItem {
   label?: string;
   value?: string | any;
   parent?: NgOptionItem | null;
-  children?: NgOptionItem[];
+  children?: NgOptionItem[] | null;
 }
 
 export type DropdownPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';

@@ -44,6 +44,7 @@ const SCROLL_SCHEDULER =
       #scroll
       class="ng-dropdown-panel-items"
       [class.ng-select-virtual-scroll-host]="virtualScroll"
+      [attr.id]="listboxId"
       role="listbox"
     >
       <div #padding [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
@@ -65,6 +66,7 @@ const SCROLL_SCHEDULER =
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
+  @Input() listboxId = '';
   @Input() items: NgOptionItem[] = [];
   @Input() markedItem?: NgOptionItem;
   @Input() position: DropdownPosition = 'auto';
