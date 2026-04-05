@@ -103,25 +103,25 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   readonly classes = inject(new HostAttributeToken('class'), { optional: true });
   _classList: Record<string, boolean> = {};
 
-  @Input() bindLabel?: string;
-  @Input() bindValue?: string;
-  @Input() placeholder?: string;
-  @Input() fixedPlaceholder = false;
-  @Input() appendTo?: string;
+  @Input() bindLabel = this._config.bindLabel;
+  @Input() bindValue = this._config.bindValue;
+  @Input() placeholder = this._config.placeholder;
+  @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
+  @Input() appendTo = this._config.appendTo;
   @Input() dropdownPosition: DropdownPosition = 'auto';
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) multiple = false;
   @Input({ transform: booleanAttribute }) searchable = true;
   @Input({ transform: booleanAttribute }) clearable = true;
-  @Input() clearAllText?: string;
-  @Input({ transform: booleanAttribute }) loading = false;
-  @Input() loadingText?: string;
-  @Input({ transform: booleanAttribute }) closeOnSelect = true;
   @Input({ transform: booleanAttribute }) clearOnBackspace = true;
+  @Input() clearAllText = this._config.clearAllText;
+  @Input({ transform: booleanAttribute }) loading = false;
+  @Input() loadingText = this._config.loadingText;
+  @Input({ transform: booleanAttribute }) closeOnSelect = true;
   @Input({ transform: booleanAttribute }) hideSelected = false;
   @Input({ transform: booleanAttribute }) selectOnTab = false;
-  @Input({ transform: booleanAttribute }) openOnEnter?: boolean;
-  @Input({ transform: booleanAttribute }) virtualScroll?: boolean;
+  @Input({ transform: booleanAttribute }) openOnEnter = this._config.openOnEnter;
+  @Input({ transform: booleanAttribute }) virtualScroll = this._config.virtualScroll;
   @Input({ transform: numberAttribute }) bufferAmount = 4;
   @Input({ transform: booleanAttribute }) selectableGroup = false;
   @Input({ transform: booleanAttribute }) selectableGroupAsModel = true;
@@ -132,22 +132,22 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) markFirst = true;
   @Input({ transform: booleanAttribute }) preventToggleOnRightClick = false;
   @Input() addTag: boolean | AddTagFn = false;
-  @Input() addTagText?: string;
-  @Input() notFoundText?: string;
+  @Input() addTagText = this._config.addTagText;
+  @Input() notFoundText = this._config.notFoundText;
   @Input() typeahead?: Subject<string>;
-  @Input() typeToSearchText?: string;
+  @Input() typeToSearchText = this._config.typeToSearchText;
   @Input() groupBy?: string | ((value: any) => any);
   @Input() groupValue?: GroupValueFn;
   @Input() searchFn: SearchFn | null = null;
   @Input() keyDownFn = (_: KeyboardEvent) => true;
   @Input() trackByFn: TrackByFn | null = null;
-  @Input() appearance?: string;
+  @Input() appearance = this._config.appearance;
   @Input({ transform: numberAttribute }) tabIndex?: number;
   @Input() labelForId: string | null = null;
   @Input() ariaLabel?: string;
   @Input() ariaLabelledby?: string;
   @Input() ariaDescribedby?: string;
-  @Input() ariaLabelDropdown = 'Options List';
+  @Input() ariaLabelDropdown = this._config.ariaLabelDropdown ?? 'Options List';
   @Input() inputAttrs: Record<string, string> = {};
 
   // isOpen should allow undefined value, so avoid using booleanAttribute!
@@ -199,12 +199,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @Input()
   get clearSearchOnAdd() {
-    if (isDefined(this._clearSearchOnAdd)) {
-      return this._clearSearchOnAdd;
-    } else if (isDefined(this._config.clearSearchOnAdd)) {
-      return this._config.clearSearchOnAdd;
-    }
-    return this.closeOnSelect;
+    return this._clearSearchOnAdd ?? this._config.clearSearchOnAdd ?? this.closeOnSelect;
   }
   set clearSearchOnAdd(value) {
     this._clearSearchOnAdd = value;
@@ -213,12 +208,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @Input()
   get deselectOnClick() {
-    if (isDefined(this._deselectOnClick)) {
-      return this._deselectOnClick;
-    } else if (isDefined(this._config.deselectOnClick)) {
-      return this._config.deselectOnClick;
-    }
-    return this.multiple;
+    return this._deselectOnClick ?? this._config.deselectOnClick ?? this.multiple;
   }
   set deselectOnClick(value) {
     this._deselectOnClick = value;
@@ -342,6 +332,20 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     return this.clearable && (this.hasValue || this.searchTerm) && !this.disabled;
   }
 
+  get showNoItemsFound() {
+    const empty = this.itemsList.filteredItems.length === 0;
+    return (
+      ((empty && !this._isTypeahead && !this.loading) ||
+        (empty && this._isTypeahead && this._validTerm && !this.loading)) &&
+      !this.showAddTag
+    );
+  }
+
+  get showTypeToSearch() {
+    const empty = this.itemsList.filteredItems.length === 0;
+    return empty && this._isTypeahead && !this._validTerm && !this.loading;
+  }
+
   private _onChange = (_: any) => {};
   private _onTouched = () => {};
 
@@ -353,7 +357,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   };
 
   constructor() {
-    this._mergeGlobalConfig();
     this.classes?.split(/\s+/).forEach(c => (this._classList[c] = true));
     this.itemsList = new ItemsList(
       this,
@@ -421,14 +424,14 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._cdr.markForCheck();
   }
 
-  clearItem = (item: any) => {
-    const option = this.selectedItems.find(x => x.value === item)!;
+  clearItem = (item?: NgOptionItem | null) => {
+    const option = this.selectedItems.find(x => x.value === item);
     this.unselect(option);
   };
 
   handleKeyDown(e: KeyboardEvent) {
-    const keyName = e.key;
-    if (Object.values(KeyCode).includes(keyName as KeyCode)) {
+    const keyName = e.key as KeyCode;
+    if (Object.values(KeyCode).includes(keyName)) {
       if (this.keyDownFn(e) === false) {
         return;
       }
@@ -632,7 +635,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.searchInput.nativeElement.blur();
   }
 
-  unselect(item: NgOptionItem) {
+  unselect(item?: NgOptionItem | null) {
     if (!item) {
       return;
     }
@@ -647,7 +650,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   selectTag() {
     let tag;
     if (isFunction(this.addTag)) {
-      tag = (this.addTag as AddTagFn)(this.searchTerm!);
+      tag = (this.addTag as AddTagFn)(this.searchTerm || '');
     } else {
       tag = this._primitive ? this.searchTerm : { [this.bindLabel as string]: this.searchTerm };
     }
@@ -661,20 +664,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     } else if (tag) {
       this.select(handleTag(tag));
     }
-  }
-
-  get showNoItemsFound() {
-    const empty = this.itemsList.filteredItems.length === 0;
-    return (
-      ((empty && !this._isTypeahead && !this.loading) ||
-        (empty && this._isTypeahead && this._validTerm && !this.loading)) &&
-      !this.showAddTag
-    );
-  }
-
-  get showTypeToSearch() {
-    const empty = this.itemsList.filteredItems.length === 0;
-    return empty && this._isTypeahead && !this._validTerm && !this.loading;
   }
 
   onCompositionStart() {
@@ -1072,45 +1061,5 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     } else {
       this.clearModel();
     }
-  }
-
-  private _mergeGlobalConfig() {
-    this.placeholder = this.placeholder || this._config.placeholder;
-    this.fixedPlaceholder = this.fixedPlaceholder || this._config.fixedPlaceholder;
-    this.notFoundText = this.notFoundText || this._config.notFoundText;
-    this.typeToSearchText = this.typeToSearchText || this._config.typeToSearchText;
-    this.addTagText = this.addTagText || this._config.addTagText;
-    this.loadingText = this.loadingText || this._config.loadingText;
-    this.clearAllText = this.clearAllText || this._config.clearAllText;
-    this.virtualScroll = this.getVirtualScroll(this._config);
-    this.openOnEnter = isDefined(this.openOnEnter) ? this.openOnEnter : this._config.openOnEnter;
-    this.appendTo = this.appendTo || this._config.appendTo;
-    this.bindValue = this.bindValue || this._config.bindValue;
-    this.bindLabel = this.bindLabel || this._config.bindLabel;
-    this.appearance = this.appearance || this._config.appearance;
-  }
-
-  /**
-   * Gets virtual scroll value from input or from config
-   *
-   *  @param config NgSelectConfig object
-   *
-   *  @returns `true` if virtual scroll is enabled, `false` otherwise
-   */
-  private getVirtualScroll(config: NgSelectConfig) {
-    return isDefined(this.virtualScroll)
-      ? this.virtualScroll
-      : this.isVirtualScrollDisabled(config);
-  }
-
-  /**
-   * Gets disableVirtualScroll value from input or from config
-   *
-   *  @param config NgSelectConfig object
-   *
-   *  @returns `true` if disableVirtualScroll is enabled, `false` otherwise
-   */
-  private isVirtualScrollDisabled(config: NgSelectConfig) {
-    return isDefined(config.disableVirtualScroll) ? !config.disableVirtualScroll : false;
   }
 }

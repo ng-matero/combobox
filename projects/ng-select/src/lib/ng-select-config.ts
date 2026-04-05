@@ -10,12 +10,12 @@ export class NgSelectConfig {
   loadingText = 'Loading...';
   clearAllText = 'Clear all';
   ariaLabelDropdown = 'Options List';
-  disableVirtualScroll = true;
+  virtualScroll = false;
   openOnEnter = true;
   appendTo?: string;
   bindValue?: string;
   bindLabel?: string;
-  appearance = 'underline';
   clearSearchOnAdd?: boolean;
   deselectOnClick?: boolean;
+  appearance = 'underline';
 }
