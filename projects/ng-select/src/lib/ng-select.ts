@@ -66,6 +66,8 @@ export const SELECTION_MODEL_FACTORY = new InjectionToken<SelectionModelFactory>
   'ng-select-selection-model'
 );
 
+let nextUniqueId = 0;
+
 @Component({
   selector: 'ng-select',
   templateUrl: './ng-select.html',
@@ -143,11 +145,9 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() trackByFn: TrackByFn | null = null;
   @Input() appearance = this._config.appearance;
   @Input({ transform: numberAttribute }) tabIndex?: number;
-  @Input() labelForId: string | null = null;
-  @Input() ariaLabel?: string;
-  @Input() ariaLabelledby?: string;
-  @Input() ariaDescribedby?: string;
-  @Input() ariaLabelDropdown = this._config.ariaLabelDropdown ?? 'Options List';
+  @Input() ariaLabel?: string | null;
+  @Input() ariaLabelledby?: string | null;
+  @Input() ariaDescribedby?: string | null;
   @Input() inputAttrs: Record<string, string> = {};
 
   // isOpen should allow undefined value, so avoid using booleanAttribute!
@@ -169,6 +169,17 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._classList = newClassList;
     this._cdr.markForCheck();
   }
+
+  private _uid = `ng-select-${nextUniqueId++}`;
+
+  @Input()
+  get inputId() {
+    return this._inputId || `${this._uid}-input`;
+  }
+  set inputId(value: string) {
+    this._inputId = value;
+  }
+  private _inputId = '';
 
   @Input()
   get items() {

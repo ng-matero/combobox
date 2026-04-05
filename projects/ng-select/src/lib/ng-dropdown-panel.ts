@@ -44,7 +44,6 @@ const SCROLL_SCHEDULER =
       #scroll
       class="ng-dropdown-panel-items"
       [class.ng-select-virtual-scroll-host]="virtualScroll"
-      [attr.aria-label]="ariaLabelDropdown"
       role="listbox"
     >
       <div #padding [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
@@ -75,7 +74,6 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() headerTemplate?: TemplateRef<any>;
   @Input() footerTemplate?: TemplateRef<any>;
   @Input() filterValue: string | null = null;
-  @Input() ariaLabelDropdown: string | null = null;
 
   @Output() update = new EventEmitter<NgOptionItem[]>();
   @Output() scroll = new EventEmitter<ScrollEvent>();

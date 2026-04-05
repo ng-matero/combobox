@@ -1677,28 +1677,6 @@ describe('NgSelect', () => {
         expect(dropdown).toBeNull();
       });
     }));
-
-    it('should set aria-label on the inner listbox element when ariaLabelDropdown input is provided', fakeAsync(() => {
-      const fixture = createTestingModule(
-        NgSelectTestComponent,
-        `<ng-select [items]="cities" ariaLabelDropdown="Custom Aria Label">
-    </ng-select>`
-      );
-
-      const select = fixture.componentInstance.select;
-      select.open();
-      tickAndDetectChanges(fixture);
-
-      // The dropdown panel itself should NOT have aria-label directly
-      const dropdownPanel = fixture.debugElement.nativeElement.querySelector('.ng-dropdown-panel');
-      expect(dropdownPanel.getAttribute('aria-label')).toBeNull();
-
-      // The inner element with role="listbox" should have the aria-label
-      const listboxElement = fixture.debugElement.nativeElement.querySelector(
-        '.ng-dropdown-panel-items[role="listbox"]'
-      );
-      expect(listboxElement.getAttribute('aria-label')).toBe('Custom Aria Label');
-    }));
   });
 
   describe('Keyboard events', () => {
@@ -3772,7 +3750,7 @@ describe('NgSelect', () => {
       fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
-                        labelForId="lbl"
+                        inputId="lbl"
                         (change)="onChange($event)"
                         notFoundText="No items found (aria-live)"
                         bindLabel="name">
@@ -3845,7 +3823,7 @@ describe('NgSelect', () => {
       expect(input.hasAttribute('aria-activedescendant')).toBe(false);
     }));
 
-    it('should add labelForId on filter input id attribute', fakeAsync(() => {
+    it('should add inputId on filter input id attribute', fakeAsync(() => {
       tickAndDetectChanges(fixture);
       expect(input.getAttribute('id')).toEqual('lbl');
     }));
