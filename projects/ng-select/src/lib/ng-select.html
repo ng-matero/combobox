@@ -79,13 +79,13 @@
     @if (clearButtonTemplate) {
       <ng-container [ngTemplateOutlet]="clearButtonTemplate" />
     } @else {
-      <span #clearButton class="ng-clear-wrapper" [title]="clearAllText" role="button">
+      <span #clearButton class="ng-clear-wrapper" [title]="clearAllText" aria-hidden="true">
         <span class="ng-clear">×</span>
       </span>
     }
   }
 
-  <span class="ng-arrow-wrapper">
+  <span class="ng-arrow-wrapper" aria-hidden="true">
     <span class="ng-arrow"></span>
   </span>
 </div>
