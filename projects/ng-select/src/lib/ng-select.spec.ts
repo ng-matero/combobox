@@ -1378,9 +1378,9 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
-                            bindLabel="name"
-                            [virtualScroll]="false">
-                </ng-select>`
+                    bindLabel="name"
+                    [virtualScroll]="false">
+          </ng-select>`
       );
 
       const select = fixture.componentInstance.select;
@@ -2122,7 +2122,7 @@ describe('NgSelect', () => {
       const panelClasses = (fixture.nativeElement as HTMLElement).querySelector(
         '.ng-dropdown-panel'
       )?.classList;
-      expect(select.dropdownPosition).toBe('auto');
+      expect(select.panelPosition).toBe('auto');
       expect(selectClasses?.contains('ng-select-bottom')).toBeTruthy();
       expect(panelClasses?.contains('ng-select-bottom')).toBeTruthy();
       expect(selectClasses?.contains('ng-select-top')).toBeFalsy();
@@ -2132,7 +2132,7 @@ describe('NgSelect', () => {
     it('should auto position dropdown to top if position input is set', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
-        `<ng-select dropdownPosition="top" [items]="cities"></ng-select>`
+        `<ng-select panelPosition="top" [items]="cities"></ng-select>`
       );
 
       const select = fixture.componentInstance.select;
@@ -2145,7 +2145,7 @@ describe('NgSelect', () => {
       const panelClasses = (fixture.nativeElement as HTMLElement).querySelector(
         '.ng-dropdown-panel'
       )?.classList;
-      expect(select.dropdownPosition).toBe('top');
+      expect(select.panelPosition).toBe('top');
       expect(selectClasses?.contains('ng-select-bottom')).toBeFalsy();
       expect(panelClasses?.contains('ng-select-bottom')).toBeFalsy();
       expect(selectClasses?.contains('ng-select-top')).toBeTruthy();
@@ -2166,7 +2166,7 @@ describe('NgSelect', () => {
         '.ng-select'
       )?.classList;
       const panelClasses = document.querySelector('.ng-dropdown-panel')?.classList;
-      expect(select.dropdownPosition).toBe('auto');
+      expect(select.panelPosition).toBe('auto');
       expect(selectClasses?.contains('ng-select-bottom')).toBeTruthy();
       expect(panelClasses?.contains('ng-select-bottom')).toBeTruthy();
       expect(selectClasses?.contains('ng-select-top')).toBeFalsy();
@@ -4984,7 +4984,7 @@ class NgSelectTestComponent {
   clearOnBackspace = false;
   disabled = false;
   readonly = false;
-  dropdownPosition = 'bottom';
+  panelPosition = 'bottom';
   visible = true;
   minTermLength = 0;
   filter = new Subject<string>();

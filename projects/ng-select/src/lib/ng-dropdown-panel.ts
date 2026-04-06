@@ -22,7 +22,7 @@ import {
 import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
 import { auditTime, takeUntil } from 'rxjs/operators';
 import { NgDropdownPanelUtils } from './ng-dropdown-panel-utils';
-import { DropdownPosition, NgOptionItem, ScrollEvent } from './ng-select-types';
+import { DropdownPanelPosition, NgOptionItem, ScrollEvent } from './ng-select-types';
 import { isDefined } from './ng-select-utils';
 
 const CSS_POSITIONS: readonly string[] = ['top', 'right', 'bottom', 'left'];
@@ -47,10 +47,10 @@ const SCROLL_SCHEDULER =
       [attr.id]="listboxId"
       role="listbox"
     >
+      <div #scrollSpacer [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
       <div #scrollContent [class.ng-select-virtual-scroll-content]="virtualScroll && items.length">
         <ng-content />
       </div>
-      <div #scrollSpacer [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
     </div>
     @if (footerTemplate) {
       <div class="ng-dropdown-footer">
@@ -69,7 +69,7 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() listboxId = '';
   @Input() items: NgOptionItem[] = [];
   @Input() markedItem?: NgOptionItem;
-  @Input() position: DropdownPosition = 'auto';
+  @Input() position: DropdownPanelPosition = 'auto';
   @Input() appendTo?: string;
   @Input() bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll = false;
@@ -109,7 +109,7 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   get currentPosition() {
     return this._currentPosition;
   }
-  private _currentPosition!: DropdownPosition;
+  private _currentPosition!: DropdownPanelPosition;
 
   private get itemsLength() {
     return this._itemsLength;

@@ -12,7 +12,7 @@ export interface NgOptionItem {
   children?: NgOptionItem[] | null;
 }
 
-export type DropdownPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';
+export type DropdownPanelPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';
 
 export type AddTagFn = (term: string) => any | Promise<any>;
 

@@ -51,7 +51,7 @@ import {
 import {
   AddTagFn,
   CompareWithFn,
-  DropdownPosition,
+  DropdownPanelPosition,
   GroupValueFn,
   NgOptionItem,
   ScrollEvent,
@@ -112,7 +112,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() placeholder = this._config.placeholder;
   @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
   @Input() appendTo = this._config.appendTo;
-  @Input() dropdownPosition: DropdownPosition = 'auto';
+  @Input() panelPosition: DropdownPanelPosition = 'auto';
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) multiple = false;
   @Input({ transform: booleanAttribute }) searchable = true;
@@ -272,8 +272,8 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 
+  itemsList = new ItemsList(this, this.newSelectionModel?.() ?? DefaultSelectionModelFactory());
   element = this._elementRef.nativeElement;
-  itemsList: ItemsList;
   viewPortItems: NgOptionItem[] = [];
   searchTerm: string | null = null;
   focused?: boolean;
@@ -372,10 +372,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   constructor() {
     this.classes?.split(/\s+/).forEach(c => (this._classList[c] = true));
-    this.itemsList = new ItemsList(
-      this,
-      this.newSelectionModel ? this.newSelectionModel() : DefaultSelectionModelFactory()
-    );
   }
 
   ngOnInit() {

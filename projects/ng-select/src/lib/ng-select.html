@@ -62,6 +62,7 @@
         [attr.aria-expanded]="isOpen"
         [attr.aria-controls]="isOpen ? listboxId : null"
         [attr.aria-activedescendant]="isOpen ? itemsList.markedItem?.htmlId : null"
+        aria-haspopup="listbox"
         aria-autocomplete="list"
         role="combobox"
       />
@@ -99,7 +100,7 @@
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"
     [appendTo]="appendTo"
-    [position]="dropdownPosition"
+    [position]="panelPosition"
     [headerTemplate]="headerTemplate"
     [footerTemplate]="footerTemplate"
     [filterValue]="searchTerm"
