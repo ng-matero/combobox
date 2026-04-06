@@ -176,10 +176,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   get inputId() {
     return this._inputId || `${this._uid}-input`;
   }
-  set inputId(value: string) {
+  set inputId(value: string | null | undefined) {
     this._inputId = value;
   }
-  private _inputId = '';
+  private _inputId?: string | null;
 
   @Input()
   get items() {
@@ -210,21 +210,21 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @Input()
   get clearSearchOnAdd() {
-    return this._clearSearchOnAdd ?? this._config.clearSearchOnAdd ?? this.closeOnSelect;
+    return this._clearSearchOnAdd ?? this.closeOnSelect;
   }
-  set clearSearchOnAdd(value) {
+  set clearSearchOnAdd(value: boolean | undefined) {
     this._clearSearchOnAdd = value;
   }
-  private _clearSearchOnAdd?: boolean;
+  private _clearSearchOnAdd = this._config.clearSearchOnAdd;
 
   @Input()
   get deselectOnClick() {
-    return this._deselectOnClick ?? this._config.deselectOnClick ?? this.multiple;
+    return this._deselectOnClick ?? this.multiple;
   }
-  set deselectOnClick(value) {
+  set deselectOnClick(value: boolean | undefined) {
     this._deselectOnClick = value;
   }
-  private _deselectOnClick?: boolean;
+  private _deselectOnClick = this._config.deselectOnClick;
 
   // output events
   @Output('blur') blurEvent = new EventEmitter<FocusEvent>();
