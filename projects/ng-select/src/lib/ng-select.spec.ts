@@ -5052,7 +5052,7 @@ class NgSelectTestComponent {
   standalone: false,
 })
 class EncapsulatedTestComponent extends NgSelectTestComponent {
-  @ViewChild(NgSelect, { static: true }) override select!: NgSelect;
+  @ViewChild(NgSelect, { static: true }) declare select: NgSelect;
 }
 
 @Component({
