@@ -1,6 +1,6 @@
 {
   "name": "@ng-matero/ng-select",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Angular Select - All in One UI Select, Multiselect and Autocomplete",
   "publishConfig": {
     "access": "public"
