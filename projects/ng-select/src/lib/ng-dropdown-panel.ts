@@ -109,7 +109,7 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   get currentPosition() {
     return this._currentPosition;
   }
-  private _currentPosition!: DropdownPanelPosition;
+  private _currentPosition: DropdownPanelPosition = 'auto';
 
   private get itemsLength() {
     return this._itemsLength;

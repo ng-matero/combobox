@@ -8,10 +8,6 @@
   position: relative;
   display: block;
 
-  [hidden] {
-    display: none;
-  }
-
   &.ng-select-searchable {
     .ng-input {
       opacity: 1;

@@ -12,6 +12,16 @@ export interface NgOptionItem {
   children?: NgOptionItem[] | null;
 }
 
+export interface SearchEvent {
+  term: string;
+  items: any[];
+}
+
+export interface ScrollEvent {
+  start: number;
+  end: number;
+}
+
 export type DropdownPanelPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';
 
 export type AddTagFn = (term: string) => any | Promise<any>;
@@ -23,13 +33,3 @@ export type GroupValueFn = (key: string | any, children: any[]) => string | any;
 export type SearchFn = (term: string, item: any) => boolean;
 
 export type TrackByFn = (item: any) => any;
-
-export interface SearchEvent {
-  term: string;
-  items: any[];
-}
-
-export interface ScrollEvent {
-  start: number;
-  end: number;
-}

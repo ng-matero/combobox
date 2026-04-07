@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/role-has-required-aria -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
@@ -124,9 +123,10 @@
         [class.ng-option-marked]="item === itemsList.markedItem"
         [attr.id]="item?.htmlId"
         [attr.role]="item.children ? 'group' : 'option'"
+        [attr.aria-disabled]="item.disabled"
         [attr.aria-selected]="item.selected"
         [attr.aria-setsize]="itemsList.filteredItems.length"
-        [attr.aria-posinset]="item.index! + 1"
+        [attr.aria-posinset]="(item.index || 0) + 1"
         (click)="toggleItem(item)"
         (mouseover)="onItemHover(item)"
       >
@@ -157,9 +157,11 @@
       <div
         class="ng-option"
         [class.ng-option-marked]="!itemsList.markedItem"
+        role="option"
+        [attr.aria-disabled]="false"
+        [attr.aria-selected]="false"
         (click)="selectTag()"
         (mouseover)="itemsList.unmarkItem()"
-        role="option"
       >
         <ng-template #defaultTagTemplate>
           <span>
