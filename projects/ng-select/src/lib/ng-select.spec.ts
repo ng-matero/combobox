@@ -1623,24 +1623,6 @@ describe('NgSelect', () => {
       });
     }));
 
-    it('should not close when isOpen is true', fakeAsync(() => {
-      const fixture = createTestingModule(
-        NgSelectTestComponent,
-        `<ng-select [items]="cities"
-                            [isOpen]="true"
-                            bindLabel="name"
-                            [(ngModel)]="city">
-                </ng-select>`
-      );
-
-      selectOption(fixture, KeyCode.ArrowDown, 0);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        expect(fixture.componentInstance.select.isOpen).toBeTruthy();
-      });
-    }));
-
     it('should not close on option select when [closeOnSelect]="false"', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
@@ -1704,8 +1686,9 @@ describe('NgSelect', () => {
       });
 
       it('should not open dropdown when isOpen is false', () => {
+        select.panelDisabled = true;
+        fixture.detectChanges();
         const open = spyOn(select, 'open');
-        select.ngOnChanges({ isOpen: { currentValue: false } } as any);
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
         expect(select.isOpen).toBeFalsy();
         expect(open).not.toHaveBeenCalled();
@@ -2913,7 +2896,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="[]"
-                    [isOpen]="false"
+                    [panelDisabled]="true"
                     [addTag]="true"
                     [(ngModel)]="selectedCity">
                 </ng-select>`
@@ -3243,12 +3226,12 @@ describe('NgSelect', () => {
       expect(fixture.componentInstance.select.selectedItems).toEqual([result]);
     }));
 
-    it('should not mark first item when isOpen is false', fakeAsync(() => {
+    it('should not mark first item when panelDisabled is true', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
                     bindLabel="name"
-                    [isOpen]="false"
+                    [panelDisabled]="true"
                     [(ngModel)]="selectedCity">
                 </ng-select>`
       );
@@ -3383,10 +3366,7 @@ describe('NgSelect', () => {
       fixture.componentInstance.cities = [
         { id: 1, name: 'Vilnius' },
         { id: 2, name: 'Kaunas' },
-        {
-          id: 3,
-          name: 'Pabrade',
-        },
+        { id: 3, name: 'Pabrade' },
         { id: 4, name: 'Bruchhausen-Vilsen' },
       ];
       tickAndDetectChanges(fixture);

@@ -113,6 +113,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
   @Input() appendTo = this._config.appendTo;
   @Input() panelPosition: DropdownPanelPosition = 'auto';
+  @Input() panelDisabled = false;
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) multiple = false;
   @Input({ transform: booleanAttribute }) searchable = true;
@@ -151,9 +152,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() ariaLabelledby?: string | null;
   @Input() ariaDescribedby?: string | null;
   @Input() inputAttrs: Record<string, string> = {};
-
-  // isOpen should allow undefined value, so avoid using booleanAttribute!
-  @Input() isOpen?: boolean = false;
 
   @Input()
   set panelClass(value: string | string[] | Record<string, any> | undefined) {
@@ -276,11 +274,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   element = this._elementRef.nativeElement;
   viewPortItems: NgOptionItem[] = [];
   searchTerm: string | null = null;
-  focused?: boolean;
+  isOpen = false;
+  focused = false;
   escapeHTML = true;
-  private _itemsAreUsed?: boolean;
+  private _itemsAreUsed = false;
   private _primitive: any;
-  private _manualOpen?: boolean;
   private _pressedKeys: string[] = [];
   private _isComposing = false;
   private readonly _defaultLabel = 'label';
@@ -385,9 +383,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
     if (changes['items']) {
       this._setItems(changes['items'].currentValue || []);
-    }
-    if (changes['isOpen']) {
-      this._manualOpen = isDefined(changes['isOpen'].currentValue);
     }
     if (changes['groupBy']) {
       if (!changes['items']) {
@@ -568,7 +563,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   open() {
-    if (this.disabled || this.isOpen || this._manualOpen) {
+    if (this.disabled || this.isOpen || this.panelDisabled) {
       return;
     }
 
@@ -585,7 +580,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   close() {
-    if (!this.isOpen || this._manualOpen) {
+    if (!this.isOpen || this.panelDisabled) {
       return;
     }
     this.isOpen = false;
@@ -1001,7 +996,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   private _handleEnter(e: KeyboardEvent) {
-    if (this.isOpen || this._manualOpen) {
+    if (this.isOpen || this.panelDisabled) {
       if (this.itemsList.markedItem) {
         this.toggleItem(this.itemsList.markedItem);
       } else if (this.showAddTag) {
@@ -1017,7 +1012,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   private _handleSpace(e: KeyboardEvent) {
-    if (this.isOpen || this._manualOpen) {
+    if (this.isOpen || this.panelDisabled) {
       return;
     }
     this.open();

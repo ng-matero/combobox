@@ -59,10 +59,10 @@
         [attr.aria-label]="ariaLabel"
         [attr.aria-labelledby]="ariaLabelledby"
         [attr.aria-describedby]="ariaDescribedby"
+        [attr.aria-haspopup]="panelDisabled ? 'false' : 'listbox'"
         [attr.aria-expanded]="isOpen"
         [attr.aria-controls]="isOpen ? listboxId : null"
         [attr.aria-activedescendant]="isOpen ? itemsList.markedItem?.htmlId : null"
-        aria-haspopup="listbox"
         aria-autocomplete="list"
         role="combobox"
       />
@@ -86,9 +86,11 @@
     }
   }
 
-  <span class="ng-arrow-wrapper" aria-hidden="true">
-    <span class="ng-arrow"></span>
-  </span>
+  @if (!panelDisabled) {
+    <span class="ng-arrow-wrapper" aria-hidden="true">
+      <span class="ng-arrow"></span>
+    </span>
+  }
 </div>
 
 @if (isOpen) {
