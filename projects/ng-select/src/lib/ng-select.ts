@@ -113,7 +113,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
   @Input() appendTo = this._config.appendTo;
   @Input() panelPosition: DropdownPanelPosition = 'auto';
-  @Input() panelDisabled = false;
+  @Input({ transform: booleanAttribute }) panelDisabled = false;
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) multiple = false;
   @Input({ transform: booleanAttribute }) searchable = true;
@@ -144,7 +144,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() groupBy?: string | ((value: any) => any);
   @Input() groupValue?: GroupValueFn;
   @Input() searchFn: SearchFn | null = null;
-  @Input() keyDownFn = (_: KeyboardEvent) => true;
+  @Input() keyDownFn = (e: KeyboardEvent) => true;
   @Input() trackByFn: TrackByFn | null = null;
   @Input() appearance = this._config.appearance;
   @Input({ transform: numberAttribute }) tabIndex?: number;
@@ -206,7 +206,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
   private _compareWith!: CompareWithFn;
 
-  @Input()
+  @Input({ transform: booleanAttribute })
   get clearSearchOnAdd() {
     return this._clearSearchOnAdd ?? this.closeOnSelect;
   }
@@ -215,7 +215,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
   private _clearSearchOnAdd = this._config.clearSearchOnAdd;
 
-  @Input()
+  @Input({ transform: booleanAttribute })
   get deselectOnClick() {
     return this._deselectOnClick ?? this.multiple;
   }
