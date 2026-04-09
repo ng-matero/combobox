@@ -62,6 +62,9 @@ const SCROLL_SCHEDULER =
     }
   `,
   imports: [NgTemplateOutlet],
+  host: {
+    class: 'ng-dropdown-panel',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
