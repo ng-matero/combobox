@@ -34,7 +34,7 @@ $ng-select-input-text: #000 !default;
 
 .ng-select {
 	&.ng-select-opened {
-		> .ng-select-container {
+		> .ng-select-control {
 			background: $ng-select-bg;
 			border-color: darken($ng-select-border, 10) $ng-select-border lighten($ng-select-border, 5);
 
@@ -42,7 +42,7 @@ $ng-select-input-text: #000 !default;
 				box-shadow: none;
 			}
 
-			.ng-arrow {
+			.ng-select-arrow-icon {
 				top: -2px;
 				border-color: transparent transparent darken($ng-select-border, 20);
 				border-width: 0 5px 5px;
@@ -54,28 +54,28 @@ $ng-select-input-text: #000 !default;
 		}
 
 		&.ng-select-top {
-			> .ng-select-container {
+			> .ng-select-control {
 				border-top-right-radius: 0;
 				border-top-left-radius: 0;
 			}
 		}
 
 		&.ng-select-right {
-			> .ng-select-container {
+			> .ng-select-control {
 				border-top-right-radius: 0;
 				border-bottom-right-radius: 0;
 			}
 		}
 
 		&.ng-select-bottom {
-			> .ng-select-container {
+			> .ng-select-control {
 				border-bottom-right-radius: 0;
 				border-bottom-left-radius: 0;
 			}
 		}
 
 		&.ng-select-left {
-			> .ng-select-container {
+			> .ng-select-control {
 				border-top-left-radius: 0;
 				border-bottom-left-radius: 0;
 			}
@@ -83,23 +83,23 @@ $ng-select-input-text: #000 !default;
 	}
 
 	&.ng-select-focused {
-		&:not(.ng-select-opened) > .ng-select-container {
+		&:not(.ng-select-opened) > .ng-select-control {
 			border-color: $ng-select-highlight;
 			box-shadow: $ng-select-box-shadow;
 		}
 	}
 
 	&.ng-select-disabled {
-		> .ng-select-container {
+		> .ng-select-control {
 			background-color: $ng-select-disabled-text;
 		}
 	}
 
-	.ng-has-value .ng-placeholder {
+	.ng-select-has-value .ng-select-placeholder {
 		display: none;
 	}
 
-	.ng-select-container {
+	.ng-select-control {
 		color: $ng-select-primary-text;
 		background-color: $ng-select-bg;
 		border-radius: $ng-select-border-radius;
@@ -111,7 +111,7 @@ $ng-select-input-text: #000 !default;
 			box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 		}
 
-		.ng-value-container {
+		.ng-select-value-container {
 			align-items: center;
 			padding-left: $ng-select-value-padding-left;
 			@include rtl {
@@ -119,18 +119,18 @@ $ng-select-input-text: #000 !default;
 				padding-left: 0;
 			}
 
-			.ng-placeholder {
+			.ng-select-placeholder {
 				color: $ng-select-placeholder;
 			}
 		}
 	}
 
 	&.ng-select-single {
-		.ng-select-container {
+		.ng-select-control {
 			height: $ng-select-height;
 
-			.ng-value-container {
-				.ng-input {
+			.ng-select-value-container {
+				.ng-select-input-container {
 					top: 5px;
 					left: 0;
 					padding-left: $ng-select-value-padding-left;
@@ -146,18 +146,18 @@ $ng-select-input-text: #000 !default;
 
 	&.ng-select-multiple {
 		&.ng-select-disabled {
-			> .ng-select-container .ng-value-container .ng-value {
+			> .ng-select-control .ng-select-value-container .ng-select-value {
 				background-color: $ng-select-disabled-text;
 				border: 1px solid lighten($ng-select-border, 10);
 
-				.ng-value-label {
+				.ng-select-value-label {
 					padding: 0 5px;
 				}
 			}
 		}
 
-		.ng-select-container {
-			.ng-value-container {
+		.ng-select-control {
+			.ng-select-value-container {
 				padding-top: 5px;
 				padding-left: 7px;
 				@include rtl {
@@ -165,7 +165,7 @@ $ng-select-input-text: #000 !default;
 					padding-left: 0;
 				}
 
-				.ng-value {
+				.ng-select-value {
 					font-size: $ng-select-value-font-size;
 					margin-bottom: 5px;
 					color: $ng-select-value-text;
@@ -177,10 +177,10 @@ $ng-select-input-text: #000 !default;
 						margin-left: 5px;
 					}
 
-					&.ng-value-disabled {
+					&.ng-select-value-disabled {
 						background-color: $ng-select-disabled-text;
 
-						.ng-value-label {
+						.ng-select-value-label {
 							padding-left: 5px;
 							@include rtl {
 								padding-left: 0;
@@ -189,12 +189,12 @@ $ng-select-input-text: #000 !default;
 						}
 					}
 
-					.ng-value-label {
+					.ng-select-value-label {
 						display: inline-block;
 						padding: 1px 5px;
 					}
 
-					.ng-value-remove {
+					.ng-select-value-remove {
 						display: inline-block;
 						padding: 1px 5px;
 
@@ -220,7 +220,7 @@ $ng-select-input-text: #000 !default;
 					}
 				}
 
-				.ng-input {
+				.ng-select-input-container {
 					padding: 0 0 3px 3px;
 					@include rtl {
 						padding: 0 3px 3px 0;
@@ -231,7 +231,7 @@ $ng-select-input-text: #000 !default;
 					}
 				}
 
-				.ng-placeholder {
+				.ng-select-placeholder {
 					top: 5px;
 					padding-bottom: 5px;
 					padding-left: 3px;
@@ -244,14 +244,14 @@ $ng-select-input-text: #000 !default;
 		}
 	}
 
-	.ng-clear-wrapper {
+	.ng-select-clear {
 		color: darken($ng-select-border, 20);
 
-		&:hover .ng-clear {
+		&:hover .ng-select-clear-icon {
 			color: #d0021b;
 		}
 
-		&:focus .ng-clear {
+		&:focus .ng-select-clear-icon {
 			color: #d0021b;
 		}
 
@@ -268,7 +268,7 @@ $ng-select-input-text: #000 !default;
 		}
 	}
 
-	.ng-arrow-wrapper {
+	.ng-select-arrow {
 		width: 25px;
 		padding-right: 5px;
 		@include rtl {
@@ -277,12 +277,12 @@ $ng-select-input-text: #000 !default;
 		}
 
 		&:hover {
-			.ng-arrow {
+			.ng-select-arrow-icon {
 				border-top-color: darken($ng-select-border, 40);
 			}
 		}
 
-		.ng-arrow {
+		.ng-select-arrow-icon {
 			border-color: darken($ng-select-border, 20) transparent transparent;
 			border-style: solid;
 			border-width: 5px 5px 2.5px;
@@ -304,7 +304,7 @@ $ng-select-input-text: #000 !default;
 		margin-bottom: -1px;
 
 		.ng-select-listbox {
-			.ng-option {
+			.ng-select-option {
 				&:first-child {
 					border-top-right-radius: $ng-select-border-radius;
 					border-top-left-radius: $ng-select-border-radius;
@@ -323,7 +323,7 @@ $ng-select-input-text: #000 !default;
 		margin-bottom: -1px;
 
 		.ng-select-listbox {
-			.ng-option {
+			.ng-select-option {
 				&:first-child {
 					border-top-right-radius: $ng-select-border-radius;
 				}
@@ -339,7 +339,7 @@ $ng-select-input-text: #000 !default;
 		margin-top: -1px;
 
 		.ng-select-listbox {
-			.ng-option {
+			.ng-select-option {
 				&:last-child {
 					border-bottom-right-radius: $ng-select-border-radius;
 					border-bottom-left-radius: $ng-select-border-radius;
@@ -358,7 +358,7 @@ $ng-select-input-text: #000 !default;
 		margin-bottom: -1px;
 
 		.ng-select-listbox {
-			.ng-option {
+			.ng-select-option {
 				&:first-child {
 					border-top-left-radius: $ng-select-border-radius;
 				}
@@ -377,54 +377,54 @@ $ng-select-input-text: #000 !default;
 	}
 
 	.ng-select-listbox {
-		.ng-optgroup {
+		.ng-select-optgroup {
 			user-select: none;
 			padding: 8px 10px;
 			font-weight: 500;
 			color: $ng-select-dropdown-optgroup-text;
 			cursor: pointer;
 
-			&.ng-option-disabled {
+			&.ng-select-option-disabled {
 				cursor: default;
 			}
 
-			&.ng-option-marked {
+			&.ng-select-option-marked {
 				background-color: $ng-select-marked;
 			}
 
-			&.ng-option-selected,
-			&.ng-option-selected.ng-option-marked {
+			&.ng-select-option-selected,
+			&.ng-select-option-selected.ng-select-option-marked {
 				color: $ng-select-dropdown-optgroup-marked;
 				background-color: $ng-select-selected;
 				font-weight: 600;
 			}
 		}
 
-		.ng-option {
+		.ng-select-option {
 			background-color: $ng-select-dropdown-option-bg;
 			color: $ng-select-dropdown-option-text;
 			padding: 8px 10px;
 
-			&.ng-option-selected,
-			&.ng-option-selected.ng-option-marked {
+			&.ng-select-option-selected,
+			&.ng-select-option-selected.ng-select-option-marked {
 				color: $ng-select-selected-text;
 				background-color: $ng-select-selected;
 
-				.ng-option-label {
+				.ng-select-option-label {
 					font-weight: 600;
 				}
 			}
 
-			&.ng-option-marked {
+			&.ng-select-option-marked {
 				background-color: $ng-select-marked;
 				color: $ng-select-marked-text;
 			}
 
-			&.ng-option-disabled {
+			&.ng-select-option-disabled {
 				color: $ng-select-dropdown-option-disabled;
 			}
 
-			&.ng-option-child {
+			&.ng-select-option-child {
 				padding-left: 22px;
 				@include rtl {
 					padding-right: 22px;
@@ -432,7 +432,7 @@ $ng-select-input-text: #000 !default;
 				}
 			}
 
-			.ng-tag-label {
+			.ng-select-tag-option-label {
 				font-size: 80%;
 				font-weight: 400;
 				padding-right: 5px;

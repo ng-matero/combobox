@@ -11,11 +11,11 @@
   [(ngModel)]="selectedUsers"
 >
   <ng-template ng-label-tmp let-item="item" let-clear="clear">
-    <span class="ng-value-label">
+    <span class="ng-select-value-label">
       <img [src]="item.avatar_url" width="20px" height="20px" alt="" />
       {{ item.login }}
     </span>
-    <span class="ng-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
+    <span class="ng-select-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item">

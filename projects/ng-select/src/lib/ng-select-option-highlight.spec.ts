@@ -43,8 +43,12 @@ describe('NgSelectOptionHighlight', () => {
     const span = fixture.debugElement.query(By.css('#test1'));
     fixture.componentInstance.term = 'is high';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelectorAll('.highlighted')[0].innerHTML).toBe('is');
-    expect(span.nativeElement.querySelectorAll('.highlighted')[1].innerHTML).toBe('high');
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[0].innerHTML).toBe(
+      'is'
+    );
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[1].innerHTML).toBe(
+      'high'
+    );
     expect(span.nativeElement.textContent).toBe('My text is highlighted');
   });
 
@@ -52,7 +56,7 @@ describe('NgSelectOptionHighlight', () => {
     const span = fixture.debugElement.query(By.css('#test2'));
     fixture.componentInstance.term = 'non matching';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelector('.highlighted')).toBeNull();
+    expect(span.nativeElement.querySelector('.ng-select-option-highlighted')).toBeNull();
     expect(span.nativeElement.innerHTML).toBe('My text is not highlighted');
   });
 
@@ -60,8 +64,12 @@ describe('NgSelectOptionHighlight', () => {
     const span = fixture.debugElement.query(By.css('#test3'));
     fixture.componentInstance.term = 'text highlighted';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelectorAll('.highlighted')[0].innerHTML).toBe('text');
-    expect(span.nativeElement.querySelectorAll('.highlighted')[1].innerHTML).toBe('highlighted');
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[0].innerHTML).toBe(
+      'text'
+    );
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[1].innerHTML).toBe(
+      'highlighted'
+    );
     expect(span.nativeElement.textContent).toBe('My text is highlighted');
   });
 
@@ -69,7 +77,9 @@ describe('NgSelectOptionHighlight', () => {
     const span = fixture.debugElement.query(By.css('#test4'));
     fixture.componentInstance.term = 'ťëxť';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelector('.highlighted').innerHTML).toBe('ťëxť');
+    expect(span.nativeElement.querySelector('.ng-select-option-highlighted').innerHTML).toBe(
+      'ťëxť'
+    );
     expect(span.nativeElement.textContent).toBe('My ťëxť is highlighted text');
   });
 
@@ -79,7 +89,7 @@ describe('NgSelectOptionHighlight', () => {
     fixture.componentInstance.showNew = true;
     fixture.detectChanges();
     const span = fixture.debugElement.query(By.css('#test5'));
-    expect(span.nativeElement.querySelector('.highlighted').innerHTML).toBe('New');
+    expect(span.nativeElement.querySelector('.ng-select-option-highlighted').innerHTML).toBe('New');
     expect(span.nativeElement.textContent).toBe('New label');
   });
 
@@ -88,8 +98,12 @@ describe('NgSelectOptionHighlight', () => {
 
     fixture.componentInstance.term = '+My text';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelectorAll('.highlighted')[0].innerHTML).toBe('+My');
-    expect(span.nativeElement.querySelectorAll('.highlighted')[1].innerHTML).toBe('text');
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[0].innerHTML).toBe(
+      '+My'
+    );
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[1].innerHTML).toBe(
+      'text'
+    );
     expect(span.nativeElement.textContent).toBe('+My text is) high\\lighted');
   });
 
@@ -98,7 +112,9 @@ describe('NgSelectOptionHighlight', () => {
 
     fixture.componentInstance.term = 'is)';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelectorAll('.highlighted')[0].innerHTML).toBe('is)');
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[0].innerHTML).toBe(
+      'is)'
+    );
     expect(span.nativeElement.textContent).toBe('+My text is) high\\lighted');
   });
 
@@ -107,7 +123,9 @@ describe('NgSelectOptionHighlight', () => {
 
     fixture.componentInstance.term = 'high\\l';
     fixture.detectChanges();
-    expect(span.nativeElement.querySelectorAll('.highlighted')[0].innerHTML).toBe('high\\l');
+    expect(span.nativeElement.querySelectorAll('.ng-select-option-highlighted')[0].innerHTML).toBe(
+      'high\\l'
+    );
     expect(span.nativeElement.textContent).toBe('+My text is) high\\lighted');
   });
 });

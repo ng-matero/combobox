@@ -50,7 +50,9 @@ export class NgSelectOptionHighlight implements OnChanges, AfterViewInit {
 
     const alternationString = this._escapeRegExp(this.term).replace(' ', '|');
     const termRegex = new RegExp(alternationString, 'gi');
-    this._setInnerHtml(label.replace(termRegex, `<span class="highlighted">$&</span>`));
+    this._setInnerHtml(
+      label.replace(termRegex, `<span class="ng-select-option-highlighted">$&</span>`)
+    );
   }
 
   private _setInnerHtml(html: string) {

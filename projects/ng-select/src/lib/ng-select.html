@@ -2,29 +2,31 @@
 <!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div
-  class="ng-select-container"
+  class="ng-select-control"
   [class.ng-appearance-outline]="appearance === 'outline'"
-  [class.ng-has-value]="hasValue"
+  [class.ng-select-has-value]="hasValue"
   (mousedown)="handleMousedown($event)"
 >
-  <div class="ng-value-container">
+  <div class="ng-select-value-container">
     @if ((selectedItems.length === 0 && !searchTerm) || fixedPlaceholder) {
       <ng-template #defaultPlaceholderTemplate>
-        <div class="ng-placeholder">{{ placeholder }}</div>
+        <div class="ng-select-placeholder">{{ placeholder }}</div>
       </ng-template>
       <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate" />
     }
 
     @if ((!multiLabelTemplate || !multiple) && selectedItems.length > 0) {
       @for (item of selectedItems; track trackByOption($index, item)) {
-        <div class="ng-value" [class.ng-value-disabled]="item.disabled">
+        <div class="ng-select-value" [class.ng-select-value-disabled]="item.disabled">
           <ng-template #defaultLabelTemplate>
             <span
-              class="ng-value-label"
+              class="ng-select-value-label"
               [ngSelectLabelValue]="item.label || ''"
               [ngSelectLabelEscape]="escapeHTML"
             ></span>
-            <span class="ng-value-remove" (click)="unselect(item)" role="button">×</span>
+            @if (multiple) {
+              <span class="ng-select-value-remove" (click)="unselect(item)" role="button">×</span>
+            }
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="labelTemplate || defaultLabelTemplate"
@@ -41,9 +43,10 @@
       />
     }
 
-    <div class="ng-input">
+    <div class="ng-select-input-container">
       <input
         #searchInput
+        class="ng-select-input"
         [disabled]="disabled"
         [readOnly]="!searchable || itemsList.maxItemsSelected"
         [value]="searchTerm ?? ''"
@@ -79,15 +82,15 @@
     @if (clearButtonTemplate) {
       <ng-container [ngTemplateOutlet]="clearButtonTemplate" />
     } @else {
-      <span #clearButton class="ng-clear-wrapper" [title]="clearAllText" aria-hidden="true">
-        <span class="ng-clear">×</span>
+      <span #clearButton class="ng-select-clear" [title]="clearAllText" aria-hidden="true">
+        <span class="ng-select-clear-icon">×</span>
       </span>
     }
   }
 
   @if (!panelDisabled) {
-    <span class="ng-arrow-wrapper" aria-hidden="true">
-      <span class="ng-arrow"></span>
+    <span class="ng-select-arrow" aria-hidden="true">
+      <span class="ng-select-arrow-icon"></span>
     </span>
   }
 </div>
@@ -113,13 +116,13 @@
   >
     @for (item of viewPortItems; track trackByOption($index, item)) {
       <div
-        class="ng-option"
-        [class.ng-option-disabled]="item.disabled"
-        [class.ng-option-selected]="item.selected"
-        [class.ng-optgroup]="item.children"
-        [class.ng-option]="!item.children"
-        [class.ng-option-child]="!!item.parent"
-        [class.ng-option-marked]="item === itemsList.markedItem"
+        class="ng-select-option"
+        [class.ng-select-option-disabled]="item.disabled"
+        [class.ng-select-option-selected]="item.selected"
+        [class.ng-select-optgroup]="item.children"
+        [class.ng-select-option]="!item.children"
+        [class.ng-select-option-child]="!!item.parent"
+        [class.ng-select-option-marked]="item === itemsList.markedItem"
         [attr.id]="item?.htmlId"
         [attr.role]="item.children ? 'group' : 'option'"
         [attr.aria-disabled]="item.disabled"
@@ -131,7 +134,7 @@
       >
         <ng-template #defaultOptionTemplate>
           <span
-            class="ng-option-label"
+            class="ng-select-option-label"
             [ngSelectLabelValue]="item.label || ''"
             [ngSelectLabelEscape]="escapeHTML"
           ></span>
@@ -154,8 +157,8 @@
 
     @if (showAddTag) {
       <div
-        class="ng-option"
-        [class.ng-option-marked]="!itemsList.markedItem"
+        class="ng-select-option"
+        [class.ng-select-option-marked]="!itemsList.markedItem"
         role="option"
         [attr.aria-disabled]="false"
         [attr.aria-selected]="false"
@@ -163,10 +166,8 @@
         (mouseover)="itemsList.unmarkItem()"
       >
         <ng-template #defaultTagTemplate>
-          <span>
-            <span class="ng-tag-label">{{ addTagText }}</span>
-            "{{ searchTerm }}"
-          </span>
+          <span class="ng-select-tag-option-label">{{ addTagText }}</span>
+          <span>"{{ searchTerm }}"</span>
         </ng-template>
         <ng-template
           [ngTemplateOutlet]="tagTemplate || defaultTagTemplate"
@@ -177,7 +178,7 @@
 
     @if (showNoItemsFound) {
       <ng-template #defaultNotFoundTemplate>
-        <div class="ng-option ng-option-disabled">{{ notFoundText }}</div>
+        <div class="ng-select-option ng-select-option-disabled">{{ notFoundText }}</div>
       </ng-template>
       <ng-template
         [ngTemplateOutlet]="notFoundTemplate || defaultNotFoundTemplate"
@@ -186,13 +187,13 @@
     }
     @if (showTypeToSearch) {
       <ng-template #defaultTypeToSearchTemplate>
-        <div class="ng-option ng-option-disabled">{{ typeToSearchText }}</div>
+        <div class="ng-select-option ng-select-option-disabled">{{ typeToSearchText }}</div>
       </ng-template>
       <ng-template [ngTemplateOutlet]="typeToSearchTemplate || defaultTypeToSearchTemplate" />
     }
     @if (loading && itemsList.filteredItems.length === 0) {
       <ng-template #defaultLoadingTextTemplate>
-        <div class="ng-option ng-option-disabled">{{ loadingText }}</div>
+        <div class="ng-select-option ng-select-option-disabled">{{ loadingText }}</div>
       </ng-template>
       <ng-template
         [ngTemplateOutlet]="loadingTextTemplate || defaultLoadingTextTemplate"

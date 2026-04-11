@@ -399,7 +399,7 @@ describe('NgSelect', () => {
       select = fixture.componentInstance.select;
       select.open();
 
-      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options[0].innerText).toBe('<img src="azd" (error)="alert(1)" />');
     }));
 
@@ -1151,13 +1151,13 @@ describe('NgSelect', () => {
           for (const c of classes) {
             expect(selectEl.classList.contains(c)).toBeTruthy(`expected to contain "${c}" class`);
           }
-          let hasValueEl = fixture.nativeElement.querySelector('.ng-has-value');
+          let hasValueEl = fixture.nativeElement.querySelector('.ng-select-has-value');
           expect(hasValueEl).not.toBeNull();
 
           fixture.componentInstance.selectedCityId = null;
           tickAndDetectChanges(fixture);
           tickAndDetectChanges(fixture);
-          hasValueEl = fixture.nativeElement.querySelector('.ng-has-value');
+          hasValueEl = fixture.nativeElement.querySelector('.ng-select-has-value');
           expect(hasValueEl).toBeNull();
         }));
 
@@ -1358,7 +1358,7 @@ describe('NgSelect', () => {
       select.open();
 
       expect(select.dropdownPanel.items.length).toBe(3);
-      let options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      let options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(3);
       expect(options[0].innerText).toBe('Vilnius');
       expect(options[1].innerText).toBe('Kaunas');
@@ -1369,7 +1369,7 @@ describe('NgSelect', () => {
         name: String.fromCharCode(97 + i),
       }));
       tickAndDetectChanges(fixture);
-      options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(30);
       expect(options[0].innerText).toBe('a');
     }));
@@ -1408,7 +1408,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.select.dropdownPanel.items.length).toBe(3);
-      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(3);
       expect(options[0].innerText).toBe('Vilnius');
       expect(options[1].innerText).toBe('Kaunas');
@@ -1444,7 +1444,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.select.dropdownPanel.items.length).toBe(3);
-      let options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      let options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(3);
       expect(options[0].innerText).toBe('Vilnius');
       expect(options[1].innerText).toBe('Kaunas');
@@ -1456,7 +1456,7 @@ describe('NgSelect', () => {
       }));
       tickAndDetectChanges(fixture);
       fixture.detectChanges();
-      options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
+      options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(8);
       expect(options[0].innerText).toBe('a');
     }));
@@ -1477,7 +1477,7 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       fixture.detectChanges();
 
-      const options = document.querySelectorAll('.ng-option');
+      const options = document.querySelectorAll('.ng-select-option');
       expect(options.length).toBe(1);
       expect((options[0] as HTMLElement).innerText).toBe('No items found');
     }));
@@ -1506,8 +1506,8 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       fixture.detectChanges();
 
-      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
-      const marked = fixture.debugElement.nativeElement.querySelector('.ng-option-marked');
+      const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-select-option');
+      const marked = fixture.debugElement.nativeElement.querySelector('.ng-select-option-marked');
 
       // Accept both 17 and 18 options as valid (environment-dependent panel height causes this variation)
       // With 240px panel height: itemsPerViewport=12, buffer=4, renders 18 options
@@ -1609,7 +1609,7 @@ describe('NgSelect', () => {
       const outsideClick = spyOn(cmp.select.dropdownPanel.outsideClick, 'emit');
       expect(outsideClick).not.toHaveBeenCalled();
 
-      const listItem = fixture.debugElement.query(By.css('.ng-option'));
+      const listItem = fixture.debugElement.query(By.css('.ng-select-option'));
       let event = new MouseEvent('mousedown', { bubbles: true });
       listItem.nativeElement.dispatchEvent(event);
       event = new MouseEvent('click', { bubbles: true });
@@ -1699,7 +1699,8 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
         tickAndDetectChanges(fixture);
-        const text = fixture.debugElement.query(By.css('.ng-option')).nativeElement.innerHTML;
+        const text = fixture.debugElement.query(By.css('.ng-select-option')).nativeElement
+          .innerHTML;
         expect(text).toContain('No items found');
       }));
 
@@ -1709,7 +1710,7 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
         tickAndDetectChanges(fixture);
-        const options = fixture.debugElement.queryAll(By.css('.ng-option'));
+        const options = fixture.debugElement.queryAll(By.css('.ng-select-option'));
         expect(options.length).toBe(1);
         expect(options[0].nativeElement.innerHTML).toContain('Loading...');
       }));
@@ -2469,7 +2470,7 @@ describe('NgSelect', () => {
       expect(
         fixture.debugElement.query(By.css('.placeholder-template')).nativeElement.innerHTML
       ).toBe('Select your city');
-      expect(fixture.debugElement.query(By.css('.ng-placeholder'))).toBeFalsy();
+      expect(fixture.debugElement.query(By.css('.ng-select-placeholder'))).toBeFalsy();
     }));
 
     it('should display ng-placeholder if an item is selected', fakeAsync(() => {
@@ -2486,7 +2487,7 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       tickAndDetectChanges(fixture);
 
-      expect(fixture.debugElement.query(By.css('.ng-placeholder'))).toBeTruthy();
+      expect(fixture.debugElement.query(By.css('.ng-select-placeholder'))).toBeTruthy();
     }));
 
     it('should not display ng-placeholder if an item is selected', fakeAsync(() => {
@@ -2503,7 +2504,7 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       tickAndDetectChanges(fixture);
 
-      expect(fixture.debugElement.query(By.css('.ng-placeholder'))).toBeFalsy();
+      expect(fixture.debugElement.query(By.css('.ng-select-placeholder'))).toBeFalsy();
     }));
 
     it('should update ng-option label', fakeAsync(() => {
@@ -2572,7 +2573,7 @@ describe('NgSelect', () => {
       let arrowIcon: DebugElement | null = null;
       beforeEach(() => {
         fixture.componentInstance.select.maxSelectedItems = 2;
-        arrowIcon = fixture.debugElement.query(By.css('.ng-arrow-wrapper'));
+        arrowIcon = fixture.debugElement.query(By.css('.ng-select-arrow'));
       });
 
       it('should be able to select only two elements', fakeAsync(() => {
@@ -3075,7 +3076,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const element = fixture.componentInstance.select.element;
-        const placeholder: any = element.querySelector('.ng-placeholder');
+        const placeholder: any = element.querySelector('.ng-select-placeholder');
         expect(placeholder.innerText).toBe('select value');
         expect(getComputedStyle(placeholder).display).toBe('block');
       });
@@ -3087,26 +3088,26 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       tickAndDetectChanges(fixture);
       const element = fixture.componentInstance.select.element;
-      const ngControl = element.querySelector('.ng-select-container');
+      const ngControl = element.querySelector('.ng-select-control');
 
-      expect(ngControl?.classList.contains('ng-has-value')).toBeTruthy();
+      expect(ngControl?.classList.contains('ng-select-has-value')).toBeTruthy();
 
       select.handleClearClick();
       tickAndDetectChanges(fixture);
       tickAndDetectChanges(fixture);
 
-      const placeholder = element.querySelector('.ng-placeholder');
-      expect(ngControl?.classList.contains('ng-has-value')).toBeFalsy();
+      const placeholder = element.querySelector('.ng-select-placeholder');
+      expect(ngControl?.classList.contains('ng-select-has-value')).toBeFalsy();
       expect(getComputedStyle(placeholder!).display).toBe('block');
     }));
 
-    it('should contain .ng-has-value when value was selected', fakeAsync(() => {
+    it('should contain .ng-select-has-value when value was selected', fakeAsync(() => {
       tickAndDetectChanges(fixture);
       const element = fixture.componentInstance.select.element;
-      const ngControl = element.querySelector('.ng-select-container');
+      const ngControl = element.querySelector('.ng-select-control');
       selectOption(fixture, KeyCode.ArrowDown, 2);
       tickAndDetectChanges(fixture);
-      expect(ngControl?.classList.contains('ng-has-value')).toBeTruthy();
+      expect(ngControl?.classList.contains('ng-select-has-value')).toBeTruthy();
     }));
   });
 
@@ -3172,7 +3173,7 @@ describe('NgSelect', () => {
                 </ng-select>`
       );
 
-      const selectInput = fixture.debugElement.query(By.css('.ng-select-container'));
+      const selectInput = fixture.debugElement.query(By.css('.ng-select-control'));
       // open
       selectInput.triggerEventHandler('mousedown', createEvent());
       tickAndDetectChanges(fixture);
@@ -3704,7 +3705,7 @@ describe('NgSelect', () => {
         input.dispatchEvent(new Event('input'));
         tickAndDetectChanges(fixture);
         expect(select.searchTerm).toEqual(wrongSearchTerm);
-        const firstOption = select.element.querySelector('.ng-select-panel .ng-option');
+        const firstOption = select.element.querySelector('.ng-select-panel .ng-select-option');
         expect(firstOption?.innerHTML).toEqual(selectConfig.notFoundText);
         input.blur();
         select.close();
@@ -3714,7 +3715,7 @@ describe('NgSelect', () => {
         input.focus();
         input.dispatchEvent(new Event('input'));
         tickAndDetectChanges(fixture);
-        const allOptions = select.element.querySelectorAll('.ng-select-panel .ng-option');
+        const allOptions = select.element.querySelectorAll('.ng-select-panel .ng-select-option');
         expect(allOptions.length).toEqual(fixture.componentInstance.cities.length);
       }));
     });
@@ -3738,7 +3739,7 @@ describe('NgSelect', () => {
       );
       select = fixture.componentInstance.select;
       input = fixture.debugElement.query(By.css('input')).nativeElement;
-      comboBoxDiv = fixture.debugElement.query(By.css('.ng-input')).nativeElement;
+      comboBoxDiv = fixture.debugElement.query(By.css('.ng-select-input-container')).nativeElement;
     }));
 
     it('should set aria-activedescendant absent at start', fakeAsync(() => {
@@ -4053,7 +4054,7 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-container'));
+          const control = fixture.debugElement.query(By.css('.ng-select-control'));
           control.triggerEventHandler('mousedown', createEvent({ className: 'ng-control' }));
         };
       }));
@@ -4089,7 +4090,7 @@ describe('NgSelect', () => {
 
         event = createEvent({ tagName: 'INPUT' }) as any;
         triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-container'));
+          const control = fixture.debugElement.query(By.css('.ng-select-control'));
           control.triggerEventHandler('mousedown', event);
         };
       }));
@@ -4127,11 +4128,11 @@ describe('NgSelect', () => {
         fixture.componentInstance.cities = [...fixture.componentInstance.cities];
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-container'));
+          const control = fixture.debugElement.query(By.css('.ng-select-control'));
           control.triggerEventHandler(
             'mousedown',
             createEvent({
-              classList: { contains: (term: string) => term === 'ng-clear-wrapper' },
+              classList: { contains: (term: string) => term === 'ng-select-clear' },
             })
           );
         };
@@ -4170,7 +4171,7 @@ describe('NgSelect', () => {
         fixture.componentInstance.disabled = true;
         tickAndDetectChanges(fixture);
         tickAndDetectChanges(fixture);
-        const el = fixture.debugElement.query(By.css('.ng-clear-wrapper'));
+        const el = fixture.debugElement.query(By.css('.ng-select-clear'));
         expect(el).toBeNull();
       }));
 
@@ -4178,7 +4179,7 @@ describe('NgSelect', () => {
         fixture.componentInstance.readonly = true;
         tickAndDetectChanges(fixture);
         tickAndDetectChanges(fixture);
-        const el = fixture.debugElement.query(By.css('.ng-clear-wrapper'));
+        const el = fixture.debugElement.query(By.css('.ng-select-clear'));
         expect(el).toBeNull();
       }));
     });
@@ -4199,11 +4200,11 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-container'));
+          const control = fixture.debugElement.query(By.css('.ng-select-control'));
           control.triggerEventHandler(
             'mousedown',
             createEvent({
-              classList: { contains: (term: string) => term === 'ng-value-remove' },
+              classList: { contains: (term: string) => term === 'ng-select-value-remove' },
             })
           );
         };
@@ -4236,11 +4237,11 @@ describe('NgSelect', () => {
         fixture.componentInstance.selectedCity = fixture.componentInstance.cities[0];
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-container'));
+          const control = fixture.debugElement.query(By.css('.ng-select-control'));
           control.triggerEventHandler(
             'mousedown',
             createEvent({
-              classList: { contains: (term: string) => term === 'ng-arrow-wrapper' },
+              classList: { contains: (term: string) => term === 'ng-select-arrow' },
             })
           );
         };
@@ -4787,7 +4788,7 @@ describe('Grouping', () => {
     expect(fixture.componentInstance.selectedAccount).toBe('amalie@email.com');
 
     select.filter('A');
-    expect(nativeElement.querySelectorAll('.ng-option-selected').length).toBe(1, 2);
+    expect(nativeElement.querySelectorAll('.ng-select-option-selected').length).toBe(1, 2);
     expect(select.viewPortItems.filter(opt => opt.selected).length).toBe(1, 2);
     expect(select.viewPortItems.find(opt => opt.selected)?.index).toBe(2, 0);
     expect(select.itemsList.selectedItems.length).toBe(1);

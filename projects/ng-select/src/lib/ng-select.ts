@@ -501,17 +501,17 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       e.preventDefault();
     }
 
-    if (target.classList.contains('ng-clear-wrapper')) {
+    if (target.classList.contains('ng-select-clear')) {
       this.handleClearClick();
       return;
     }
 
-    if (target.classList.contains('ng-arrow-wrapper')) {
+    if (target.classList.contains('ng-select-arrow')) {
       this.handleArrowClick();
       return;
     }
 
-    if (target.classList.contains('ng-value-remove')) {
+    if (target.classList.contains('ng-select-value-remove')) {
       return;
     }
 

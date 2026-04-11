@@ -13,17 +13,17 @@
 >
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
     @for (item of items | slice: 0 : 2; track item) {
-      <div class="ng-value">
-        <span class="ng-value-label">
+      <div class="ng-select-value">
+        <span class="ng-select-value-label">
           <img [src]="$any(item).avatar_url" width="20px" height="20px" alt="" />
           {{ $any(item).login }}
         </span>
-        <span class="ng-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
+        <span class="ng-select-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
       </div>
     }
     @if (items.length > 2) {
-      <div class="ng-value">
-        <span class="ng-value-label">{{ items.length - 2 }} more...</span>
+      <div class="ng-select-value">
+        <span class="ng-select-value-label">{{ items.length - 2 }} more...</span>
       </div>
     }
   </ng-template>
