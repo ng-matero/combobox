@@ -2,10 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  NgLabelTemplate,
-  NgOptionHighlight,
-  NgOptionTemplate,
+  NgSelectLabelTemplate,
+  NgSelectOptionTemplate,
   NgSelect,
+  NgSelectOptionHighlight,
 } from '@ng-matero/ng-select';
 import { DataService } from '../data.service';
 
@@ -17,9 +17,9 @@ import { DataService } from '../data.service';
     FormsModule,
     ReactiveFormsModule,
     NgSelect,
-    NgLabelTemplate,
-    NgOptionTemplate,
-    NgOptionHighlight,
+    NgSelectLabelTemplate,
+    NgSelectOptionTemplate,
+    NgSelectOptionHighlight,
   ],
 })
 export class FormsCustomTemplateExample implements OnInit {

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
 import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-group-selectable-hidden-example',
   templateUrl: './group-selectable-hidden-example.html',
   styleUrl: './group-selectable-hidden-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, JsonPipe],
+  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
 })
 export class GroupSelectableHiddenExample implements OnInit {
   accounts = [

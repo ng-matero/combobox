@@ -1,7 +1,7 @@
 import { AsyncPipe, SlicePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgMultiLabelTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectMultiLabelTemplate, NgSelect } from '@ng-matero/ng-select';
 import { Observable } from 'rxjs';
 import { DataService } from '../data.service';
 
@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
   selector: 'app-multi-select-custom-example',
   templateUrl: './multi-select-custom-example.html',
   styleUrl: './multi-select-custom-example.scss',
-  imports: [NgSelect, FormsModule, NgMultiLabelTemplate, AsyncPipe, SlicePipe],
+  imports: [NgSelect, FormsModule, NgSelectMultiLabelTemplate, AsyncPipe, SlicePipe],
 })
 export class MultiSelectCustomExample implements OnInit {
   githubUsers$!: Observable<any[]>;

@@ -1,7 +1,7 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptgroupTemplate, NgOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
 import { map } from 'rxjs/operators';
 import { DataService, Person } from '../data.service';
 
@@ -9,7 +9,7 @@ import { DataService, Person } from '../data.service';
   selector: 'app-multi-checkbox-group-example',
   templateUrl: './multi-checkbox-group-example.html',
   styleUrl: './multi-checkbox-group-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, NgOptionTemplate, UpperCasePipe],
+  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, NgSelectOptionTemplate, UpperCasePipe],
 })
 export class MultiCheckboxGroupExample implements OnInit {
   people: Person[] = [];

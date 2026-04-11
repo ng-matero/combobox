@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgLoadingSpinnerTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectLoadingTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-loading-example',
   templateUrl: './template-loading-example.html',
   styleUrl: './template-loading-example.scss',
-  imports: [NgSelect, NgLoadingSpinnerTemplate],
+  imports: [NgSelect, NgSelectLoadingTemplate],
 })
 export class TemplateLoadingExample implements OnInit {
   cities = [

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgHeaderTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectPanelHeaderTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-search-example',
   templateUrl: './template-search-example.html',
   styleUrl: './template-search-example.scss',
-  imports: [NgSelect, FormsModule, NgHeaderTemplate],
+  imports: [NgSelect, FormsModule, NgSelectPanelHeaderTemplate],
 })
 export class TemplateSearchExample implements OnInit {
   cities = [

@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgOption implements OnChanges, AfterViewChecked, OnDestroy {
+export class NgSelectOption implements OnChanges, AfterViewChecked, OnDestroy {
   @Input() value: any;
   @Input({ transform: booleanAttribute }) disabled = false;
 

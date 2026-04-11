@@ -1,13 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptgroupTemplate, NgOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-group-children-example',
   templateUrl: './group-children-example.html',
   styleUrl: './group-children-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, NgOptionTemplate, JsonPipe],
+  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, NgSelectOptionTemplate, JsonPipe],
 })
 export class GroupChildrenExample {
   selectedProjects = [];

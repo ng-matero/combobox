@@ -3,13 +3,20 @@ import { DataService, Person } from '../data.service';
 import { map } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe, UpperCasePipe } from '@angular/common';
-import { NgOptgroupTemplate, NgOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-multi-checkbox-example',
   templateUrl: './multi-checkbox-example.html',
   styleUrl: './multi-checkbox-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, NgOptionTemplate, UpperCasePipe, JsonPipe],
+  imports: [
+    NgSelect,
+    FormsModule,
+    NgSelectOptgroupTemplate,
+    NgSelectOptionTemplate,
+    UpperCasePipe,
+    JsonPipe,
+  ],
 })
 export class MultiCheckboxExample implements OnInit {
   people: Person[] = [];

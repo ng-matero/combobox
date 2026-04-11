@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgLabelTemplate, NgPlaceholderTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectLabelTemplate, NgSelectPlaceholderTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-placeholder-example',
   templateUrl: './template-placeholder-example.html',
   styleUrl: './template-placeholder-example.scss',
-  imports: [NgSelect, FormsModule, NgPlaceholderTemplate, NgLabelTemplate],
+  imports: [NgSelect, FormsModule, NgSelectPlaceholderTemplate, NgSelectLabelTemplate],
 })
 export class TemplatePlaceholderExample {
   cities = [

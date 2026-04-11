@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOption, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOption, NgSelect } from '@ng-matero/ng-select';
 import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-data-source-options-example',
   templateUrl: './data-source-options-example.html',
   styleUrl: './data-source-options-example.scss',
-  imports: [NgSelect, FormsModule, NgOption, JsonPipe],
+  imports: [NgSelect, FormsModule, NgSelectOption, JsonPipe],
 })
 export class DataSourceOptionsExample implements OnInit {
   selectedCars = [3];

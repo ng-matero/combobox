@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { NgDropdownPanelUtils } from './ng-dropdown-panel-utils';
+import { NgSelectPanelUtils } from './ng-select-panel-utils';
 
-describe('NgDropdownPanelUtils', () => {
-  let service: NgDropdownPanelUtils;
+describe('NgSelectPanelUtils', () => {
+  let service: NgSelectPanelUtils;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NgDropdownPanelUtils],
+      providers: [NgSelectPanelUtils],
     });
 
-    service = TestBed.inject(NgDropdownPanelUtils);
+    service = TestBed.inject(NgSelectPanelUtils);
   });
 
   describe('calculate items', () => {

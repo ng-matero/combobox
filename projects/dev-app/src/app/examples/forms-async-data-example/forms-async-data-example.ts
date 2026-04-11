@@ -1,11 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  NgOptionHighlight,
-  NgOptionTemplate,
-  NgSelect,
-  NgSelect as NgSelect_1,
-} from '@ng-matero/ng-select';
+import { NgSelectOptionTemplate, NgSelect, NgSelectOptionHighlight } from '@ng-matero/ng-select';
 import { delay } from 'rxjs/operators';
 import { DataService } from '../data.service';
 
@@ -13,7 +8,13 @@ import { DataService } from '../data.service';
   selector: 'app-forms-async-data-example',
   templateUrl: './forms-async-data-example.html',
   styleUrl: './forms-async-data-example.scss',
-  imports: [FormsModule, ReactiveFormsModule, NgSelect_1, NgOptionTemplate, NgOptionHighlight],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelect,
+    NgSelectOptionTemplate,
+    NgSelectOptionHighlight,
+  ],
 })
 export class FormsAsyncDataExample implements OnInit {
   albums: any[] = [];

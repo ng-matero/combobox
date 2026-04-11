@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgSelect, NgTagTemplate } from '@ng-matero/ng-select';
+import { NgSelect, NgSelectTagTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-tags-backend-example',
   templateUrl: './tags-backend-example.html',
   styleUrl: './tags-backend-example.scss',
-  imports: [NgSelect, FormsModule, NgTagTemplate],
+  imports: [NgSelect, FormsModule, NgSelectTagTemplate],
 })
 export class TagsBackendExample implements OnInit {
   selectedCompanies: any[] = [];

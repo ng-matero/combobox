@@ -14,7 +14,7 @@ export interface PanelDimensions {
 }
 
 @Injectable({ providedIn: 'root' })
-export class NgDropdownPanelUtils {
+export class NgSelectPanelUtils {
   get dimensions() {
     return this._dimensions;
   }

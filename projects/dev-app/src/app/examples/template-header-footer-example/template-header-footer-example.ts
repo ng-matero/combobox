@@ -1,13 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgFooterTemplate, NgHeaderTemplate, NgSelect } from '@ng-matero/ng-select';
+import {
+  NgSelectPanelFooterTemplate,
+  NgSelectPanelHeaderTemplate,
+  NgSelect,
+} from '@ng-matero/ng-select';
 import { DataService, Person } from '../data.service';
 
 @Component({
   selector: 'app-template-header-footer-example',
   templateUrl: './template-header-footer-example.html',
   styleUrl: './template-header-footer-example.scss',
-  imports: [NgSelect, FormsModule, NgHeaderTemplate, NgFooterTemplate],
+  imports: [NgSelect, FormsModule, NgSelectPanelHeaderTemplate, NgSelectPanelFooterTemplate],
 })
 export class TemplateHeaderFooterExample implements OnInit {
   people: Person[] = [];

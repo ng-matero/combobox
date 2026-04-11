@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  NgLabelTemplate,
-  NgOptgroupTemplate,
-  NgOptionHighlight,
-  NgOptionTemplate,
+  NgSelectLabelTemplate,
+  NgSelectOptgroupTemplate,
+  NgSelectOptionTemplate,
   NgSelect,
+  NgSelectOptionHighlight,
 } from '@ng-matero/ng-select';
 
 @Component({
@@ -15,10 +15,10 @@ import {
   imports: [
     NgSelect,
     FormsModule,
-    NgLabelTemplate,
-    NgOptgroupTemplate,
-    NgOptionTemplate,
-    NgOptionHighlight,
+    NgSelectLabelTemplate,
+    NgSelectOptgroupTemplate,
+    NgSelectOptionTemplate,
+    NgSelectOptionHighlight,
   ],
 })
 export class TemplateOptgroupExample implements OnInit {

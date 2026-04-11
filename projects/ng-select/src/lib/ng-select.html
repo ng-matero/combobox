@@ -21,8 +21,8 @@
           <ng-template #defaultLabelTemplate>
             <span
               class="ng-value-label"
-              [ngItemLabel]="item.label || ''"
-              [escape]="escapeHTML"
+              [ngSelectLabelValue]="item.label || ''"
+              [ngSelectLabelEscape]="escapeHTML"
             ></span>
             <span class="ng-value-remove" (click)="unselect(item)" role="button">×</span>
           </ng-template>
@@ -93,7 +93,7 @@
 </div>
 
 @if (isOpen) {
-  <ng-dropdown-panel
+  <ng-select-panel
     [class.ng-select-multiple]="multiple"
     [class]="appendTo ? _classList : null"
     [listboxId]="listboxId"
@@ -132,8 +132,8 @@
         <ng-template #defaultOptionTemplate>
           <span
             class="ng-option-label"
-            [ngItemLabel]="item.label || ''"
-            [escape]="escapeHTML"
+            [ngSelectLabelValue]="item.label || ''"
+            [ngSelectLabelEscape]="escapeHTML"
           ></span>
         </ng-template>
         <ng-template
@@ -199,7 +199,7 @@
         [ngTemplateOutletContext]="{ searchTerm: searchTerm }"
       />
     }
-  </ng-dropdown-panel>
+  </ng-select-panel>
 }
 
 <!-- Always present aria-live region -->

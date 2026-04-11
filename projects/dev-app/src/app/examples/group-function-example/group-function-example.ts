@@ -1,13 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-group-function-example',
   templateUrl: './group-function-example.html',
   styleUrl: './group-function-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, JsonPipe],
+  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
 })
 export class GroupFunctionExample {
   selectedAccounts = ['Michael'];

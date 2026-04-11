@@ -1,13 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-group-default-example',
   templateUrl: './group-default-example.html',
   styleUrl: './group-default-example.scss',
-  imports: [NgSelect, FormsModule, NgOptgroupTemplate, JsonPipe],
+  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
 })
 export class GroupDefaultExample {
   selectedAccount = 'Adam';

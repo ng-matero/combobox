@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOptionHighlight, NgOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelectOptionTemplate, NgSelect, NgSelectOptionHighlight } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-option-example',
   templateUrl: './template-option-example.html',
   styleUrl: './template-option-example.scss',
-  imports: [NgSelect, FormsModule, NgOptionTemplate, NgOptionHighlight],
+  imports: [NgSelect, FormsModule, NgSelectOptionTemplate, NgSelectOptionHighlight],
 })
 export class TemplateOptionExample implements OnInit {
   cities = [

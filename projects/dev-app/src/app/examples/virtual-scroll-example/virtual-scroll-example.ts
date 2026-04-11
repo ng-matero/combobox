@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { NgHeaderTemplate, NgOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import {
+  NgSelectPanelHeaderTemplate,
+  NgSelectOptionTemplate,
+  NgSelect,
+} from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-virtual-scroll-example',
   templateUrl: './virtual-scroll-example.html',
   styleUrl: './virtual-scroll-example.scss',
-  imports: [NgSelect, NgHeaderTemplate, NgOptionTemplate],
+  imports: [NgSelect, NgSelectPanelHeaderTemplate, NgSelectOptionTemplate],
 })
 export class VirtualScrollExample implements OnInit {
   photos: any[] = [];

@@ -21,7 +21,7 @@ import {
 } from '@angular/core';
 import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
 import { auditTime, takeUntil } from 'rxjs/operators';
-import { NgDropdownPanelUtils } from './ng-dropdown-panel-utils';
+import { NgSelectPanelUtils } from './ng-select-panel-utils';
 import { DropdownPanelPosition, NgOptionItem, ScrollEvent } from './ng-select-types';
 import { isDefined } from './ng-select-utils';
 
@@ -30,10 +30,10 @@ const SCROLL_SCHEDULER =
   typeof requestAnimationFrame !== 'undefined' ? animationFrameScheduler : asapScheduler;
 
 @Component({
-  selector: 'ng-dropdown-panel',
+  selector: 'ng-select-panel',
   template: `
     @if (headerTemplate) {
-      <div class="ng-dropdown-header">
+      <div class="ng-select-panel-header">
         <ng-container
           [ngTemplateOutlet]="headerTemplate"
           [ngTemplateOutletContext]="{ searchTerm: filterValue }"
@@ -42,7 +42,7 @@ const SCROLL_SCHEDULER =
     }
     <div
       #scrollHost
-      class="ng-dropdown-panel-items"
+      class="ng-select-listbox"
       [class.ng-select-virtual-scroll-host]="virtualScroll"
       [attr.id]="listboxId"
       role="listbox"
@@ -53,7 +53,7 @@ const SCROLL_SCHEDULER =
       </div>
     </div>
     @if (footerTemplate) {
-      <div class="ng-dropdown-footer">
+      <div class="ng-select-panel-footer">
         <ng-container
           [ngTemplateOutlet]="footerTemplate"
           [ngTemplateOutletContext]="{ searchTerm: filterValue }"
@@ -63,12 +63,12 @@ const SCROLL_SCHEDULER =
   `,
   imports: [NgTemplateOutlet],
   host: {
-    class: 'ng-dropdown-panel',
+    class: 'ng-select-panel',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
+export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   @Input() listboxId = '';
   @Input() items: NgOptionItem[] = [];
   @Input() markedItem?: NgOptionItem;
@@ -96,7 +96,7 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   private _renderer = inject(Renderer2);
   private _zone = inject(NgZone);
   private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private _panelUtils = inject(NgDropdownPanelUtils);
+  private _panelUtils = inject(NgSelectPanelUtils);
 
   private readonly _destroy$ = new Subject<void>();
   private readonly _dropdown = this._elementRef.nativeElement;

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  NgLoadingTextTemplate,
-  NgNotFoundTemplate,
+  NgSelectLoadingTextTemplate,
+  NgSelectNotFoundTemplate,
   NgSelect,
-  NgTypeToSearchTemplate,
+  NgSelectTypeToSearchTemplate,
 } from '@ng-matero/ng-select';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { DataService, Person } from '../data.service';
@@ -16,9 +16,9 @@ import { DataService, Person } from '../data.service';
   imports: [
     NgSelect,
     FormsModule,
-    NgTypeToSearchTemplate,
-    NgNotFoundTemplate,
-    NgLoadingTextTemplate,
+    NgSelectTypeToSearchTemplate,
+    NgSelectNotFoundTemplate,
+    NgSelectLoadingTextTemplate,
   ],
 })
 export class TemplateDisplayExample implements OnInit {

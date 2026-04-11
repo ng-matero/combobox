@@ -290,7 +290,7 @@ $ng-select-input-text: #000 !default;
 	}
 }
 
-.ng-dropdown-panel {
+.ng-select-panel {
 	background-color: $ng-select-dropdown-bg;
 	border: 1px solid $ng-select-dropdown-border;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -303,7 +303,7 @@ $ng-select-input-text: #000 !default;
 		border-bottom-color: lighten($ng-select-border, 10);
 		margin-bottom: -1px;
 
-		.ng-dropdown-panel-items {
+		.ng-select-listbox {
 			.ng-option {
 				&:first-child {
 					border-top-right-radius: $ng-select-border-radius;
@@ -322,7 +322,7 @@ $ng-select-input-text: #000 !default;
 		border-bottom-color: lighten($ng-select-border, 10);
 		margin-bottom: -1px;
 
-		.ng-dropdown-panel-items {
+		.ng-select-listbox {
 			.ng-option {
 				&:first-child {
 					border-top-right-radius: $ng-select-border-radius;
@@ -338,7 +338,7 @@ $ng-select-input-text: #000 !default;
 		border-top-color: lighten($ng-select-border, 10);
 		margin-top: -1px;
 
-		.ng-dropdown-panel-items {
+		.ng-select-listbox {
 			.ng-option {
 				&:last-child {
 					border-bottom-right-radius: $ng-select-border-radius;
@@ -357,7 +357,7 @@ $ng-select-input-text: #000 !default;
 		border-bottom-color: lighten($ng-select-border, 10);
 		margin-bottom: -1px;
 
-		.ng-dropdown-panel-items {
+		.ng-select-listbox {
 			.ng-option {
 				&:first-child {
 					border-top-left-radius: $ng-select-border-radius;
@@ -366,17 +366,17 @@ $ng-select-input-text: #000 !default;
 		}
 	}
 
-	.ng-dropdown-header {
+	.ng-select-panel-header {
 		border-bottom: 1px solid $ng-select-border;
 		padding: 5px 7px;
 	}
 
-	.ng-dropdown-footer {
+	.ng-select-panel-footer {
 		border-top: 1px solid $ng-select-border;
 		padding: 5px 7px;
 	}
 
-	.ng-dropdown-panel-items {
+	.ng-select-listbox {
 		.ng-optgroup {
 			user-select: none;
 			padding: 8px 10px;

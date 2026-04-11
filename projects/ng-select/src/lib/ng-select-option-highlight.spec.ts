@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgOptionHighlight } from './ng-option-highlight';
+import { NgSelectOptionHighlight } from './ng-select-option-highlight';
 
 @Component({
   template: `
@@ -14,14 +14,14 @@ import { NgOptionHighlight } from './ng-option-highlight';
     }
     <span id="test6" [ngOptionHighlight]="term">+My text is) high\\lighted</span>
   `,
-  imports: [NgOptionHighlight],
+  imports: [NgSelectOptionHighlight],
 })
 class TestComponent {
   term = '';
   showNew = false;
 }
 
-describe('NgOptionHighlight', () => {
+describe('NgSelectOptionHighlight', () => {
   let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(() => {
@@ -33,7 +33,9 @@ describe('NgOptionHighlight', () => {
   });
 
   it('should have five elements with highlight directive', () => {
-    const highlightDirectives = fixture.debugElement.queryAll(By.directive(NgOptionHighlight));
+    const highlightDirectives = fixture.debugElement.queryAll(
+      By.directive(NgSelectOptionHighlight)
+    );
     expect(highlightDirectives.length).toBe(5);
   });
 

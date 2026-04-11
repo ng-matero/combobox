@@ -11,7 +11,7 @@ import {
 @Directive({
   selector: '[ngOptionHighlight]',
 })
-export class NgOptionHighlight implements OnChanges, AfterViewInit {
+export class NgSelectOptionHighlight implements OnChanges, AfterViewInit {
   @Input('ngOptionHighlight') term = '';
 
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

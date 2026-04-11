@@ -1386,7 +1386,7 @@ describe('NgSelect', () => {
       const select = fixture.componentInstance.select;
       select.open();
 
-      const panelItems = document.querySelector('.ng-dropdown-panel-items');
+      const panelItems = document.querySelector('.ng-select-listbox');
       const firstChild = panelItems?.firstChild as HTMLScriptElement;
 
       expect(firstChild.offsetHeight).toBe(0);
@@ -1421,7 +1421,7 @@ describe('NgSelect', () => {
       tickAndDetectChanges(fixture);
       fixture.detectChanges();
 
-      const panelItems = document.querySelector('.ng-dropdown-panel-items');
+      const panelItems = document.querySelector('.ng-select-listbox');
       const firstChild = panelItems?.firstChild as HTMLScriptElement;
 
       expect(firstChild.offsetHeight).not.toBe(0);
@@ -1541,7 +1541,7 @@ describe('NgSelect', () => {
       cmp.select.dropdownPanel.scrollTo(cmp.select.itemsList.items[1]);
       tickAndDetectChanges(fixture);
 
-      const panelItems = el.querySelector('.ng-dropdown-panel-items');
+      const panelItems = el.querySelector('.ng-select-listbox');
       expect(panelItems?.scrollTop).toBe(0);
     }));
 
@@ -1566,7 +1566,7 @@ describe('NgSelect', () => {
       cmp.select.dropdownPanel.scrollTo(cmp.select.itemsList.items[15]);
       tickAndDetectChanges(fixture);
 
-      const panelItems = el.querySelector('.ng-dropdown-panel-items');
+      const panelItems = el.querySelector('.ng-select-listbox');
       expect(panelItems?.scrollTop).toBeGreaterThanOrEqual(48);
     }));
 
@@ -1655,7 +1655,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.ng-select-panel') as HTMLElement;
         expect(dropdown).toBeNull();
       });
     }));
@@ -2103,7 +2103,7 @@ describe('NgSelect', () => {
         '.ng-select'
       )?.classList;
       const panelClasses = (fixture.nativeElement as HTMLElement).querySelector(
-        '.ng-dropdown-panel'
+        '.ng-select-panel'
       )?.classList;
       expect(select.panelPosition).toBe('auto');
       expect(selectClasses?.contains('ng-select-bottom')).toBeTruthy();
@@ -2126,7 +2126,7 @@ describe('NgSelect', () => {
         '.ng-select'
       )?.classList;
       const panelClasses = (fixture.nativeElement as HTMLElement).querySelector(
-        '.ng-dropdown-panel'
+        '.ng-select-panel'
       )?.classList;
       expect(select.panelPosition).toBe('top');
       expect(selectClasses?.contains('ng-select-bottom')).toBeFalsy();
@@ -2148,7 +2148,7 @@ describe('NgSelect', () => {
       const selectClasses = (fixture.nativeElement as HTMLElement).querySelector(
         '.ng-select'
       )?.classList;
-      const panelClasses = document.querySelector('.ng-dropdown-panel')?.classList;
+      const panelClasses = document.querySelector('.ng-select-panel')?.classList;
       expect(select.panelPosition).toBe('auto');
       expect(selectClasses?.contains('ng-select-bottom')).toBeTruthy();
       expect(panelClasses?.contains('ng-select-bottom')).toBeTruthy();
@@ -3704,7 +3704,7 @@ describe('NgSelect', () => {
         input.dispatchEvent(new Event('input'));
         tickAndDetectChanges(fixture);
         expect(select.searchTerm).toEqual(wrongSearchTerm);
-        const firstOption = select.element.querySelector('.ng-dropdown-panel .ng-option');
+        const firstOption = select.element.querySelector('.ng-select-panel .ng-option');
         expect(firstOption?.innerHTML).toEqual(selectConfig.notFoundText);
         input.blur();
         select.close();
@@ -3714,7 +3714,7 @@ describe('NgSelect', () => {
         input.focus();
         input.dispatchEvent(new Event('input'));
         tickAndDetectChanges(fixture);
-        const allOptions = select.element.querySelectorAll('.ng-dropdown-panel .ng-option');
+        const allOptions = select.element.querySelectorAll('.ng-select-panel .ng-option');
         expect(allOptions.length).toEqual(fixture.componentInstance.cities.length);
       }));
     });
@@ -4279,7 +4279,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.ng-select-panel') as HTMLElement;
         expect(dropdown.parentElement).toBe(document.body);
         expect(dropdown.style.top).not.toBe('0px');
         expect(dropdown.style.left).toBe('0px');
@@ -4301,7 +4301,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
         expect(dropdown.style.top).not.toBe('0px');
         expect(dropdown.style.left).toBe('0px');
       });
@@ -4327,7 +4327,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
         expect(dropdown.style.left).toBe('100px');
         expect(dropdown.style.width).toBe('100px');
       });
@@ -4350,7 +4350,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.ng-select-panel') as HTMLElement;
         expect(dropdown.parentElement).toBe(document.body);
         expect(dropdown.style.top).not.toBe('0px');
         expect(dropdown.style.left).toBe('0px');
@@ -4375,7 +4375,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
         expect(dropdown.style.top).not.toBe('0px');
         expect(dropdown.style.left).toBe('0px');
       });
@@ -4400,7 +4400,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
         expect(dropdown.classList.contains('someClass')).toBe(true);
       });
     }));
@@ -4425,7 +4425,7 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+        const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
         expect(dropdown.classList.contains('someClass')).toBe(true);
 
         fixture.componentInstance.visible = false;
@@ -4454,7 +4454,7 @@ describe('NgSelect', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+      const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
       expect(dropdown.classList.contains('someClass')).toBe(true);
     });
   }));
@@ -4479,7 +4479,7 @@ describe('NgSelect', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const dropdown = document.querySelector('.container .ng-dropdown-panel') as HTMLElement;
+      const dropdown = document.querySelector('.container .ng-select-panel') as HTMLElement;
       expect(dropdown.classList.contains('someClass')).toBe(true);
 
       fixture.componentInstance.visible = false;

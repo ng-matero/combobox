@@ -56,7 +56,7 @@
     box-sizing: border-box;
     opacity: 0;
 
-    > input {
+    >input {
       width: 100%;
       padding: 0;
       background: transparent;
@@ -160,7 +160,7 @@
   }
 }
 
-.ng-dropdown-panel {
+.ng-select-panel {
   box-sizing: border-box;
   position: absolute;
   z-index: 1050;
@@ -168,7 +168,7 @@
   opacity: 0;
   -webkit-overflow-scrolling: touch;
 
-  .ng-dropdown-panel-items {
+  .ng-select-listbox {
     display: block;
     height: auto;
     max-height: 240px;

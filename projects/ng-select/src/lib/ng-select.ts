@@ -29,24 +29,24 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { merge, Subject } from 'rxjs';
 import { debounceTime, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { ItemsList } from './items-list';
-import { NgDropdownPanel } from './ng-dropdown-panel';
-import { NgOption } from './ng-option';
 import { NgSelectConfig } from './ng-select-config';
+import { NgSelectOption } from './ng-select-option';
+import { NgSelectPanel } from './ng-select-panel';
 import {
-  NgClearButtonTemplate,
-  NgFooterTemplate,
-  NgHeaderTemplate,
-  NgItemLabel,
-  NgLabelTemplate,
-  NgLoadingSpinnerTemplate,
-  NgLoadingTextTemplate,
-  NgMultiLabelTemplate,
-  NgNotFoundTemplate,
-  NgOptgroupTemplate,
-  NgOptionTemplate,
-  NgPlaceholderTemplate,
-  NgTagTemplate,
-  NgTypeToSearchTemplate,
+  NgSelectClearButtonTemplate,
+  NgSelectLabelTemplate,
+  NgSelectLabelRenderer,
+  NgSelectLoadingTemplate,
+  NgSelectLoadingTextTemplate,
+  NgSelectMultiLabelTemplate,
+  NgSelectNotFoundTemplate,
+  NgSelectOptgroupTemplate,
+  NgSelectOptionTemplate,
+  NgSelectPanelFooterTemplate,
+  NgSelectPanelHeaderTemplate,
+  NgSelectPlaceholderTemplate,
+  NgSelectTagTemplate,
+  NgSelectTypeToSearchTemplate,
 } from './ng-select-templates';
 import {
   AddTagFn,
@@ -72,7 +72,7 @@ let nextUniqueId = 0;
   selector: 'ng-select',
   templateUrl: './ng-select.html',
   styleUrl: './ng-select.scss',
-  imports: [NgTemplateOutlet, NgItemLabel, NgDropdownPanel],
+  imports: [NgTemplateOutlet, NgSelectLabelRenderer, NgSelectPanel],
   host: {
     'class': 'ng-select',
     '[class.ng-select-single]': '!multiple',
@@ -237,37 +237,37 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Output() scroll = new EventEmitter<ScrollEvent>();
   @Output() scrollToEnd = new EventEmitter<void>();
 
-  @ViewChild(forwardRef(() => NgDropdownPanel)) dropdownPanel!: NgDropdownPanel;
+  @ViewChild(forwardRef(() => NgSelectPanel)) dropdownPanel!: NgSelectPanel;
   @ViewChild('searchInput', { static: true }) searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild('clearButton') clearButton?: ElementRef<HTMLSpanElement>;
-  @ContentChildren(NgOption, { descendants: true }) ngOptions?: QueryList<NgOption>;
+  @ContentChildren(NgSelectOption, { descendants: true }) ngOptions?: QueryList<NgSelectOption>;
 
   // custom templates
-  @ContentChild(NgOptionTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectOptionTemplate, { read: TemplateRef })
   optionTemplate?: TemplateRef<any>;
-  @ContentChild(NgOptgroupTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectOptgroupTemplate, { read: TemplateRef })
   optgroupTemplate?: TemplateRef<any>;
-  @ContentChild(NgLabelTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectLabelTemplate, { read: TemplateRef })
   labelTemplate?: TemplateRef<any>;
-  @ContentChild(NgMultiLabelTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectMultiLabelTemplate, { read: TemplateRef })
   multiLabelTemplate?: TemplateRef<any>;
-  @ContentChild(NgHeaderTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectPanelHeaderTemplate, { read: TemplateRef })
   headerTemplate?: TemplateRef<any>;
-  @ContentChild(NgFooterTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectPanelFooterTemplate, { read: TemplateRef })
   footerTemplate?: TemplateRef<any>;
-  @ContentChild(NgNotFoundTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectNotFoundTemplate, { read: TemplateRef })
   notFoundTemplate?: TemplateRef<any>;
-  @ContentChild(NgPlaceholderTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectPlaceholderTemplate, { read: TemplateRef })
   placeholderTemplate?: TemplateRef<any>;
-  @ContentChild(NgTypeToSearchTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectTypeToSearchTemplate, { read: TemplateRef })
   typeToSearchTemplate?: TemplateRef<any>;
-  @ContentChild(NgLoadingTextTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectLoadingTextTemplate, { read: TemplateRef })
   loadingTextTemplate?: TemplateRef<any>;
-  @ContentChild(NgTagTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectTagTemplate, { read: TemplateRef })
   tagTemplate?: TemplateRef<any>;
-  @ContentChild(NgLoadingSpinnerTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectLoadingTemplate, { read: TemplateRef })
   loadingSpinnerTemplate?: TemplateRef<any>;
-  @ContentChild(NgClearButtonTemplate, { read: TemplateRef })
+  @ContentChild(NgSelectClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 
   itemsList = new ItemsList(this, this.newSelectionModel?.() ?? DefaultSelectionModelFactory());
@@ -768,7 +768,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   private _setItemsFromNgOptions() {
-    const mapNgOptions = (options: QueryList<NgOption>) => {
+    const mapNgOptions = (options: QueryList<NgSelectOption>) => {
       this.items = options.map(option => ({
         $ngOptionValue: option.value,
         $ngOptionLabel: option.elementRef.nativeElement.innerHTML,
