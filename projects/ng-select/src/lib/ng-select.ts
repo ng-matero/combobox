@@ -146,7 +146,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() searchFn: SearchFn | null = null;
   @Input() keyDownFn = (e: KeyboardEvent) => true;
   @Input() trackByFn: TrackByFn | null = null;
-  @Input() appearance = this._config.appearance;
   @Input({ transform: numberAttribute }) tabIndex?: number;
   @Input() ariaLabel?: string | null;
   @Input() ariaLabelledby?: string | null;
