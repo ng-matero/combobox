@@ -3170,19 +3170,32 @@ describe('NgSelect', () => {
                     bindLabel="name"
                     [searchable]="false"
                     [(ngModel)]="selectedCity">
-                </ng-select>`
+        </ng-select>`
       );
-
+      const select = fixture.componentInstance.select;
       const selectInput = fixture.debugElement.query(By.css('.ng-select-control'));
+
+      const mockEvent = {
+        target: {
+          tagName: 'DIV',
+          classList: { contains: () => false },
+          closest: () => null,
+        },
+        button: 0,
+        preventDefault: () => {},
+      };
+
       // open
-      selectInput.triggerEventHandler('mousedown', createEvent());
+      selectInput.triggerEventHandler('mousedown', mockEvent);
       tickAndDetectChanges(fixture);
-      expect(fixture.componentInstance.select.isOpen).toBe(true);
+      expect(select.isOpen).toBe(true);
+
+      select.focused = true;
 
       // close
-      selectInput.triggerEventHandler('mousedown', createEvent());
+      selectInput.triggerEventHandler('mousedown', mockEvent);
       tickAndDetectChanges(fixture);
-      expect(fixture.componentInstance.select.isOpen).toBe(false);
+      expect(select.isOpen).toBe(false);
     }));
 
     it('should not filter when searchable false', fakeAsync(() => {
@@ -4044,18 +4057,29 @@ describe('NgSelect', () => {
         fixture = createTestingModule(
           NgSelectTestComponent,
           `<ng-select [items]="cities"
-                            bindLabel="name"
-                            [multiple]="true"
-                            [(ngModel)]="selectedCities">
-                    </ng-select>`
+                      bindLabel="name"
+                      [multiple]="true"
+                      [(ngModel)]="selectedCities">
+          </ng-select>`
         );
         select = fixture.componentInstance.select;
 
         tickAndDetectChanges(fixture);
         tickAndDetectChanges(fixture);
-        triggerMousedown = () => {
+        triggerMousedown = (eventProps: any = {}) => {
           const control = fixture.debugElement.query(By.css('.ng-select-control'));
-          control.triggerEventHandler('mousedown', createEvent({ className: 'ng-control' }));
+          const defaultEvent = {
+            target: {
+              tagName: 'DIV',
+              classList: {
+                contains: (c: string) => c === (eventProps.className || 'ng-select-control'),
+              },
+              closest: () => null,
+            },
+            button: 0,
+            preventDefault: () => {},
+          };
+          control.triggerEventHandler('mousedown', { ...defaultEvent, ...eventProps });
         };
       }));
 
@@ -4081,25 +4105,22 @@ describe('NgSelect', () => {
         fixture = createTestingModule(
           NgSelectTestComponent,
           `<ng-select [items]="cities"
-                            bindLabel="name"
-                            [multiple]="true"
-                            [(ngModel)]="selectedCities">
-                    </ng-select>`
+                      bindLabel="name"
+                      [multiple]="true"
+                      [(ngModel)]="selectedCities">
+          </ng-select>`
         );
         select = fixture.componentInstance.select;
-
-        event = createEvent({ tagName: 'INPUT' }) as any;
-        triggerMousedown = () => {
-          const control = fixture.debugElement.query(By.css('.ng-select-control'));
-          control.triggerEventHandler('mousedown', event);
-        };
+        fixture.detectChanges();
       }));
 
       it('should not prevent default', fakeAsync(() => {
-        const preventDefault = spyOn(event, 'preventDefault');
-        triggerMousedown();
+        const inputEl = fixture.nativeElement.querySelector('input');
+        const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        const preventDefaultSpy = spyOn(event, 'preventDefault').and.callThrough();
+        inputEl.dispatchEvent(event);
         tickAndDetectChanges(fixture);
-        expect(preventDefault).not.toHaveBeenCalled();
+        expect(preventDefaultSpy).not.toHaveBeenCalled();
       }));
     });
 
@@ -4129,12 +4150,14 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
           const control = fixture.debugElement.query(By.css('.ng-select-control'));
-          control.triggerEventHandler(
-            'mousedown',
-            createEvent({
-              classList: { contains: (term: string) => term === 'ng-select-clear' },
-            })
-          );
+          control.triggerEventHandler('mousedown', {
+            button: 0,
+            target: {
+              closest: (selector: string) => (selector === '.ng-select-clear' ? true : null),
+              tagName: 'SPAN',
+            },
+            preventDefault: () => {},
+          });
         };
       }));
 
@@ -4189,10 +4212,10 @@ describe('NgSelect', () => {
         fixture = createTestingModule(
           NgSelectTestComponent,
           `<ng-select [items]="cities"
-                            bindLabel="name"
-                            [multiple]="true"
-                            [(ngModel)]="selectedCities">
-                    </ng-select>`
+                      bindLabel="name"
+                      [multiple]="true"
+                      [(ngModel)]="selectedCities">
+          </ng-select>`
         );
         select = fixture.componentInstance.select;
 
@@ -4201,12 +4224,14 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
           const control = fixture.debugElement.query(By.css('.ng-select-control'));
-          control.triggerEventHandler(
-            'mousedown',
-            createEvent({
-              classList: { contains: (term: string) => term === 'ng-select-value-remove' },
-            })
-          );
+          control.triggerEventHandler('mousedown', {
+            button: 0,
+            target: {
+              closest: (selector: string) => (selector === '.ng-select-value-remove' ? true : null),
+              tagName: 'SPAN',
+            },
+            preventDefault: () => {},
+          });
         };
       }));
 
@@ -4238,12 +4263,14 @@ describe('NgSelect', () => {
         tickAndDetectChanges(fixture);
         triggerMousedown = () => {
           const control = fixture.debugElement.query(By.css('.ng-select-control'));
-          control.triggerEventHandler(
-            'mousedown',
-            createEvent({
-              classList: { contains: (term: string) => term === 'ng-select-arrow' },
-            })
-          );
+          control.triggerEventHandler('mousedown', {
+            button: 0,
+            target: {
+              closest: (selector: string) => (selector === '.ng-select-arrow' ? true : null),
+              tagName: 'SPAN',
+            },
+            preventDefault: () => {},
+          });
         };
       }));
 
