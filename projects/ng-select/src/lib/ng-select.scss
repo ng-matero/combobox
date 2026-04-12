@@ -18,14 +18,16 @@
   overflow: hidden;
 
   .ng-select-opened & {
-    z-index: 1001;
+    z-index: 1010;
   }
 }
 
 .ng-select-value-container {
+  position: relative;
   display: flex;
   flex: 1;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .ng-select-input-container {
@@ -35,6 +37,13 @@
 
   .ng-select-searchable & {
     opacity: 1;
+  }
+}
+
+.ng-select-value-remove {
+  svg {
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -54,42 +63,27 @@
   }
 }
 
-.ng-select-clear {
-  position: relative;
-  width: 17px;
-  user-select: none;
-}
-
-.ng-select-clear-icon {
-  display: inline-block;
-  font-size: 18px;
-  line-height: 1;
-  pointer-events: none;
-}
-
+.ng-select-clear,
 .ng-select-arrow {
   position: relative;
-  text-align: center;
-}
+  user-select: none;
 
-.ng-select-arrow-icon {
-  position: relative;
-  display: inline-block;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .ng-select-visually-hidden {
-  position: absolute !important;
+  position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
   border: 0;
   overflow: hidden;
-  clip-path: rect(0 0 0 0);
   white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 // status
@@ -113,7 +107,6 @@
     visibility: hidden;
   }
 
-  .ng-select-value-container,
   .ng-select-value {
     @include wrap-text;
   }
@@ -131,7 +124,9 @@
   }
 
   .ng-select-value {
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
   }
 
   &.ng-select-disabled,
@@ -151,16 +146,14 @@
 .ng-select-panel {
   box-sizing: border-box;
   position: absolute;
-  z-index: 1050;
+  z-index: 1080;
   width: 100%;
   opacity: 0;
   -webkit-overflow-scrolling: touch;
 }
 
 .ng-select-listbox {
-  display: block;
-  height: auto;
-  max-height: 240px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
@@ -182,7 +175,6 @@
 
 .ng-select-virtual-scroll-host {
   position: relative;
-  display: block;
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;

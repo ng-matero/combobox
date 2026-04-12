@@ -9,13 +9,13 @@
   [typeahead]="peopleTypeahead"
 >
   <ng-template ng-typetosearch-tmp>
-    <div class="ng-option disabled">Start typing...</div>
+    <div class="ng-select-option ng-select-option-disabled">Start typing...</div>
   </ng-template>
   <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
-    <div class="ng-option disabled">No data found for "{{ searchTerm }}"</div>
+    <div class="ng-select-option ng-select-option-disabled">No data found for "{{ searchTerm }}"</div>
   </ng-template>
   <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
-    <div class="ng-option disabled">Fetching data for "{{ searchTerm }}"</div>
+    <div class="ng-select-option ng-select-option-disabled">Fetching data for "{{ searchTerm }}"</div>
   </ng-template>
 </ng-select>
 

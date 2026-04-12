@@ -493,25 +493,30 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   handleMousedown(e: MouseEvent) {
-    if (this.preventToggleOnRightClick && e.button === 2) {
-      return;
-    }
+    if (this.preventToggleOnRightClick && e.button === 2) return;
+
     const target = e.target as HTMLElement;
-    if (target.tagName !== 'INPUT') {
+
+    const isInput = target.tagName === 'INPUT';
+    const isClearClick = !!target.closest('.ng-select-clear');
+    const isArrowClick = !!target.closest('.ng-select-arrow');
+    const isValueRemoveClick = !!target.closest('.ng-select-value-remove');
+
+    if (!isInput) {
       e.preventDefault();
     }
 
-    if (target.classList.contains('ng-select-clear')) {
+    if (isClearClick) {
       this.handleClearClick();
       return;
     }
 
-    if (target.classList.contains('ng-select-arrow')) {
+    if (isArrowClick) {
       this.handleArrowClick();
       return;
     }
 
-    if (target.classList.contains('ng-select-value-remove')) {
+    if (isValueRemoveClick) {
       return;
     }
 
@@ -519,11 +524,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       this.focus();
     }
 
-    if (this.searchable) {
-      this.open();
-    } else {
-      this.toggle();
+    if (this.searchable && this.isOpen) {
+      return;
     }
+
+    this.toggle();
   }
 
   handleArrowClick() {
