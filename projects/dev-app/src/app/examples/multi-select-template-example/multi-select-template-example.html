@@ -1,6 +1,6 @@
 <p>
   Custom template for each selected item using
-  <b>ng-label-tmp</b>
+  <b>ngSelectLabel</b>
 </p>
 
 <ng-select
@@ -10,7 +10,7 @@
   bindValue="login"
   [(ngModel)]="selectedUsers"
 >
-  <ng-template ng-label-tmp let-item="item" let-clear="clear">
+  <ng-template ngSelectLabel let-item="item" let-clear="clear">
     <span class="ng-select-value-label">
       <img [src]="item.avatar_url" width="20px" height="20px" alt="" />
       {{ item.login }}
@@ -18,7 +18,7 @@
     <span class="ng-select-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
   </ng-template>
 
-  <ng-template ng-option-tmp let-item="item">
+  <ng-template ngSelectOption let-item="item">
     <img [src]="item.avatar_url" width="20px" height="20px" alt="" />
     {{ item.login }}
   </ng-template>

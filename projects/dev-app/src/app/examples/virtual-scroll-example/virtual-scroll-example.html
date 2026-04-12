@@ -13,12 +13,12 @@
   (scroll)="onScroll($event)"
   (scrollToEnd)="onScrollToEnd()"
 >
-  <ng-template ng-header-tmp>
+  <ng-template ngSelectPanelHeader>
     <small class="form-text text-muted">
       Loaded {{ photosBuffer.length }} of {{ photos.length }}
     </small>
   </ng-template>
-  <ng-template ng-option-tmp let-item="item" let-index="index">
+  <ng-template ngSelectOption let-item="item" let-index="index">
     <b>{{ index }}</b>
     {{ item.title }}
   </ng-template>

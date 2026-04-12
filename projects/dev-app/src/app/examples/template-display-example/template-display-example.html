@@ -8,13 +8,13 @@
   bindValue="name"
   [typeahead]="peopleTypeahead"
 >
-  <ng-template ng-typetosearch-tmp>
+  <ng-template ngSelectTypeToSearch>
     <div class="ng-select-option ng-select-option-disabled">Start typing...</div>
   </ng-template>
-  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+  <ng-template ngSelectNotFound let-searchTerm="searchTerm">
     <div class="ng-select-option ng-select-option-disabled">No data found for "{{ searchTerm }}"</div>
   </ng-template>
-  <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
+  <ng-template ngSelectLoadingText let-searchTerm="searchTerm">
     <div class="ng-select-option ng-select-option-disabled">Fetching data for "{{ searchTerm }}"</div>
   </ng-template>
 </ng-select>

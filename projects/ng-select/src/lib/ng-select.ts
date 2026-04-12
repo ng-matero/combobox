@@ -251,9 +251,9 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgSelectMultiLabelTemplate, { read: TemplateRef })
   multiLabelTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectPanelHeaderTemplate, { read: TemplateRef })
-  headerTemplate?: TemplateRef<any>;
+  panelHeaderTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectPanelFooterTemplate, { read: TemplateRef })
-  footerTemplate?: TemplateRef<any>;
+  panelFooterTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectNotFoundTemplate, { read: TemplateRef })
   notFoundTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectPlaceholderTemplate, { read: TemplateRef })
@@ -265,7 +265,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @ContentChild(NgSelectTagTemplate, { read: TemplateRef })
   tagTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectLoadingTemplate, { read: TemplateRef })
-  loadingSpinnerTemplate?: TemplateRef<any>;
+  loadingTemplate?: TemplateRef<any>;
   @ContentChild(NgSelectClearButtonTemplate, { read: TemplateRef })
   clearButtonTemplate?: TemplateRef<any>;
 

@@ -10,11 +10,11 @@
       [virtualScroll]="true"
       formControlName="photo"
     >
-      <ng-template ng-label-tmp let-item="item">
+      <ng-template ngSelectLabel let-item="item">
         <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
         <span>{{ item.title }}</span>
       </ng-template>
-      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+      <ng-template ngSelectOption let-item="item" let-index="index" let-search="searchTerm">
         <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
         <span [ngOptionHighlight]="search">{{ item.title }}</span>
       </ng-template>
@@ -54,11 +54,11 @@
           [virtualScroll]="true"
           formControlName="photo"
         >
-          <ng-template ng-label-tmp let-item="item">
+          <ng-template ngSelectLabel let-item="item">
             <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
             <span>{{ item.title }}</span>
           </ng-template>
-          <ng-template ng-option-tmp let-item="item" let-index="index">
+          <ng-template ngSelectOption let-item="item" let-index="index">
             <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
             <span>{{ item.title }}</span>
           </ng-template>

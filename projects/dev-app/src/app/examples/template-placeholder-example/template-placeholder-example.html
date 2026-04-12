@@ -1,6 +1,6 @@
 <p>
   Custom placeholder using
-  <b>ng-placeholder-tmp</b>
+  <b>ngSelectPlaceholder</b>
 </p>
 
 <ng-select
@@ -10,11 +10,11 @@
   bindValue="name"
   searchable="true"
 >
-  <ng-template ng-placeholder-tmp>
+  <ng-template ngSelectPlaceholder>
     <img height="15" width="15" [src]="placeholderAvatar" alt="" />
     Select your city
   </ng-template>
-  <ng-template ng-label-tmp let-item="item">
+  <ng-template ngSelectLabel let-item="item">
     <img height="15" width="15" [src]="item.avatar" alt="" />
     {{ item.name }}
   </ng-template>

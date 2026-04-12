@@ -2191,7 +2191,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities" [(ngModel)]="selectedCity">
-                    <ng-template ng-label-tmp let-item="item">
+                    <ng-template ngSelectLabel let-item="item">
                         <div class="custom-header">{{item.name}}</div>
                     </ng-template>
                 </ng-select>`
@@ -2249,7 +2249,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities" [(ngModel)]="selectedCity">
-                    <ng-template ng-option-tmp let-item="item">
+                    <ng-template ngSelectOption let-item="item">
                         <div class="custom-option">{{item.name}}</div>
                     </ng-template>
                 </ng-select>`
@@ -2268,7 +2268,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities" [multiple]="true" [(ngModel)]="selectedCities">
-                    <ng-template ng-multi-label-tmp let-items="items">
+                    <ng-template ngSelectMultiLabel let-items="items">
                         <div class="custom-multi-label">selected {{items.length}}</div>
                     </ng-template>
                 </ng-select>`
@@ -2286,10 +2286,10 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities" [(ngModel)]="selectedCity">
-                    <ng-template ng-header-tmp>
+                    <ng-template ngSelectPanelHeader>
                         <span class="header-label">header</span>
                     </ng-template>
-                    <ng-template ng-footer-tmp>
+                    <ng-template ngSelectPanelFooter>
                         <span class="footer-label">footer</span>
                     </ng-template>
                 </ng-select>`
@@ -2311,7 +2311,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities" [(ngModel)]="selectedCity" [addTag]="true">
-                    <ng-template ng-tag-tmp let-search="searchTerm">
+                    <ng-template ngSelectTag let-search="searchTerm">
                         <span class="tag-template">{{searchTerm}}</span>
                     </ng-template>
                 </ng-select>`
@@ -2334,12 +2334,12 @@ describe('NgSelect', () => {
                             [loading]="citiesLoading"
                             [(ngModel)]="selectedCity">
 
-                    <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                    <ng-template ngSelectNotFound let-searchTerm="searchTerm">
                         <div class="custom-notfound">
                             No data found for "{{searchTerm}}"
                         </div>
                     </ng-template>
-                    <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
+                    <ng-template ngSelectLoadingText let-searchTerm="searchTerm">
                         <div class="custom-loading">
                             Fetching Data for "{{searchTerm}}"
                         </div>
@@ -2371,7 +2371,7 @@ describe('NgSelect', () => {
         `<ng-select [items]="cities"
                             [typeahead]="filter"
                             [(ngModel)]="selectedCity">
-                    <ng-template ng-typetosearch-tmp>
+                    <ng-template ngSelectTypeToSearch>
                         <div class="custom-typeforsearch">
                             Start typing...
                         </div>
@@ -2399,7 +2399,7 @@ describe('NgSelect', () => {
                             [loading]="true"
                             [(ngModel)]="selectedCity">
 
-                    <ng-template ng-loadingspinner-tmp>
+                    <ng-template ngSelectLoading>
                         <div class="custom-loadingspinner">
                             Custom loading spinner
                         </div>
@@ -2438,7 +2438,7 @@ describe('NgSelect', () => {
                             [loading]="true"
                             [(ngModel)]="selectedCity">
 
-                    <ng-template ng-clearbutton-tmp>
+                    <ng-template ngSelectClearButton>
                         <div class="custom-clearbutton">
                             Custom clear button
                         </div>
@@ -2459,7 +2459,7 @@ describe('NgSelect', () => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [(ngModel)]="selectedCity">
-					<ng-template ng-placeholder-tmp>
+					<ng-template ngSelectPlaceholder>
 						<div class="placeholder-template">Select your city</div>
 					</ng-template>
                 </ng-select>`

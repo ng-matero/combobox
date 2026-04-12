@@ -1,5 +1,5 @@
 <p>
-  Group by children array. Note that when grouping by already grouped items ng-optgroup-tmp is
+  Group by children array. Note that when grouping by already grouped items ngSelectOptgroup is
   required to display correct headers.
 </p>
 
@@ -11,10 +11,10 @@
   [multiple]="true"
   [(ngModel)]="selectedProjects"
 >
-  <ng-template ng-optgroup-tmp let-item="item">
+  <ng-template ngSelectOptgroup let-item="item">
     {{ item.title }}
   </ng-template>
-  <ng-template ng-option-tmp let-item="item">
+  <ng-template ngSelectOption let-item="item">
     {{ item.title }}
   </ng-template>
 </ng-select>

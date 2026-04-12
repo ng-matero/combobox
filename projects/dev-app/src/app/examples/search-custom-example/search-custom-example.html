@@ -5,7 +5,7 @@
 </p>
 
 <ng-select [items]="people" bindLabel="name" [loading]="peopleLoading" [searchFn]="customSearchFn">
-  <ng-template ng-option-tmp let-item="item">
+  <ng-template ngSelectOption let-item="item">
     {{ item.name }}
     <br />
     <small>{{ item.gender }}</small>

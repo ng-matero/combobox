@@ -13,7 +13,7 @@ import {
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'ng-option',
+  selector: 'ng-option, ng-select-option',
   template: `
     <ng-content />
   `,

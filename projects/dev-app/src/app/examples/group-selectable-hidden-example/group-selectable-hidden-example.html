@@ -11,7 +11,7 @@
   [compareWith]="compareAccounts"
   [(ngModel)]="selectedAccounts"
 >
-  <ng-template ng-optgroup-tmp let-item="item">
+  <ng-template ngSelectOptgroup let-item="item">
     {{ item.country || 'Unnamed group' }}
   </ng-template>
 </ng-select>

@@ -1,6 +1,6 @@
 <p>
   Custom template for all selected items using
-  <b>ng-multi-label-tmp</b>
+  <b>ngSelectMultiLabel</b>
 </p>
 
 <ng-select
@@ -11,7 +11,7 @@
   placeholder="Select items"
   [(ngModel)]="selectedUsers"
 >
-  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+  <ng-template ngSelectMultiLabel let-items="items" let-clear="clear">
     @for (item of items | slice: 0 : 2; track item) {
       <div class="ng-select-value">
         <span class="ng-select-value-label">

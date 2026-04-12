@@ -15,7 +15,7 @@
   [multiple]="true"
   [(ngModel)]="selectedAccounts"
 >
-  <ng-template ng-optgroup-tmp let-item="item">
+  <ng-template ngSelectOptgroup let-item="item">
     <span style="vertical-align: middle">{{ item.name }}</span>
     <span class="ml-1 badge badge-secondary">{{ item.total }}</span>
   </ng-template>

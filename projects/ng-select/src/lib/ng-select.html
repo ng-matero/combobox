@@ -81,7 +81,7 @@
     <ng-template #defaultLoadingSpinnerTemplate>
       <div class="ng-select-spinner"></div>
     </ng-template>
-    <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate" />
+    <ng-template [ngTemplateOutlet]="loadingTemplate || defaultLoadingSpinnerTemplate" />
   }
 
   @if (showClearButton) {
@@ -120,8 +120,8 @@
     [bufferAmount]="bufferAmount"
     [appendTo]="appendTo"
     [position]="panelPosition"
-    [headerTemplate]="headerTemplate"
-    [footerTemplate]="footerTemplate"
+    [headerTemplate]="panelHeaderTemplate"
+    [footerTemplate]="panelFooterTemplate"
     [filterValue]="searchTerm"
     [items]="itemsList.filteredItems"
     [markedItem]="itemsList.markedItem"

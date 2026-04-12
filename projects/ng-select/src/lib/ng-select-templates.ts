@@ -18,91 +18,91 @@ export class NgSelectLabelRenderer implements OnChanges {
 }
 
 @Directive({
-  selector: '[ng-option-tmp]',
+  selector: '[ngSelectOption]',
 })
 export class NgSelectOptionTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-optgroup-tmp]',
+  selector: '[ngSelectOptgroup]',
 })
 export class NgSelectOptgroupTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-label-tmp]',
+  selector: '[ngSelectLabel]',
 })
 export class NgSelectLabelTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-multi-label-tmp]',
+  selector: '[ngSelectMultiLabel]',
 })
 export class NgSelectMultiLabelTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-header-tmp]',
+  selector: '[ngSelectPanelHeader]',
 })
 export class NgSelectPanelHeaderTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-footer-tmp]',
+  selector: '[ngSelectPanelFooter]',
 })
 export class NgSelectPanelFooterTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-notfound-tmp]',
+  selector: '[ngSelectNotFound]',
 })
 export class NgSelectNotFoundTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-placeholder-tmp]',
+  selector: '[ngSelectPlaceholder]',
 })
 export class NgSelectPlaceholderTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-typetosearch-tmp]',
+  selector: '[ngSelectTypeToSearch]',
 })
 export class NgSelectTypeToSearchTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-loadingtext-tmp]',
+  selector: '[ngSelectLoadingText]',
 })
 export class NgSelectLoadingTextTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-tag-tmp]',
+  selector: '[ngSelectTag]',
 })
 export class NgSelectTagTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-loadingspinner-tmp]',
+  selector: '[ngSelectLoading]',
 })
 export class NgSelectLoadingTemplate {
   template = inject(TemplateRef);
 }
 
 @Directive({
-  selector: '[ng-clearbutton-tmp]',
+  selector: '[ngSelectClearButton]',
 })
 export class NgSelectClearButtonTemplate {
   template = inject(TemplateRef);

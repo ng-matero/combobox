@@ -7,15 +7,15 @@
   bindLabel="name"
   bindValue="name"
 >
-  <ng-template ng-label-tmp let-item="item">
+  <ng-template ngSelectLabel let-item="item">
     <img height="15" width="15" [src]="item.avatar" alt="" />
     <b>{{ item.name }}</b>
   </ng-template>
-  <ng-template ng-optgroup-tmp let-item="item" let-index="index">
+  <ng-template ngSelectOptgroup let-item="item" let-index="index">
     City group logo
     <img height="15" width="15" [src]="item.avatar" alt="" />
   </ng-template>
-  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+  <ng-template ngSelectOption let-item="item" let-index="index" let-search="searchTerm">
     <b [ngOptionHighlight]="search">{{ item.name }}</b>
   </ng-template>
 </ng-select>

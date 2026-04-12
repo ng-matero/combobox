@@ -12,7 +12,7 @@
       [virtualScroll]="true"
       formControlName="album"
     >
-      <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+      <ng-template ngSelectOption let-item="item" let-search="searchTerm">
         <div>
           <span>Title:</span>
           <span [ngOptionHighlight]="search">{{ item.title }}</span>
