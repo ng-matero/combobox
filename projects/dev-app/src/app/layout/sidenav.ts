@@ -22,30 +22,27 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     }
 
     // All levels of nav
-    .nav > li > a {
-      display: block;
-      color: rgba(0, 0, 0, 0.65);
-      font-weight: 500;
-    }
+    .nav {
+      --bs-nav-pills-link-active-bg: transparent;
+      --bs-nav-link-padding-x: 0;
 
-    .nav > li > a:hover {
-      color: rgba(0, 0, 0, 0.85);
-      text-decoration: none;
-      background-color: transparent;
-    }
+      > li {
+        > a {
+          display: block;
+          color: rgb(122, 134, 154);
 
-    .nav > .active > a,
-    .nav > .active:hover > a {
-      font-weight: 500;
-      color: rgba(0, 0, 0, 0.85);
-      background-color: transparent;
-    }
+          &:hover {
+            color: rgb(38, 132, 255);
+          }
+        }
 
-    .nav > .active > a.active {
-      border: 0 #343a40 solid;
-      border-left-width: 4px;
-      background-color: rgba(248, 248, 248, 0.62);
-      border-radius: 0;
+        &.active {
+          a {
+            color: light-dark(rgb(9, 30, 66), rgb(225, 235, 255));
+            font-weight: 500;
+          }
+        }
+      }
     }
   `,
   imports: [RouterLinkActive, RouterLink],

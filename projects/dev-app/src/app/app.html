@@ -1,11 +1,11 @@
-<app-layout-header [(dir)]="dir" [(theme)]="theme" />
+<app-layout-header />
 
-<div class="container py-3" [attr.dir]="dir">
+<div class="container py-3">
   <div class="row">
-    <div class="col-12 col-md-3 col-xl-3">
+    <aside class="col-12 col-md-3">
       <app-layout-sidenav class="bd-sidebar" />
-    </div>
-    <main class="col-12 col-md-9 col-xl-8">
+    </aside>
+    <main class="col-12 col-md-9">
       <router-outlet />
     </main>
   </div>

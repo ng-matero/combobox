@@ -6,7 +6,6 @@ import { DataSourceArrayExample } from './data-source-array-example/data-source-
 import { DataSourceBackendExample } from './data-source-backend-example/data-source-backend-example';
 import { DataSourceOptionsExample } from './data-source-options-example/data-source-options-example';
 import { DropdownPositionExample } from './dropdown-position-example/dropdown-position-example';
-import { FixedPlaceholderExample } from './fixed-placeholder-example/fixed-placeholder-example';
 import { FormsAsyncDataExample } from './forms-async-data-example/forms-async-data-example';
 import { FormsCustomTemplateExample } from './forms-custom-template-example/forms-custom-template-example';
 import { FormsMultiSelectExample } from './forms-multi-select-example/forms-multi-select-example';
@@ -206,10 +205,6 @@ export const EXAMPLE_COMPONENTS: Record<string, Example> = {
   'dropdown-position-example': {
     component: DropdownPositionExample,
     title: 'Dropdown position',
-  },
-  'fixed-placeholder-example': {
-    component: FixedPlaceholderExample,
-    title: 'Fixed Placeholder',
   },
   'append-to-example': {
     component: AppendToExample,

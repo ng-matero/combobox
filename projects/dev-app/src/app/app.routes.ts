@@ -63,11 +63,6 @@ export const routes: Routes = [
     data: { title: 'Dropdown position', examples: 'dropdown-position' },
   },
   {
-    path: 'fixed-placeholder',
-    component: RouteViewer,
-    data: { title: 'Fixed Placeholder', examples: 'fixed-placeholder-example' },
-  },
-  {
     path: 'append-to-element',
     component: RouteViewer,
     data: { title: 'Append to element', examples: 'append-to' },

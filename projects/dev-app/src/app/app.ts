@@ -11,23 +11,14 @@ import { LayoutSidenav } from './layout/sidenav';
   templateUrl: './app.html',
   styleUrl: './app.scss',
   imports: [LayoutHeader, LayoutSidenav, RouterOutlet],
-  host: {
-    '[class]': 'themeClass',
-  },
 })
 export class App implements OnInit {
   title = '';
-  dir: 'ltr' | 'rtl' = 'ltr';
-  theme: 'default' | 'ant' | 'material' = 'default';
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private titleService = inject(Title);
   private config = inject(NgSelectConfig);
-
-  get themeClass() {
-    return `${this.theme}-theme`;
-  }
 
   constructor() {
     this.config.placeholder = 'Select item';

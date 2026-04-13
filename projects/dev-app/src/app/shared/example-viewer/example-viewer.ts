@@ -25,19 +25,13 @@ export class ExampleHostDirective {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-weight: 500;
-      color: rgba(0, 0, 0, 0.54);
-    }
-
-    a.btn {
-      color: rgba(0, 0, 0, 0.54);
     }
 
     .card {
       margin-bottom: 20px;
     }
   `,
-  imports: [StackblitzButton, ExampleHostDirective],
+  imports: [ExampleHostDirective],
 })
 export class ExampleViewer implements OnInit {
   @Input() example = '';

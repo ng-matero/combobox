@@ -6,6 +6,18 @@
 body {
   position: relative;
   -webkit-font-smoothing: antialiased;
+  color: #253858;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.theme-dark {
+  color-scheme: dark;
+}
+
+.container {
+  max-width: 800px;
 }
 
 .ng-invalid.ng-touched .ng-select-control {
@@ -15,6 +27,6 @@ body {
     0 0 0 3px #fde6e8;
 }
 
-.btn + .btn {
+.btn+.btn {
   margin-left: 6px;
 }
