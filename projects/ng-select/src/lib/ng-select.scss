@@ -93,6 +93,11 @@
   .ng-select-value {
     user-select: none;
   }
+
+  .ng-select-clear,
+  .ng-select-arrow {
+    pointer-events: none;
+  }
 }
 
 .ng-select-filtered,
@@ -127,6 +132,10 @@
     display: inline-flex;
     align-items: center;
     overflow: hidden;
+
+    &.ng-select-value-disabled {
+      user-select: none;
+    }
   }
 
   &.ng-select-disabled,
@@ -199,16 +208,14 @@
   position: relative;
   width: 16px;
   height: 16px;
-  margin: 0 4px;
-  font-size: 10px;
-  text-indent: -9999em;
+  margin: auto 4px;
   border-radius: 50%;
   border: 2px solid rgba(66, 66, 66, 0.2);
-  border-left-color: #424242;
-  animation: load8 0.8s infinite linear;
+  border-left-color: #666;
+  animation: ng-select-spinning 0.8s infinite linear;
 }
 
-@keyframes load8 {
+@keyframes ng-select-spinning {
   0% {
     transform: rotate(0deg);
   }
