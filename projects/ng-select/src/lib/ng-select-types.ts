@@ -22,7 +22,7 @@ export interface ScrollEvent {
   end: number;
 }
 
-export type DropdownPanelPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';
+export type PanelPosition = 'top' | 'right' | 'bottom' | 'left' | 'auto';
 
 export type AddTagFn = (term: string) => any | Promise<any>;
 

@@ -34,8 +34,8 @@ import { NgSelectOption } from './ng-select-option';
 import { NgSelectPanel } from './ng-select-panel';
 import {
   NgSelectClearButtonTemplate,
-  NgSelectLabelTemplate,
   NgSelectLabelRenderer,
+  NgSelectLabelTemplate,
   NgSelectLoadingTemplate,
   NgSelectLoadingTextTemplate,
   NgSelectMultiLabelTemplate,
@@ -51,9 +51,9 @@ import {
 import {
   AddTagFn,
   CompareWithFn,
-  DropdownPanelPosition,
   GroupValueFn,
   NgOptionItem,
+  PanelPosition,
   ScrollEvent,
   SearchEvent,
   SearchFn,
@@ -112,7 +112,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() placeholder = this._config.placeholder;
   @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
   @Input() appendTo = this._config.appendTo;
-  @Input() panelPosition: DropdownPanelPosition = 'auto';
+  @Input() panelPosition: PanelPosition = 'auto';
   @Input({ transform: booleanAttribute }) panelDisabled = false;
   @Input({ transform: booleanAttribute }) readonly = false;
   @Input({ transform: booleanAttribute }) multiple = false;

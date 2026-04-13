@@ -22,7 +22,7 @@ import {
 import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
 import { auditTime, takeUntil } from 'rxjs/operators';
 import { NgSelectPanelUtils } from './ng-select-panel-utils';
-import { DropdownPanelPosition, NgOptionItem, ScrollEvent } from './ng-select-types';
+import { NgOptionItem, PanelPosition, ScrollEvent } from './ng-select-types';
 import { isDefined } from './ng-select-utils';
 
 const CSS_POSITIONS: readonly string[] = ['top', 'right', 'bottom', 'left'];
@@ -72,7 +72,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   @Input() listboxId = '';
   @Input() items: NgOptionItem[] = [];
   @Input() markedItem?: NgOptionItem;
-  @Input() position: DropdownPanelPosition = 'auto';
+  @Input() position: PanelPosition = 'auto';
   @Input() appendTo?: string;
   @Input() bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll = false;
@@ -112,7 +112,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   get currentPosition() {
     return this._currentPosition;
   }
-  private _currentPosition: DropdownPanelPosition = 'auto';
+  private _currentPosition: PanelPosition = 'auto';
 
   private get itemsLength() {
     return this._itemsLength;
