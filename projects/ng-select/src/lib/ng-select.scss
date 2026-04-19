@@ -33,11 +33,6 @@
 .ng-select-input-container {
   position: relative;
   box-sizing: border-box;
-  opacity: 0;
-
-  .ng-select-searchable & {
-    opacity: 1;
-  }
 }
 
 .ng-select-value-remove {
@@ -57,9 +52,8 @@
   cursor: default;
 
   &[readonly] {
-    user-select: unset;
     width: 0;
-    padding: 0;
+    user-select: unset;
   }
 }
 

@@ -600,6 +600,14 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._cdr.markForCheck();
   }
 
+  focus() {
+    this.searchInput.nativeElement.focus();
+  }
+
+  blur() {
+    this.searchInput.nativeElement.blur();
+  }
+
   toggleItem(item: NgOptionItem) {
     if (!item || item.disabled || this.disabled) {
       return;
@@ -634,14 +642,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
 
     this._onSelectionChanged();
-  }
-
-  focus() {
-    this.searchInput.nativeElement.focus();
-  }
-
-  blur() {
-    this.searchInput.nativeElement.blur();
   }
 
   unselect(item?: NgOptionItem | null) {

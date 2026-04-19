@@ -1,6 +1,13 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
+<div class="ng-select-visually-hidden" aria-atomic="true" aria-live="polite" role="status">
+  @if (isOpen && showNoItemsFound) {
+    {{ notFoundText }}
+  }
+</div>
+
 <div
   class="ng-select-control"
   [class.ng-select-has-value]="hasValue"
@@ -113,8 +120,8 @@
 
 @if (isOpen) {
   <ng-select-panel
-    [class.ng-select-multiple]="multiple"
     [class]="appendTo ? _classList : null"
+    [multiple]="multiple"
     [listboxId]="listboxId"
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"
@@ -218,10 +225,3 @@
     }
   </ng-select-panel>
 }
-
-<!-- Always present aria-live region -->
-<div class="ng-select-visually-hidden" aria-atomic="true" aria-live="polite" role="status">
-  @if (isOpen && showNoItemsFound) {
-    {{ notFoundText }}
-  }
-</div>
