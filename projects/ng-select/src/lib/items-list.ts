@@ -243,6 +243,7 @@ export class ItemsList {
       index,
       label: isDefined(label) ? label.toString() : '',
       value,
+      viewValue: item.viewValue || label,
       disabled: item.disabled,
       htmlId: `${this._ngSelect._uid}-option-${index}`,
     };

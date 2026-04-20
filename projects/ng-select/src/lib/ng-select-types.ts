@@ -8,6 +8,7 @@ export interface NgOptionItem {
   marked?: boolean;
   label?: string;
   value?: string | any;
+  viewValue?: string | null;
   parent?: NgOptionItem | null;
   children?: NgOptionItem[] | null;
 }
