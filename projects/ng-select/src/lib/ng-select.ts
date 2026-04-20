@@ -344,7 +344,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   private get _isTypeahead() {
-    return this.typeahead && this.typeahead.observers.length > 0;
+    return this.typeahead && this.typeahead.observed;
   }
 
   private get _validTerm() {
