@@ -1,9 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  DOCUMENT,
   ElementRef,
   EventEmitter,
   inject,
