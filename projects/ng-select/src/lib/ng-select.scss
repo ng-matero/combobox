@@ -8,14 +8,8 @@
   position: relative;
   display: block;
 
-  &.ng-select-searchable {
-    .ng-input {
-      opacity: 1;
-    }
-  }
-
   &.ng-select-opened .ng-select-container {
-    z-index: 1001;
+    z-index: 1010;
   }
 
   &.ng-select-disabled {
@@ -54,7 +48,6 @@
 
   .ng-input {
     box-sizing: border-box;
-    opacity: 0;
 
     > input {
       width: 100%;
@@ -70,9 +63,8 @@
       }
 
       &[readonly] {
-        user-select: unset;
         width: 0;
-        padding: 0;
+        user-select: unset;
       }
     }
   }
@@ -94,7 +86,7 @@
     .ng-input {
       position: absolute;
       left: 0;
-      width: 100%;
+      right: 0;
     }
   }
 
@@ -109,7 +101,6 @@
 
     .ng-placeholder {
       position: absolute;
-      z-index: 1;
     }
 
     .ng-value {
@@ -126,7 +117,6 @@
 
     .ng-input {
       flex: 1;
-      z-index: 2;
     }
   }
 
@@ -163,7 +153,7 @@
 .ng-dropdown-panel {
   box-sizing: border-box;
   position: absolute;
-  z-index: 1050;
+  z-index: 1080;
   width: 100%;
   opacity: 0;
   -webkit-overflow-scrolling: touch;

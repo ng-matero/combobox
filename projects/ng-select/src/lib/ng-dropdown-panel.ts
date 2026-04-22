@@ -1,9 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  DOCUMENT,
   ElementRef,
   EventEmitter,
   inject,
@@ -45,10 +44,15 @@ const SCROLL_SCHEDULER =
       class="ng-dropdown-panel-items"
       [class.ng-select-virtual-scroll-host]="virtualScroll"
       [attr.id]="listboxId"
+      [attr.aria-multiselectable]="multiple"
       role="listbox"
     >
       <div #scrollSpacer [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
-      <div #scrollContent [class.ng-select-virtual-scroll-content]="virtualScroll && items.length">
+      <div
+        #scrollContent
+        [class.ng-select-virtual-scroll-content]="virtualScroll && items.length"
+        role="presentation"
+      >
         <ng-content />
       </div>
     </div>
@@ -63,7 +67,8 @@ const SCROLL_SCHEDULER =
   `,
   imports: [NgTemplateOutlet],
   host: {
-    class: 'ng-dropdown-panel',
+    'class': 'ng-dropdown-panel',
+    '[class.ng-select-multiple]': 'multiple',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,6 +81,7 @@ export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() appendTo?: string;
   @Input() bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll = false;
+  @Input({ transform: booleanAttribute }) multiple = false;
   @Input() headerTemplate?: TemplateRef<any>;
   @Input() footerTemplate?: TemplateRef<any>;
   @Input() filterValue: string | null = null;

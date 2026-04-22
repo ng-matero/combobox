@@ -3764,7 +3764,7 @@ describe('NgSelect', () => {
       triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space);
       tickAndDetectChanges(fixture);
 
-      expect(input.getAttribute('aria-controls')).toBe(select.listboxId);
+      expect(input.getAttribute('aria-controls')).toBe(select._listboxId);
     }));
 
     it('should set aria-activedecendant equal to chosen item on open', fakeAsync(() => {

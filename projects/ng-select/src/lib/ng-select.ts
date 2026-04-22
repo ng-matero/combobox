@@ -106,11 +106,13 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   _classList: Record<string, boolean> = {};
 
   _uid = `ng-select-${nextUniqueId++}`;
+  _listboxId = `${this._uid}-listbox`;
+  _viewValuesId = `${this._uid}-view-values`;
 
   @Input() bindLabel = this._config.bindLabel;
   @Input() bindValue = this._config.bindValue;
   @Input() placeholder = this._config.placeholder;
-  @Input() fixedPlaceholder = this._config.fixedPlaceholder ?? false;
+  @Input() fixedPlaceholder = this._config.fixedPlaceholder;
   @Input() appendTo = this._config.appendTo;
   @Input() panelPosition: DropdownPanelPosition = 'auto';
   @Input({ transform: booleanAttribute }) panelDisabled = false;
@@ -148,10 +150,19 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input() trackByFn: TrackByFn | null = null;
   @Input() appearance = this._config.appearance;
   @Input({ transform: numberAttribute }) tabIndex?: number;
+  @Input() inputAttrs: Record<string, string> = {};
+
   @Input() ariaLabel?: string | null;
   @Input() ariaLabelledby?: string | null;
-  @Input() ariaDescribedby?: string | null;
-  @Input() inputAttrs: Record<string, string> = {};
+
+  @Input()
+  get ariaDescribedby() {
+    return this._ariaDescribedby || this._viewValuesId;
+  }
+  set ariaDescribedby(value: string | null | undefined) {
+    this._ariaDescribedby = value ? `${value} ${this._viewValuesId}` : this._viewValuesId;
+  }
+  private _ariaDescribedby?: string | null;
 
   @Input()
   set panelClass(value: string | string[] | Record<string, any> | undefined) {
@@ -172,12 +183,14 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
 
   @Input()
   get inputId() {
-    return this._inputId || `${this._uid}-input`;
+    return this._inputId;
   }
   set inputId(value: string | null | undefined) {
-    this._inputId = value;
+    if (value) {
+      this._inputId = value;
+    }
   }
-  private _inputId?: string | null;
+  private _inputId = `${this._uid}-input`;
 
   @Input()
   get items() {
@@ -293,6 +306,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     return this.selectedItems.map(x => x.value);
   }
 
+  get selectedViewValuesStr() {
+    return this.selectedItems.map(x => x.viewValue).join(', ');
+  }
+
   get hasValue() {
     return this.selectedItems.length > 0;
   }
@@ -352,10 +369,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   get showTypeToSearch() {
     const empty = this.itemsList.filteredItems.length === 0;
     return empty && this._isTypeahead && !this._validTerm && !this.loading;
-  }
-
-  get listboxId() {
-    return `${this._uid}-listbox`;
   }
 
   private _onChange = (_: any) => {};
@@ -596,6 +609,14 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this._cdr.markForCheck();
   }
 
+  focus() {
+    this.searchInput.nativeElement.focus();
+  }
+
+  blur() {
+    this.searchInput.nativeElement.blur();
+  }
+
   toggleItem(item: NgOptionItem) {
     if (!item || item.disabled || this.disabled) {
       return;
@@ -630,14 +651,6 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     }
 
     this._onSelectionChanged();
-  }
-
-  focus() {
-    this.searchInput.nativeElement.focus();
-  }
-
-  blur() {
-    this.searchInput.nativeElement.blur();
   }
 
   unselect(item?: NgOptionItem | null) {
@@ -772,6 +785,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       this.items = options.map(option => ({
         $ngOptionValue: option.value,
         $ngOptionLabel: option.elementRef.nativeElement.innerHTML,
+        viewValue: (option.elementRef.nativeElement.textContent || '').trim(),
         disabled: option.disabled,
       }));
       this.itemsList.setItems(this.items);

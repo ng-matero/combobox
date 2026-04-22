@@ -1,7 +1,7 @@
 import { NgSelect } from './ng-select';
 import { NgOptionItem } from './ng-select-types';
 import { isDefined, isFunction, isObject } from './ng-select-utils';
-import * as searchHelper from './search-helper';
+import { stripSpecialChars } from './search-helper';
 import { SelectionModel } from './selection-model';
 
 type OptionGroups = Map<string | NgOptionItem | undefined, NgOptionItem[]>;
@@ -132,9 +132,9 @@ export class ItemsList {
   }
 
   findByLabel(term: string) {
-    term = searchHelper.stripSpecialChars(term).toLocaleLowerCase();
+    term = stripSpecialChars(term).toLocaleLowerCase();
     return this.filteredItems.find(item => {
-      const label = searchHelper.stripSpecialChars(item.label!).toLocaleLowerCase();
+      const label = stripSpecialChars(item.label!).toLocaleLowerCase();
       return label.substr(0, term.length) === term;
     });
   }
@@ -146,9 +146,7 @@ export class ItemsList {
     }
 
     this._filteredItems = [];
-    term = this._ngSelect.searchFn
-      ? term
-      : searchHelper.stripSpecialChars(term).toLocaleLowerCase();
+    term = this._ngSelect.searchFn ? term : stripSpecialChars(term).toLocaleLowerCase();
     const match = this._ngSelect.searchFn || this._defaultSearchFn;
     const hideSelected = this._ngSelect.hideSelected;
 
@@ -243,6 +241,7 @@ export class ItemsList {
       index,
       label: isDefined(label) ? label.toString() : '',
       value,
+      viewValue: item.viewValue || label,
       disabled: item.disabled,
       htmlId: `${this._ngSelect._uid}-option-${index}`,
     };
@@ -298,7 +297,7 @@ export class ItemsList {
   }
 
   private _defaultSearchFn(search: string, opt: NgOptionItem) {
-    const label = searchHelper.stripSpecialChars(opt.label!).toLocaleLowerCase();
+    const label = stripSpecialChars(opt.label!).toLocaleLowerCase();
     return label.indexOf(search) > -1;
   }
 

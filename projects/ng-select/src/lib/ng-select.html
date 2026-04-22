@@ -1,6 +1,16 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
+<div class="ng-select-visually-hidden">
+  <div role="status" aria-atomic="true" aria-live="polite">
+    @if (isOpen && showNoItemsFound) {
+      {{ notFoundText }}
+    }
+  </div>
+  <div [attr.id]="_viewValuesId">{{ selectedViewValuesStr }}</div>
+</div>
+
 <div
   class="ng-select-container"
   [class.ng-appearance-outline]="appearance === 'outline'"
@@ -60,7 +70,7 @@
         [attr.aria-describedby]="ariaDescribedby"
         [attr.aria-haspopup]="panelDisabled ? 'false' : 'listbox'"
         [attr.aria-expanded]="isOpen"
-        [attr.aria-controls]="isOpen ? listboxId : null"
+        [attr.aria-controls]="isOpen ? _listboxId : null"
         [attr.aria-activedescendant]="isOpen ? itemsList.markedItem?.htmlId : null"
         aria-autocomplete="list"
         role="combobox"
@@ -94,9 +104,9 @@
 
 @if (isOpen) {
   <ng-dropdown-panel
-    [class.ng-select-multiple]="multiple"
     [class]="appendTo ? _classList : null"
-    [listboxId]="listboxId"
+    [multiple]="multiple"
+    [listboxId]="_listboxId"
     [virtualScroll]="virtualScroll"
     [bufferAmount]="bufferAmount"
     [appendTo]="appendTo"
@@ -120,10 +130,10 @@
         [class.ng-option]="!item.children"
         [class.ng-option-child]="!!item.parent"
         [class.ng-option-marked]="item === itemsList.markedItem"
-        [attr.id]="item?.htmlId"
+        [attr.id]="item.htmlId"
         [attr.role]="item.children ? 'group' : 'option'"
-        [attr.aria-disabled]="item.disabled"
-        [attr.aria-selected]="item.selected"
+        [attr.aria-disabled]="item.disabled ?? false"
+        [attr.aria-selected]="item.selected ?? false"
         [attr.aria-setsize]="itemsList.filteredItems.length"
         [attr.aria-posinset]="(item.index || 0) + 1"
         (click)="toggleItem(item)"
@@ -201,10 +211,3 @@
     }
   </ng-dropdown-panel>
 }
-
-<!-- Always present aria-live region -->
-<div class="ng-select-visually-hidden" aria-atomic="true" aria-live="polite" role="status">
-  @if (isOpen && showNoItemsFound) {
-    {{ notFoundText }}
-  }
-</div>
