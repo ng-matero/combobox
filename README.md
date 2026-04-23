@@ -28,6 +28,37 @@ npm install @ng-matero/ng-select --save
 @use '@ng-matero/ng-select';
 ```
 
+<details>
+<summary><b>CSS Variables</b></summary>
+
+```css
+--ns-multi-value-text-color
+--ns-multi-value-background-color
+--ns-multi-value-remove-hover-text-color
+--ns-multi-value-remove-hover-background-color
+--ns-control-background-color
+--ns-control-outline-color
+--ns-control-hover-outline-color
+--ns-control-focus-outline-color
+--ns-control-focus-shadow
+--ns-control-disabled-outline-color
+--ns-control-disabled-background-color
+--ns-placeholder-text-color
+--ns-indicator-color
+--ns-indicator-hover-color
+--ns-indicator-focus-color
+--ns-indicator-focus-hover-color
+--ns-panel-background-color
+--ns-panel-shadow
+--ns-option-hover-background-color
+--ns-option-selected-text-color
+--ns-option-selected-background-color
+--ns-option-disabled-text-color
+--ns-optgroup-text-color
+```
+
+</details>
+
 ## Usage
 
 ```ts
@@ -103,7 +134,7 @@ Use template directives to customize the rendering of specific components:
 | `[loading]`                   | `boolean`                                   |                    | You can set the loading state from the outside (e.g. async items loading).                                                                                    |
 | `[loadingText]`               | `string`                                    | `'Loading...'`     | Set custom text when for loading items.                                                                                                                       |
 | `[markFirst]`                 | `boolean`                                   | `true`             | Marks first item as focused when opening/filtering.                                                                                                           |
-| `[maxSelectedItems]`          | `number`                                    |                    | When `multiple = true`, allows to set a limit number of selection.                                                                                            |
+| `[maxSelectedItems]`          | `number`                                    |                    | When `multiple` is `true`, allows to set a limit number of selection.                                                                                         |
 | `[hideSelected]`              | `boolean`                                   | `false`            | Allows to hide selected items.                                                                                                                                |
 | `[multiple]`                  | `boolean`                                   | `false`            | Allows to select multiple items.                                                                                                                              |
 | `[notFoundText]`              | `string`                                    | `'No items found'` | Set custom text when filter returns empty result.                                                                                                             |
@@ -114,7 +145,7 @@ Use template directives to customize the rendering of specific components:
 | `[searchWhileComposing]`      | `boolean`                                   | `true`             | Whether items should be filtered while composition started.                                                                                                   |
 | `[trackByFn]`                 | `TrackByFn`                                 | `null`             | Provide custom trackBy function.                                                                                                                              |
 | `[clearSearchOnAdd]`          | `boolean`                                   | `true`             | Clears search input when item is selected. Default `false` when `closeOnSelect` is `false`.                                                                   |
-| `[editableSearchTerm]`        | `boolean`                                   | `false`            | Allow to edit search query if option selected. Works only if `[multiple]="false"`.                                                                            |
+| `[editableSearchTerm]`        | `boolean`                                   | `false`            | Allow to edit search query if option selected. Works only if `multiple` is `false`.                                                                           |
 | `[selectOnTab]`               | `boolean`                                   | `true`             | Select marked dropdown item using tab.                                                                                                                        |
 | `[openOnEnter]`               | `boolean`                                   | `true`             | Open dropdown using enter.                                                                                                                                    |
 | `[typeahead]`                 | `Subject`                                   |                    | Custom autocomplete or advanced filter.                                                                                                                       |
@@ -124,7 +155,7 @@ Use template directives to customize the rendering of specific components:
 | `[bufferAmount]`              | `number`                                    | `4`                | Used in virtual scrolling, the bufferAmount property controls the number of items preloaded in the background to ensure smoother and more seamless scrolling. |
 | `[keyDownFn]`                 | `(e: KeyboardEvent) => boolean`             | `true`             | Provide custom keyDown function. Executed before default handler. Return false to suppress execution of default key down handlers.                            |
 | `[fixedPlaceholder]`          | `boolean`                                   | `false`            | Set placeholder visible even when an item is selected.                                                                                                        |
-| `[deselectOnClick]`           | `boolean`                                   | `false`            | Deselects a selected item when it is clicked in the dropdown. Default `true` when `[multiple]="true"`.                                                        |
+| `[deselectOnClick]`           | `boolean`                                   | `false`            | Deselects a selected item when it is clicked in the dropdown. Default `true` when `multiple` is `true`.                                                       |
 | `[preventToggleOnRightClick]` | `boolean`                                   | `false`            | Prevent opening of ng-select on right mouse click.                                                                                                            |
 | `[tabIndex]`                  | `number`                                    |                    | The tabindex of ng-select input.                                                                                                                              |
 | `[inputId]`                   | `string`                                    |                    | The input id.                                                                                                                                                 |
@@ -142,8 +173,8 @@ Use template directives to customize the rendering of specific components:
 | `(change)`      | `any`         | Fired on model change. Outputs whole model.                                                                                                                                                              |
 | `(open)`        | `void`        | Fired on select dropdown open.                                                                                                                                                                           |
 | `(close)`       | `void`        | Fired on select dropdown close.                                                                                                                                                                          |
-| `(add)`         | `any`         | Fired when item is added while `[multiple]="true"`. Outputs added item.                                                                                                                                  |
-| `(remove)`      | `any`         | Fired when item is removed while `[multiple]="true"`.                                                                                                                                                    |
+| `(add)`         | `any`         | Fired when item is added while `multiple` is `true`. Outputs added item.                                                                                                                                 |
+| `(remove)`      | `any`         | Fired when item is removed while `multiple` is `true`.                                                                                                                                                   |
 | `(search)`      | `SearchEvent` | Fired while typing search term. Outputs search term with filtered items.                                                                                                                                 |
 | `(clear)`       | `void`        | Fired on clear icon click.                                                                                                                                                                               |
 | `(scroll)`      | `ScrollEvent` | Fired when scrolled. Provides the start and end index of the currently available items. Can be used for loading more items in chunks before the user has scrolled all the way to the bottom of the list. |
