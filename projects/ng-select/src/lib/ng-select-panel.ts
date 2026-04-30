@@ -259,27 +259,34 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
         fromEvent(this._document!, 'click', { capture: true })
       )
         .pipe(takeUntil(this._destroy$))
-        .subscribe($event => this._checkToClose($event));
+        .subscribe(e => this._checkToClose(e));
     });
   }
 
-  private _checkToClose($event: any) {
-    if (this._select.contains($event.target) || this._dropdown.contains($event.target)) {
+  private _checkToClose(e: any) {
+    if (this._select.contains(e.target) || this._dropdown.contains(e.target)) {
       return;
     }
 
-    const path = $event.path || ($event.composedPath && $event.composedPath());
-    if (
-      $event.target &&
-      $event.target.shadowRoot &&
-      path &&
-      path[0] &&
-      this._select.contains(path[0])
-    ) {
+    const path = e.path || (e.composedPath && e.composedPath());
+    if (e.target && e.target.shadowRoot && path && path[0] && this._select.contains(path[0])) {
+      return;
+    }
+
+    if (this._coordinatesWithin(e, this._dropdown) || this._coordinatesWithin(e, this._select)) {
       return;
     }
 
     this._zone.run(() => this.outsideClick.emit());
+  }
+
+  private _coordinatesWithin(e: PointerEvent, element: HTMLElement) {
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+    const rect = element.getBoundingClientRect();
+    return (
+      clickX >= rect.left && clickX <= rect.right && clickY >= rect.top && clickY <= rect.bottom
+    );
   }
 
   private _onItemsChange(items: NgOptionItem[], firstChange: boolean) {
