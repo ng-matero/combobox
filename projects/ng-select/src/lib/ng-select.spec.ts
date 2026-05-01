@@ -1374,31 +1374,31 @@ describe('NgSelect', () => {
       expect(options[0].innerText).toBe('a');
     }));
 
-    it('should always have div #padding with height 0 in dropdown panel when virtual scroll is disabled', fakeAsync(() => {
+    it('should always have div #scrollSpacer with height 0 in dropdown panel when virtual scroll is disabled', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
                     bindLabel="name"
                     [virtualScroll]="false">
-          </ng-select>`
+        </ng-select>`
       );
 
       const select = fixture.componentInstance.select;
       select.open();
 
       const panelItems = document.querySelector('.ng-select-listbox');
-      const firstChild = panelItems?.firstChild as HTMLScriptElement;
+      const lastChild = panelItems?.lastChild as HTMLElement;
 
-      expect(firstChild.offsetHeight).toBe(0);
+      expect(lastChild.offsetHeight).toBe(0);
     }));
 
-    it('should have div #padding with height other than 0 in dropdown panel when virtual scroll is enabled', fakeAsync(() => {
+    it('should have div #scrollSpacer with height other than 0 in dropdown panel when virtual scroll is enabled', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
         `<ng-select [items]="cities"
-                            bindLabel="name"
-                            [virtualScroll]="true">
-                </ng-select>`
+                    bindLabel="name"
+                    [virtualScroll]="true">
+        </ng-select>`
       );
 
       const select = fixture.componentInstance.select;
@@ -1422,9 +1422,9 @@ describe('NgSelect', () => {
       fixture.detectChanges();
 
       const panelItems = document.querySelector('.ng-select-listbox');
-      const firstChild = panelItems?.firstChild as HTMLScriptElement;
+      const lastChild = panelItems?.lastChild as HTMLElement;
 
-      expect(firstChild.offsetHeight).not.toBe(0);
+      expect(lastChild.offsetHeight).not.toBe(0);
     }));
 
     it('should set and render items in dropdown panel with virtual scroll', fakeAsync(() => {

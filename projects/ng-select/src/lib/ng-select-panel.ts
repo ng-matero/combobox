@@ -72,6 +72,7 @@ const SCROLL_SCHEDULER =
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [NgSelectPanelUtils],
 })
 export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   @Input() listboxId = '';
