@@ -47,7 +47,6 @@ const SCROLL_SCHEDULER =
       [attr.aria-multiselectable]="multiple"
       role="listbox"
     >
-      <div #scrollSpacer [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
       <div
         #scrollContent
         [class.ng-select-virtual-scroll-content]="virtualScroll && items.length"
@@ -55,6 +54,7 @@ const SCROLL_SCHEDULER =
       >
         <ng-content />
       </div>
+      <div #scrollSpacer [class.ng-select-virtual-scroll-spacer]="virtualScroll"></div>
     </div>
     @if (footerTemplate) {
       <div class="ng-dropdown-footer">
@@ -72,6 +72,7 @@ const SCROLL_SCHEDULER =
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [NgDropdownPanelUtils],
 })
 export class NgDropdownPanel implements OnInit, OnChanges, OnDestroy {
   @Input() listboxId = '';

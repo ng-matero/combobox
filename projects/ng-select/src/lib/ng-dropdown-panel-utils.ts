@@ -13,7 +13,7 @@ export interface PanelDimensions {
   itemsPerViewport: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NgDropdownPanelUtils {
   get dimensions() {
     return this._dimensions;
