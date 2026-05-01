@@ -149,10 +149,12 @@
 
   &.ng-select-bottom {
     top: 100%;
+    margin: 8px 0;
   }
 
   &.ng-select-top {
     bottom: 100%;
+    margin: 8px 0;
   }
 
   &.ng-select-right {
@@ -223,4 +225,8 @@
 .ng-select-tag-option {
   display: flex;
   gap: 8px;
+}
+
+.ng-select-virtual-scroll-content {
+  padding: 4px 0;
 }
