@@ -8,12 +8,12 @@
   bindValue="name"
 >
   <ng-template ngSelectLabel let-item="item">
-    <img height="15" width="15" [src]="item.avatar" alt="" />
+    <img height="16" width="16" [src]="item.avatar" alt="" />
     <b>{{ item.name }}</b>
   </ng-template>
   <ng-template ngSelectOptgroup let-item="item" let-index="index">
     City group logo
-    <img height="15" width="15" [src]="item.avatar" alt="" />
+    <img height="16" width="16" [src]="item.avatar" alt="" />
   </ng-template>
   <ng-template ngSelectOption let-item="item" let-index="index" let-search="searchTerm">
     <b [ngOptionHighlight]="search">{{ item.name }}</b>

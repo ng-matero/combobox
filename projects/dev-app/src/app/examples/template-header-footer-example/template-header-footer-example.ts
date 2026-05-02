@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import {
+  NgSelect,
   NgSelectPanelFooterTemplate,
   NgSelectPanelHeaderTemplate,
-  NgSelect,
 } from '@ng-matero/ng-select';
 import { DataService, Person } from '../data.service';
 
@@ -13,23 +14,18 @@ import { DataService, Person } from '../data.service';
   styleUrl: './template-header-footer-example.scss',
   imports: [NgSelect, FormsModule, NgSelectPanelHeaderTemplate, NgSelectPanelFooterTemplate],
 })
-export class TemplateHeaderFooterExample implements OnInit {
-  people: Person[] = [];
-  selectedPeople: string[] = [];
-
+export class TemplateHeaderFooterExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.dataService.getPeople().subscribe(items => {
-      this.people = items;
-    });
-  }
+  people = toSignal(this.dataService.getPeople(), { initialValue: [] as Person[] });
+
+  selectedPeople = signal<string[]>([]);
 
   selectAll() {
-    this.selectedPeople = this.people.map(x => x.name);
+    this.selectedPeople.set(this.people().map(x => x.name));
   }
 
   unselectAll() {
-    this.selectedPeople = [];
+    this.selectedPeople.set([]);
   }
 }

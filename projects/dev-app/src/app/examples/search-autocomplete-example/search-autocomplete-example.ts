@@ -1,9 +1,8 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
-import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { catchError, concat, distinctUntilChanged, of, Subject, switchMap, tap } from 'rxjs';
 import { DataService, Person } from '../data.service';
 
 @Component({
@@ -12,35 +11,31 @@ import { DataService, Person } from '../data.service';
   styleUrl: './search-autocomplete-example.scss',
   imports: [NgSelect, FormsModule, AsyncPipe, JsonPipe],
 })
-export class SearchAutocompleteExample implements OnInit {
-  people$!: Observable<Person[]>;
-  peopleLoading = false;
-  peopleInput$ = new Subject<string>();
-  selectedPersons: Person[] = [{ name: 'Karyn Wright' }, { name: 'Other' }] as any;
-
+export class SearchAutocompleteExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.loadPeople();
-  }
+  peopleInput$ = new Subject<string>();
 
-  trackByFn(item: Person) {
-    return item.id;
-  }
+  peopleLoading = false;
 
-  private loadPeople() {
-    this.people$ = concat(
-      of([]), // default items
-      this.peopleInput$.pipe(
-        distinctUntilChanged(),
-        tap(() => (this.peopleLoading = true)),
-        switchMap(term =>
-          this.dataService.getPeople(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.peopleLoading = false))
-          )
+  people$ = concat(
+    of([]), // default items
+    this.peopleInput$.pipe(
+      distinctUntilChanged(),
+      tap(() => (this.peopleLoading = true)),
+      switchMap(term =>
+        this.dataService.getPeople(term).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => (this.peopleLoading = false))
         )
       )
-    );
-  }
+    )
+  );
+
+  selectedPersons: any[] = [
+    { id: '0', name: 'Karyn Wright' },
+    { id: '1', name: 'Other' },
+  ];
+
+  trackByFn = (item: Person) => item.id;
 }

@@ -5,14 +5,17 @@
 
 <ng-select
   [items]="companies"
-  [addTag]="addTagPromise"
-  multiple="true"
   bindLabel="name"
+  [addTag]="addTagPromise"
+  [multiple]="true"
   [loading]="loading"
   [(ngModel)]="selectedCompanies"
 >
   <ng-template ngSelectTag let-search="searchTerm">
-    <b>create new</b>
-    : {{ search }}
+    <b>create new:</b>
+    <span>{{ search }}</span>
   </ng-template>
 </ng-select>
+
+<br />
+Selected value: {{ selectedCompanies | json }}

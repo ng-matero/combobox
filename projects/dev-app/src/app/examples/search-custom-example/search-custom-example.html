@@ -4,7 +4,12 @@
   to see only females.
 </p>
 
-<ng-select [items]="people" bindLabel="name" [loading]="peopleLoading" [searchFn]="customSearchFn">
+<ng-select
+  [items]="people()"
+  bindLabel="name"
+  [loading]="peopleLoading()"
+  [searchFn]="customSearchFn"
+>
   <ng-template ngSelectOption let-item="item">
     {{ item.name }}
     <br />

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
 
@@ -8,16 +8,11 @@ import { NgSelect } from '@ng-matero/ng-select';
   styleUrl: './bindings-nested-example.scss',
   imports: [NgSelect, FormsModule],
 })
-export class BindingsNestedExample implements OnInit {
+export class BindingsNestedExample {
   countries = [
     { id: 1, nested: { countryId: 'L', name: 'Lithuania' } },
     { id: 2, nested: { countryId: 'U', name: 'USA' } },
     { id: 3, nested: { countryId: 'A', name: 'Australia' } },
   ];
-
-  selectedCountryId: string | null = null;
-
-  ngOnInit() {
-    this.selectedCountryId = this.countries[0].nested.countryId;
-  }
+  selectedCountryId = this.countries[0].nested.countryId;
 }

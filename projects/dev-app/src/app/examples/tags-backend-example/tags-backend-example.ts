@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelect, NgSelectTagTemplate } from '@ng-matero/ng-select';
 
@@ -6,19 +7,13 @@ import { NgSelect, NgSelectTagTemplate } from '@ng-matero/ng-select';
   selector: 'app-tags-backend-example',
   templateUrl: './tags-backend-example.html',
   styleUrl: './tags-backend-example.scss',
-  imports: [NgSelect, FormsModule, NgSelectTagTemplate],
+  imports: [FormsModule, NgSelect, NgSelectTagTemplate, JsonPipe],
 })
-export class TagsBackendExample implements OnInit {
-  selectedCompanies: any[] = [];
-  companies: any[] = [];
-  loading = false;
+export class TagsBackendExample {
   companiesNames = ['Uber', 'Microsoft', 'Flexigen'];
-
-  ngOnInit() {
-    this.companiesNames.forEach((c, i) => {
-      this.companies.push({ id: i, name: c });
-    });
-  }
+  companies = this.companiesNames.map((c, i) => ({ id: i, name: c }));
+  selectedCompanies: any[] = [];
+  loading = false;
 
   addTagPromise(name: string) {
     return new Promise(resolve => {

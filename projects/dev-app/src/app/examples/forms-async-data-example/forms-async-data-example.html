@@ -2,13 +2,13 @@
   <div class="form-group">
     <label for="album">Loading async data</label>
     <ng-select
-      [items]="albums"
       #select
-      bindLabel="title"
-      panelPosition="auto"
-      bindValue="id"
-      inputId="album"
       placeholder="Select album"
+      [items]="albums()"
+      bindLabel="title"
+      bindValue="id"
+      panelPosition="auto"
+      inputId="album"
       [virtualScroll]="true"
       formControlName="album"
     >

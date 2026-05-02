@@ -1,13 +1,13 @@
 <p>Select multiple elements using custom templates with checkboxes</p>
 
 <ng-select
-  [items]="people"
+  [items]="people()"
   [multiple]="true"
   bindLabel="name"
+  bindValue="id"
   groupBy="gender"
   [selectableGroup]="true"
   [closeOnSelect]="false"
-  bindValue="id"
   [(ngModel)]="selectedPeople"
 >
   <ng-template ngSelectOptgroup let-item="item" let-item$="item$" let-index="index">
@@ -21,4 +21,4 @@
 </ng-select>
 
 <br />
-<small>{{ selectedPeople | json }}</small>
+<small>{{ selectedPeople() | json }}</small>

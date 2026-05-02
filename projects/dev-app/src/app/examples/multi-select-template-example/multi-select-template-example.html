@@ -12,14 +12,14 @@
 >
   <ng-template ngSelectLabel let-item="item" let-clear="clear">
     <span class="ng-select-value-label">
-      <img [src]="item.avatar_url" width="20px" height="20px" alt="" />
+      <img [src]="item.avatar_url" width="20" height="20" alt="" />
       {{ item.login }}
     </span>
     <span class="ng-select-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
   </ng-template>
 
   <ng-template ngSelectOption let-item="item">
-    <img [src]="item.avatar_url" width="20px" height="20px" alt="" />
+    <img [src]="item.avatar_url" width="20" height="20" alt="" />
     {{ item.login }}
   </ng-template>
 </ng-select>

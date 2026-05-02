@@ -3,19 +3,13 @@
   <b>ngSelectPlaceholder</b>
 </p>
 
-<ng-select
-  [items]="cities"
-  [(ngModel)]="selectedCity"
-  bindLabel="name"
-  bindValue="name"
-  searchable="true"
->
+<ng-select [items]="cities" [(ngModel)]="selectedCity" bindLabel="name" bindValue="name">
   <ng-template ngSelectPlaceholder>
-    <img height="15" width="15" [src]="placeholderAvatar" alt="" />
+    <img height="16" width="16" [src]="placeholderAvatar" alt="" />
     Select your city
   </ng-template>
   <ng-template ngSelectLabel let-item="item">
-    <img height="15" width="15" [src]="item.avatar" alt="" />
+    <img height="16" width="16" [src]="item.avatar" alt="" />
     {{ item.name }}
   </ng-template>
 </ng-select>

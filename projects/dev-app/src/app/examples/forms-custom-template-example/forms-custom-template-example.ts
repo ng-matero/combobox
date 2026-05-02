@@ -1,11 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  NgSelectLabelTemplate,
-  NgSelectOptionTemplate,
   NgSelect,
+  NgSelectLabelTemplate,
   NgSelectOptionHighlight,
+  NgSelectOptionTemplate,
 } from '@ng-matero/ng-select';
 import { DataService } from '../data.service';
 
@@ -22,23 +23,28 @@ import { DataService } from '../data.service';
     NgSelectOptionHighlight,
   ],
 })
-export class FormsCustomTemplateExample implements OnInit {
-  photos: any[] = [];
-
+export class FormsCustomTemplateExample {
   private fb = inject(FormBuilder);
   private modalService = inject(NgbModal);
   private dataService = inject(DataService);
+
+  photos = toSignal(this.dataService.getPhotos(), { initialValue: [] });
 
   heroForm = this.fb.group({
     photo: '',
   });
 
-  ngOnInit() {
-    this.loadPhotos();
+  constructor() {
+    effect(() => {
+      this.selectFirstPhoto();
+    });
   }
 
   selectFirstPhoto() {
-    this.heroForm.get('photo')!.patchValue(this.photos[0].thumbnailUrl);
+    const photos = this.photos();
+    if (photos.length > 0) {
+      this.heroForm.get('photo')!.patchValue(photos[0].thumbnailUrl);
+    }
   }
 
   openModal(content: any) {
@@ -56,12 +62,5 @@ export class FormsCustomTemplateExample implements OnInit {
     } else {
       photo.disable();
     }
-  }
-
-  private loadPhotos() {
-    this.dataService.getPhotos().subscribe(photos => {
-      this.photos = photos;
-      this.selectFirstPhoto();
-    });
   }
 }

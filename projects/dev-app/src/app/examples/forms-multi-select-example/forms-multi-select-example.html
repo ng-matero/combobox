@@ -3,12 +3,12 @@
     <label for="state">City</label>
     @if (isCitiesControlVisible) {
       <ng-select
+        placeholder="Select cities"
         [items]="cities"
         bindLabel="name"
         bindValue="id"
         inputId="state"
         [multiple]="true"
-        placeholder="Select cities"
         clearAllText="Clear"
         formControlName="selectedCitiesIds"
       />

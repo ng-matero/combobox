@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgSelectConfig } from '@ng-matero/ng-select';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs';
 import { LayoutHeader } from './layout/header';
 import { LayoutSidenav } from './layout/sidenav';
 

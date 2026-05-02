@@ -1,9 +1,10 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
-import { map } from 'rxjs/operators';
-import { DataService, Person } from '../data.service';
+import { NgSelect, NgSelectOptgroupTemplate, NgSelectOptionTemplate } from '@ng-matero/ng-select';
+import { map } from 'rxjs';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-multi-checkbox-group-example',
@@ -11,19 +12,21 @@ import { DataService, Person } from '../data.service';
   styleUrl: './multi-checkbox-group-example.scss',
   imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, NgSelectOptionTemplate, UpperCasePipe],
 })
-export class MultiCheckboxGroupExample implements OnInit {
-  people: Person[] = [];
-  selectedPeople: string[] = [];
-
+export class MultiCheckboxGroupExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.dataService
-      .getPeople()
-      .pipe(map(x => x.filter(y => !y.disabled)))
-      .subscribe(res => {
-        this.people = res;
-        this.selectedPeople = [this.people[0].id];
-      });
+  people = toSignal(this.dataService.getPeople().pipe(map(x => x.filter(y => !y.disabled))), {
+    initialValue: [],
+  });
+
+  selectedPeople = signal<string[]>([]);
+
+  constructor() {
+    effect(() => {
+      const data = this.people();
+      if (data.length >= 1) {
+        this.selectedPeople.set([data[0].id]);
+      }
+    });
   }
 }

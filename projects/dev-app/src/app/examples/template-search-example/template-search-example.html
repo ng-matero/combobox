@@ -9,10 +9,6 @@
   bindValue="name"
 >
   <ng-template ngSelectPanelHeader>
-    <input
-      style="width: 100%; line-height: 24px"
-      type="text"
-      (input)="select.filter($event.target.value)"
-    />
+    <input class="w-100" type="text" (input)="select.filter($event.target.value)" />
   </ng-template>
 </ng-select>

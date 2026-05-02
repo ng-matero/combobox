@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  NgSelect,
   NgSelectLabelTemplate,
   NgSelectOptgroupTemplate,
-  NgSelectOptionTemplate,
-  NgSelect,
   NgSelectOptionHighlight,
+  NgSelectOptionTemplate,
 } from '@ng-matero/ng-select';
 
 @Component({
@@ -21,7 +21,7 @@ import {
     NgSelectOptionHighlight,
   ],
 })
-export class TemplateOptgroupExample implements OnInit {
+export class TemplateOptgroupExample {
   cities = [
     {
       id: 1,
@@ -46,6 +46,4 @@ export class TemplateOptgroupExample implements OnInit {
   ];
 
   selectedCity = this.cities[2].name;
-
-  ngOnInit() {}
 }

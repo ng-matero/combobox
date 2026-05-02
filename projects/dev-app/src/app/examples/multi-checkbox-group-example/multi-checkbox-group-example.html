@@ -1,19 +1,22 @@
 <p>Group selects children</p>
 
 <ng-select
-	[items]="people"
-	[multiple]="true"
-	bindLabel="name"
-	groupBy="gender"
-	[selectableGroup]="true"
-	[selectableGroupAsModel]="false"
-	[closeOnSelect]="false"
-	bindValue="id"
-	[(ngModel)]="selectedPeople">
-	<ng-template ngSelectOptgroup let-item="item" let-item$="item$" let-index="index">
-		<input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{ item.gender | uppercase }}
-	</ng-template>
-	<ng-template ngSelectOption let-item="item" let-item$="item$" let-index="index">
-		<input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{ item.name }}
-	</ng-template>
+  [items]="people()"
+  [multiple]="true"
+  bindLabel="name"
+  bindValue="id"
+  groupBy="gender"
+  [selectableGroup]="true"
+  [selectableGroupAsModel]="false"
+  [closeOnSelect]="false"
+  [(ngModel)]="selectedPeople"
+>
+  <ng-template ngSelectOptgroup let-item="item" let-item$="item$" let-index="index">
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.gender | uppercase }}
+  </ng-template>
+  <ng-template ngSelectOption let-item="item" let-item$="item$" let-index="index">
+    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+    {{ item.name }}
+  </ng-template>
 </ng-select>

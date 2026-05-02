@@ -10,7 +10,6 @@ import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
   imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
 })
 export class GroupFunctionExample {
-  selectedAccounts = ['Michael'];
   accounts = [
     {
       name: 'Jill',
@@ -26,7 +25,13 @@ export class GroupFunctionExample {
       country: undefined,
       child: { state: 'Active' },
     },
-    { name: 'Meg', email: 'meg@email.com', age: 7, country: null, child: { state: 'Active' } },
+    {
+      name: 'Meg',
+      email: 'meg@email.com',
+      age: 7,
+      country: null,
+      child: { state: 'Active' },
+    },
     {
       name: 'Adam',
       email: 'adam@email.com',
@@ -34,7 +39,13 @@ export class GroupFunctionExample {
       country: 'United States',
       child: { state: 'Active' },
     },
-    { name: 'Homer', email: 'homer@email.com', age: 47, country: '', child: { state: 'Active' } },
+    {
+      name: 'Homer',
+      email: 'homer@email.com',
+      age: 47,
+      country: '',
+      child: { state: 'Active' },
+    },
     {
       name: 'Samantha',
       email: 'samantha@email.com',
@@ -99,6 +110,8 @@ export class GroupFunctionExample {
       child: { state: 'Inactive' },
     },
   ];
+
+  selectedAccounts = ['Michael'];
 
   groupByFn = (item: any) => item.child.state;
 

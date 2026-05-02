@@ -1,9 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
 import {
-  NgSelectPanelHeaderTemplate,
-  NgSelectOptionTemplate,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
   NgSelect,
+  NgSelectOptionTemplate,
+  NgSelectPanelHeaderTemplate,
 } from '@ng-matero/ng-select';
 
 @Component({
@@ -11,20 +17,23 @@ import {
   templateUrl: './virtual-scroll-example.html',
   styleUrl: './virtual-scroll-example.scss',
   imports: [NgSelect, NgSelectPanelHeaderTemplate, NgSelectOptionTemplate],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VirtualScrollExample implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+  private http = inject(HttpClient);
+
   photos: any[] = [];
   photosBuffer: any[] = [];
   bufferSize = 50;
   numberOfItemsFromEndBeforeFetchingMore = 10;
   loading = false;
 
-  private http = inject(HttpClient);
-
   ngOnInit() {
     this.http.get<any[]>('https://jsonplaceholder.typicode.com/photos').subscribe(photos => {
       this.photos = photos;
       this.photosBuffer = this.photos.slice(0, this.bufferSize);
+      this.cdr.detectChanges();
     });
   }
 
@@ -50,6 +59,7 @@ export class VirtualScrollExample implements OnInit {
     setTimeout(() => {
       this.loading = false;
       this.photosBuffer = this.photosBuffer.concat(more);
+      this.cdr.detectChanges();
     }, 200);
   }
 }

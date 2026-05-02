@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
 import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgSelect, NgSelectOptgroupTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-group-selectable-hidden-example',
   templateUrl: './group-selectable-hidden-example.html',
   styleUrl: './group-selectable-hidden-example.scss',
-  imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
+  imports: [FormsModule, NgSelect, NgSelectOptgroupTemplate, JsonPipe],
 })
-export class GroupSelectableHiddenExample implements OnInit {
+export class GroupSelectableHiddenExample {
   accounts = [
     {
       name: 'Jill',
@@ -25,7 +25,13 @@ export class GroupSelectableHiddenExample implements OnInit {
       country: undefined,
       child: { state: 'Active' },
     },
-    { name: 'Meg', email: 'meg@email.com', age: 7, country: null, child: { state: 'Active' } },
+    {
+      name: 'Meg',
+      email: 'meg@email.com',
+      age: 7,
+      country: null,
+      child: { state: 'Active' },
+    },
     {
       name: 'Adam',
       email: 'adam@email.com',
@@ -33,7 +39,13 @@ export class GroupSelectableHiddenExample implements OnInit {
       country: 'United States',
       child: { state: 'Active' },
     },
-    { name: 'Homer', email: 'homer@email.com', age: 47, country: '', child: { state: 'Active' } },
+    {
+      name: 'Homer',
+      email: 'homer@email.com',
+      age: 47,
+      country: '',
+      child: { state: 'Active' },
+    },
     {
       name: 'Samantha',
       email: 'samantha@email.com',
@@ -100,10 +112,6 @@ export class GroupSelectableHiddenExample implements OnInit {
   ];
 
   selectedAccounts = [{ country: 'Argentina' }, { name: 'Samantha' }];
-
-  constructor() {}
-
-  ngOnInit() {}
 
   compareAccounts = (item: any, selected: any) => {
     if (selected.country && item.country) {

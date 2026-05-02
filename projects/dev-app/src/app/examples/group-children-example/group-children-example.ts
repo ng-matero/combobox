@@ -10,7 +10,6 @@ import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-
   imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, NgSelectOptionTemplate, JsonPipe],
 })
 export class GroupChildrenExample {
-  selectedProjects = [];
   projects = [
     {
       id: 'p1',
@@ -29,4 +28,5 @@ export class GroupChildrenExample {
       ],
     },
   ];
+  selectedProjects = [];
 }

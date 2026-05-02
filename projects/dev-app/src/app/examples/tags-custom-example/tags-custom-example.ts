@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
 
 @Component({
@@ -9,16 +9,10 @@ import { NgSelect } from '@ng-matero/ng-select';
   styleUrl: './tags-custom-example.scss',
   imports: [NgSelect, FormsModule, JsonPipe],
 })
-export class TagsCustomExample implements OnInit {
-  selectedCompanies: any[] = [];
-  companies: any[] = [];
+export class TagsCustomExample {
   companiesNames = ['Uber', 'Microsoft', 'Flexigen'];
-
-  ngOnInit() {
-    this.companiesNames.forEach((c, i) => {
-      this.companies.push({ id: i, name: c });
-    });
-  }
+  companies = this.companiesNames.map((c, i) => ({ id: i, name: c }));
+  selectedCompanies: any[] = [];
 
   addTagFn(name: string) {
     return { name, tag: true };

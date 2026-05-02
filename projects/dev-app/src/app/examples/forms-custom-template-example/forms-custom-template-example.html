@@ -2,20 +2,20 @@
   <div class="form-group">
     <label for="photos">Custom templates</label>
     <ng-select
-      [items]="photos"
+      placeholder="Select photo"
+      formControlName="photo"
+      [items]="photos()"
       bindLabel="title"
       bindValue="thumbnailUrl"
-      placeholder="Select photo"
       inputId="photos"
       [virtualScroll]="true"
-      formControlName="photo"
     >
       <ng-template ngSelectLabel let-item="item">
-        <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
+        <img height="16" width="16" [src]="item.thumbnailUrl" alt="" />
         <span>{{ item.title }}</span>
       </ng-template>
       <ng-template ngSelectOption let-item="item" let-index="index" let-search="searchTerm">
-        <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
+        <img height="16" width="16" [src]="item.thumbnailUrl" alt="" />
         <span [ngOptionHighlight]="search">{{ item.title }}</span>
       </ng-template>
     </ng-select>
@@ -32,41 +32,46 @@
     </button>
   </div>
 
-  <ng-template #modalContent let-c="close" let-d="dismiss">
+  <ng-template #modalContent let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Select in modal</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
     </div>
     <div class="modal-body">
       <div class="form-group">
         <label for="album">Favorite photo</label>
         <ng-select
-          [items]="photos"
-          (change)="changePhoto($event)"
           #select
+          placeholder="Select photo"
+          formControlName="photo"
+          [items]="photos()"
           bindLabel="title"
           bindValue="thumbnailUrl"
-          placeholder="Select photo"
-          (keyup.esc)="$event.preventDefault()"
           appendTo="body"
           [virtualScroll]="true"
-          formControlName="photo"
+          (change)="changePhoto($event)"
+          (keyup.esc)="$event.preventDefault()"
         >
           <ng-template ngSelectLabel let-item="item">
-            <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
+            <img height="16" width="16" [src]="item.thumbnailUrl" alt="" />
             <span>{{ item.title }}</span>
           </ng-template>
           <ng-template ngSelectOption let-item="item" let-index="index">
-            <img height="15" width="15" [src]="item.thumbnailUrl" alt="" />
+            <img height="16" width="16" [src]="item.thumbnailUrl" alt="" />
             <span>{{ item.title }}</span>
           </ng-template>
         </ng-select>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">
+        Close
+      </button>
     </div>
   </ng-template>
 </form>

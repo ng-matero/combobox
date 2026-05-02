@@ -4,12 +4,12 @@
 </p>
 
 <ng-select
+  placeholder="Select photo"
   [items]="photosBuffer"
   bindLabel="title"
   bindValue="thumbnailUrl"
   [virtualScroll]="true"
   [loading]="loading"
-  placeholder="Select photo"
   (scroll)="onScroll($event)"
   (scrollToEnd)="onScrollToEnd()"
 >

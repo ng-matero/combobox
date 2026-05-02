@@ -10,7 +10,6 @@ import { NgSelectOptgroupTemplate, NgSelect } from '@ng-matero/ng-select';
   imports: [NgSelect, FormsModule, NgSelectOptgroupTemplate, JsonPipe],
 })
 export class GroupDefaultExample {
-  selectedAccount = 'Adam';
   accounts = [
     {
       name: 'Adam',
@@ -19,7 +18,13 @@ export class GroupDefaultExample {
       country: 'United States',
       child: { state: 'Active' },
     },
-    { name: 'Homer', email: 'homer@email.com', age: 47, country: '', child: { state: 'Active' } },
+    {
+      name: 'Homer',
+      email: 'homer@email.com',
+      age: 47,
+      country: '',
+      child: { state: 'Active' },
+    },
     {
       name: 'Samantha',
       email: 'samantha@email.com',
@@ -84,4 +89,5 @@ export class GroupDefaultExample {
       child: { state: 'Inactive' },
     },
   ];
+  selectedAccount = 'Adam';
 }

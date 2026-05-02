@@ -2,7 +2,7 @@
 
 <ng-select
   [(ngModel)]="selectedPersonId"
-  [items]="people"
+  [items]="people$ | async"
   bindLabel="name"
   bindValue="id"
 />

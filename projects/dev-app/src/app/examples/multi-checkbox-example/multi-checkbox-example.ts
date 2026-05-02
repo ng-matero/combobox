@@ -1,36 +1,39 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { DataService, Person } from '../data.service';
-import { map } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms';
 import { JsonPipe, UpperCasePipe } from '@angular/common';
-import { NgSelectOptgroupTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
+import { Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { NgSelect, NgSelectOptgroupTemplate, NgSelectOptionTemplate } from '@ng-matero/ng-select';
+import { map } from 'rxjs';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-multi-checkbox-example',
   templateUrl: './multi-checkbox-example.html',
   styleUrl: './multi-checkbox-example.scss',
   imports: [
-    NgSelect,
     FormsModule,
+    NgSelect,
     NgSelectOptgroupTemplate,
     NgSelectOptionTemplate,
     UpperCasePipe,
     JsonPipe,
   ],
 })
-export class MultiCheckboxExample implements OnInit {
-  people: Person[] = [];
-  selectedPeople: string[] = [];
-
+export class MultiCheckboxExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.dataService
-      .getPeople()
-      .pipe(map(x => x.filter(y => !y.disabled)))
-      .subscribe(res => {
-        this.people = res;
-        this.selectedPeople = [this.people[0].id, this.people[1].id];
-      });
+  people = toSignal(this.dataService.getPeople().pipe(map(x => x.filter(y => !y.disabled))), {
+    initialValue: [],
+  });
+
+  selectedPeople = signal<string[]>([]);
+
+  constructor() {
+    effect(() => {
+      const data = this.people();
+      if (data.length >= 2) {
+        this.selectedPeople.set([data[0].id, data[1].id]);
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NgSelectOption, NgSelect } from '@ng-matero/ng-select';
 import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgSelect, NgSelectOption } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-data-source-options-example',
@@ -9,19 +9,17 @@ import { JsonPipe } from '@angular/common';
   styleUrl: './data-source-options-example.scss',
   imports: [NgSelect, FormsModule, NgSelectOption, JsonPipe],
 })
-export class DataSourceOptionsExample implements OnInit {
-  selectedCars = [3];
+export class DataSourceOptionsExample {
   cars = [
     { id: 1, name: 'Volvo' },
     { id: 2, name: 'Saab', disabled: true },
     { id: 3, name: 'Opel' },
     { id: 4, name: 'Audi' },
   ];
-
-  ngOnInit() {}
+  selectedCars = [3];
 
   toggleDisabled() {
-    const car: any = this.cars[1];
+    const car = this.cars[1];
     car.disabled = !car.disabled;
   }
 }

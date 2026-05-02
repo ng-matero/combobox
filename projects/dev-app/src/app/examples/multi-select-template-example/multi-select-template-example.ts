@@ -1,8 +1,7 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgSelectLabelTemplate, NgSelectOptionTemplate, NgSelect } from '@ng-matero/ng-select';
-import { Observable } from 'rxjs';
+import { NgSelect, NgSelectLabelTemplate, NgSelectOptionTemplate } from '@ng-matero/ng-select';
 import { DataService } from '../data.service';
 
 @Component({
@@ -11,13 +10,8 @@ import { DataService } from '../data.service';
   styleUrl: './multi-select-template-example.scss',
   imports: [NgSelect, FormsModule, NgSelectLabelTemplate, NgSelectOptionTemplate, AsyncPipe],
 })
-export class MultiSelectTemplateExample implements OnInit {
-  githubUsers$!: Observable<any[]>;
-  selectedUsers = ['anjmao'];
-
+export class MultiSelectTemplateExample {
   private dataService = inject(DataService);
-
-  ngOnInit() {
-    this.githubUsers$ = this.dataService.getGithubAccounts('anjm');
-  }
+  githubUsers$ = this.dataService.getGithubAccounts('anjm');
+  selectedUsers = ['anjmao'];
 }

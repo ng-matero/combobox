@@ -6,10 +6,10 @@
 
 <ng-select
   [items]="companies"
+  bindLabel="name"
   [addTag]="addTagFn"
   [hideSelected]="true"
-  multiple="true"
-  bindLabel="name"
+  [multiple]="true"
   [(ngModel)]="selectedCompanies"
 />
 

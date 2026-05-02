@@ -10,14 +10,14 @@ import { NgSelect } from '@ng-matero/ng-select';
   imports: [FormsModule, ReactiveFormsModule, NgSelect],
 })
 export class FormsSingleSelectExample {
+  private fb = inject(FormBuilder);
+  private modalService = inject(NgbModal);
+
   ages = [
     { value: '<18', label: 'Under 18' },
     { value: '18', label: '18' },
     { value: '>18', label: 'More than 18' },
   ];
-
-  private fb = inject(FormBuilder);
-  private modalService = inject(NgbModal);
 
   heroForm = this.fb.group({
     age: [null, Validators.required],

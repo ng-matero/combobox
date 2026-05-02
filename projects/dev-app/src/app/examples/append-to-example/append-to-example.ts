@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
 import { DataService } from '../data.service';
@@ -10,15 +10,10 @@ import { DataService } from '../data.service';
   styleUrl: './append-to-example.scss',
   imports: [NgSelect, FormsModule, AsyncPipe],
 })
-export class AppendToExample implements OnInit {
-  people: any = [];
+export class AppendToExample {
+  private dataService = inject(DataService);
+  people$ = this.dataService.getPeople();
   selected: any;
   selected2: any;
   selected3: any;
-
-  private dataService = inject(DataService);
-
-  ngOnInit() {
-    this.people = this.dataService.getPeople();
-  }
 }

@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './app.routes';
@@ -10,7 +10,7 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideHttpClient(),
     provideRouter(routes, withHashLocation()),
   ],

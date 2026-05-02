@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
 
 @Component({
@@ -9,15 +9,16 @@ import { NgSelect } from '@ng-matero/ng-select';
   imports: [FormsModule, ReactiveFormsModule, NgSelect],
 })
 export class FormsMultiSelectExample {
+  private fb = inject(FormBuilder);
+
   isCitiesControlVisible = true;
+
   cities: any[] = [
     { id: 1, name: 'Vilnius' },
     { id: 2, name: 'Kaunas' },
     { id: 3, name: 'Pavilnys (Disabled)', disabled: true },
     { id: 4, name: 'Pabradė' },
   ];
-
-  private fb = inject(FormBuilder);
 
   heroForm = this.fb.group({
     selectedCitiesIds: [] as any,

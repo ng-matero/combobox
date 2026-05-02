@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
 
 @Component({
@@ -9,8 +9,6 @@ import { NgSelect } from '@ng-matero/ng-select';
   styleUrl: './tags-default-example.scss',
   imports: [NgSelect, FormsModule, JsonPipe],
 })
-export class TagsDefaultExample implements OnInit {
+export class TagsDefaultExample {
   selectedCompany: any;
-
-  ngOnInit() {}
 }

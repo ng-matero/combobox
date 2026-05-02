@@ -1,9 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DataService } from '../data.service';
-import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgSelect } from '@ng-matero/ng-select';
+import { DataService, Person } from '../data.service';
 
 @Component({
   selector: 'app-multi-select-limit-example',
@@ -11,15 +10,11 @@ import { NgSelect } from '@ng-matero/ng-select';
   styleUrl: './multi-select-limit-example.scss',
   imports: [NgSelect, FormsModule, AsyncPipe],
 })
-export class MultiSelectLimitExample implements OnInit {
-  people$!: Observable<any[]>;
-  selectedPeople: any[] = [];
-
+export class MultiSelectLimitExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.people$ = this.dataService.getPeople();
-  }
+  people$ = this.dataService.getPeople();
+  selectedPeople: Person[] = [];
 
   clearModel() {
     this.selectedPeople = [];

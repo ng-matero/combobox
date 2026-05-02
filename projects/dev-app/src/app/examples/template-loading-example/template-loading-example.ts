@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgSelectLoadingTemplate, NgSelect } from '@ng-matero/ng-select';
+import { Component } from '@angular/core';
+import { NgSelect, NgSelectLoadingTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-loading-example',
@@ -7,7 +7,7 @@ import { NgSelectLoadingTemplate, NgSelect } from '@ng-matero/ng-select';
   styleUrl: './template-loading-example.scss',
   imports: [NgSelect, NgSelectLoadingTemplate],
 })
-export class TemplateLoadingExample implements OnInit {
+export class TemplateLoadingExample {
   cities = [
     {
       id: 1,
@@ -30,6 +30,4 @@ export class TemplateLoadingExample implements OnInit {
       avatar: '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x',
     },
   ];
-
-  ngOnInit() {}
 }

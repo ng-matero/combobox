@@ -1,6 +1,6 @@
 <ng-select
   placeholder="Select some items"
-  [items]="items"
+  [items]="items$ | async"
   [(ngModel)]="selectedItems"
   bindLabel="name"
   bindValue="id"

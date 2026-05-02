@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgSelectLabelTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelect, NgSelectLabelTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-label-example',
@@ -8,7 +8,7 @@ import { NgSelectLabelTemplate, NgSelect } from '@ng-matero/ng-select';
   styleUrl: './template-label-example.scss',
   imports: [NgSelect, FormsModule, NgSelectLabelTemplate],
 })
-export class TemplateLabelExample implements OnInit {
+export class TemplateLabelExample {
   cities = [
     {
       id: 1,
@@ -33,6 +33,4 @@ export class TemplateLabelExample implements OnInit {
   ];
 
   selectedCity = this.cities[0].name;
-
-  ngOnInit() {}
 }

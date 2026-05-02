@@ -1,13 +1,25 @@
-<p>Custom header and footer using <b>ngSelectPanelHeader</b> and <b>ngSelectPanelFooter</b></p>
+<p>
+  Custom header and footer using
+  <b>ngSelectPanelHeader</b>
+  and
+  <b>ngSelectPanelFooter</b>
+</p>
 
-<ng-select [multiple]="true" [items]="people" [(ngModel)]="selectedPeople" placeholder="Select people" bindLabel="name" bindValue="name">
-	<ng-template ngSelectPanelHeader>
-		<button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
-		<button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
-	</ng-template>
-	<ng-template ngSelectPanelFooter> Selected count: {{ selectedPeople.length }} </ng-template>
+<ng-select
+  placeholder="Select people"
+  [multiple]="true"
+  [items]="people()"
+  [(ngModel)]="selectedPeople"
+  bindLabel="name"
+  bindValue="name"
+>
+  <ng-template ngSelectPanelHeader>
+    <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
+    <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+  </ng-template>
+  <ng-template ngSelectPanelFooter>Selected count: {{ selectedPeople().length }}</ng-template>
 </ng-select>
 
 <br />
 
-Selected people: {{ selectedPeople }}
+Selected people: {{ selectedPeople() }}

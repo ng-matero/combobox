@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgSelectPanelHeaderTemplate, NgSelect } from '@ng-matero/ng-select';
+import { NgSelect, NgSelectPanelHeaderTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-search-example',
@@ -8,7 +8,7 @@ import { NgSelectPanelHeaderTemplate, NgSelect } from '@ng-matero/ng-select';
   styleUrl: './template-search-example.scss',
   imports: [NgSelect, FormsModule, NgSelectPanelHeaderTemplate],
 })
-export class TemplateSearchExample implements OnInit {
+export class TemplateSearchExample {
   cities = [
     {
       id: 1,
@@ -33,8 +33,4 @@ export class TemplateSearchExample implements OnInit {
   ];
 
   selectedCity = this.cities[0].name;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

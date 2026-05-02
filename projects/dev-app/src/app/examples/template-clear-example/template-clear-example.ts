@@ -10,22 +10,10 @@ import { NgSelectClearButtonTemplate, NgSelect } from '@ng-matero/ng-select';
 })
 export class TemplateClearExample {
   cities = [
-    {
-      id: 1,
-      name: 'Clermont-Ferrand',
-    },
-    {
-      id: 2,
-      name: 'Chamalières',
-    },
-    {
-      id: 3,
-      name: 'Lyon',
-    },
-    {
-      id: 4,
-      name: 'Compiègne',
-    },
+    { id: 1, name: 'Clermont-Ferrand' },
+    { id: 2, name: 'Chamalières' },
+    { id: 3, name: 'Lyon' },
+    { id: 4, name: 'Compiègne' },
   ];
 
   selectedCity = this.cities[0].name;

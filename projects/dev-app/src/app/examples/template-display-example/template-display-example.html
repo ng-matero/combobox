@@ -1,9 +1,9 @@
 <p>Custom not found, type to search and loading templates</p>
 <ng-select
-  [multiple]="true"
-  [items]="serverSideFilterItems"
-  [(ngModel)]="selectedPeople"
   placeholder="Select people"
+  [multiple]="true"
+  [items]="serverSideFilterItems()"
+  [(ngModel)]="selectedPeople"
   bindLabel="name"
   bindValue="name"
   [typeahead]="peopleTypeahead"
@@ -12,13 +12,17 @@
     <div class="ng-select-option ng-select-option-disabled">Start typing...</div>
   </ng-template>
   <ng-template ngSelectNotFound let-searchTerm="searchTerm">
-    <div class="ng-select-option ng-select-option-disabled">No data found for "{{ searchTerm }}"</div>
+    <div class="ng-select-option ng-select-option-disabled">
+      No data found for "{{ searchTerm }}"
+    </div>
   </ng-template>
   <ng-template ngSelectLoadingText let-searchTerm="searchTerm">
-    <div class="ng-select-option ng-select-option-disabled">Fetching data for "{{ searchTerm }}"</div>
+    <div class="ng-select-option ng-select-option-disabled">
+      Fetching data for "{{ searchTerm }}"
+    </div>
   </ng-template>
 </ng-select>
 
 <br />
 
-Selected people: {{ selectedPeople }}
+Selected people: {{ selectedPeople() }}

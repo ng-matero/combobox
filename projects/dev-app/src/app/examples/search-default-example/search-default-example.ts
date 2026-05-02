@@ -1,6 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NgSelect } from '@ng-matero/ng-select';
-import { DataService, Person } from '../data.service';
+import { finalize } from 'rxjs';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-search-default-example',
@@ -8,21 +10,13 @@ import { DataService, Person } from '../data.service';
   styleUrl: './search-default-example.scss',
   imports: [NgSelect],
 })
-export class SearchDefaultExample implements OnInit {
-  people: Person[] = [];
-  peopleLoading = false;
-
+export class SearchDefaultExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.loadPeople();
-  }
+  peopleLoading = signal(true);
 
-  private loadPeople() {
-    this.peopleLoading = true;
-    this.dataService.getPeople().subscribe(x => {
-      this.people = x;
-      this.peopleLoading = false;
-    });
-  }
+  people = toSignal(
+    this.dataService.getPeople().pipe(finalize(() => this.peopleLoading.set(false))),
+    { initialValue: [] }
+  );
 }

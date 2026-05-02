@@ -1,12 +1,13 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import {
+  NgSelect,
   NgSelectLoadingTextTemplate,
   NgSelectNotFoundTemplate,
-  NgSelect,
   NgSelectTypeToSearchTemplate,
 } from '@ng-matero/ng-select';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, of, Subject, switchMap } from 'rxjs';
 import { DataService, Person } from '../data.service';
 
 @Component({
@@ -21,32 +22,26 @@ import { DataService, Person } from '../data.service';
     NgSelectLoadingTextTemplate,
   ],
 })
-export class TemplateDisplayExample implements OnInit {
-  peopleTypeahead = new EventEmitter<string>();
-  serverSideFilterItems: Person[] = [];
-  selectedPeople: Person[] = [];
-
+export class TemplateDisplayExample {
   private dataService = inject(DataService);
 
-  ngOnInit() {
-    this.serverSideSearch();
-  }
+  peopleTypeahead = new Subject<string>();
 
-  private serverSideSearch() {
-    this.peopleTypeahead
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(300),
-        switchMap(term => this.dataService.getPeople(term))
+  serverSideFilterItems = toSignal(
+    this.peopleTypeahead.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      switchMap(term =>
+        this.dataService.getPeople(term).pipe(
+          catchError(err => {
+            console.error(err);
+            return of([] as Person[]);
+          })
+        )
       )
-      .subscribe(
-        x => {
-          this.serverSideFilterItems = x;
-        },
-        err => {
-          console.log(err);
-          this.serverSideFilterItems = [];
-        }
-      );
-  }
+    ),
+    { initialValue: [] }
+  );
+
+  selectedPeople = signal<Person[]>([]);
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgSelectOptionTemplate, NgSelect, NgSelectOptionHighlight } from '@ng-matero/ng-select';
+import { NgSelect, NgSelectOptionHighlight, NgSelectOptionTemplate } from '@ng-matero/ng-select';
 
 @Component({
   selector: 'app-template-option-example',
@@ -8,7 +8,7 @@ import { NgSelectOptionTemplate, NgSelect, NgSelectOptionHighlight } from '@ng-m
   styleUrl: './template-option-example.scss',
   imports: [NgSelect, FormsModule, NgSelectOptionTemplate, NgSelectOptionHighlight],
 })
-export class TemplateOptionExample implements OnInit {
+export class TemplateOptionExample {
   cities = [
     {
       id: 1,
@@ -33,8 +33,4 @@ export class TemplateOptionExample implements OnInit {
   ];
 
   selectedCity = this.cities[1].name;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

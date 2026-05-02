@@ -11,9 +11,9 @@
 
 <div class="overflow-box">
   <ng-select
-    [items]="people | async"
-    bindLabel="company"
     placeholder="Select item"
+    [items]="people$ | async"
+    bindLabel="company"
     [(ngModel)]="selected"
   />
 </div>
@@ -23,9 +23,9 @@
 
 <div class="overflow-box">
   <ng-select
-    [items]="people | async"
-    bindLabel="company"
     placeholder="Select item"
+    [items]="people$ | async"
+    bindLabel="company"
     appendTo="body"
     multiple="true"
     [closeOnSelect]="false"
@@ -37,9 +37,9 @@
 <div class="scrollable-box">
   <div class="overflow-box">
     <ng-select
-      [items]="people | async"
-      bindLabel="company"
       placeholder="Select item"
+      [items]="people$ | async"
+      bindLabel="company"
       appendTo=".scrollable-box"
       [(ngModel)]="selected3"
     />

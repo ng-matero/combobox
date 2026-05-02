@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectOptionTemplate, NgSelect, NgSelectOptionHighlight } from '@ng-matero/ng-select';
-import { delay } from 'rxjs/operators';
+import { NgSelect, NgSelectOptionHighlight, NgSelectOptionTemplate } from '@ng-matero/ng-select';
+import { delay, tap } from 'rxjs';
 import { DataService } from '../data.service';
 
 @Component({
@@ -16,20 +17,26 @@ import { DataService } from '../data.service';
     NgSelectOptionHighlight,
   ],
 })
-export class FormsAsyncDataExample implements OnInit {
-  albums: any[] = [];
-  allAlbums: any[] = [];
-
+export class FormsAsyncDataExample {
   private fb = inject(FormBuilder);
   private dataService = inject(DataService);
+
+  allAlbums = toSignal(
+    this.dataService.getAlbums().pipe(
+      delay(500),
+      tap(albums => {
+        this.albums.set([...albums]);
+        this.selectFirstAlbum();
+      })
+    ),
+    { initialValue: [] }
+  );
+
+  albums = signal<any[]>([]);
 
   heroForm = this.fb.group({
     album: '',
   });
-
-  ngOnInit() {
-    this.loadAlbums();
-  }
 
   openSelect(select: NgSelect) {
     select.open();
@@ -40,21 +47,13 @@ export class FormsAsyncDataExample implements OnInit {
   }
 
   selectAlbumsRange(from: number, to: number) {
-    this.albums = this.allAlbums.slice(from, to);
+    this.albums.set(this.allAlbums().slice(from, to));
   }
 
   selectFirstAlbum() {
-    this.heroForm.get('album')!.patchValue(this.albums[0].id);
-  }
-
-  private loadAlbums() {
-    this.dataService
-      .getAlbums()
-      .pipe(delay(500))
-      .subscribe(albums => {
-        this.allAlbums = albums;
-        this.albums = [...this.allAlbums];
-        this.selectFirstAlbum();
-      });
+    const albums = this.albums();
+    if (albums.length > 0) {
+      this.heroForm.get('album')!.patchValue(albums[0].id);
+    }
   }
 }

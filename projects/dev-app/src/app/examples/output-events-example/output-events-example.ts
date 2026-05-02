@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { NgSelect } from '@ng-matero/ng-select';
+import { DataService } from '../data.service';
 
 interface Event {
   name: string;
@@ -13,34 +13,26 @@ interface Event {
   selector: 'app-output-events-example',
   templateUrl: './output-events-example.html',
   styleUrl: './output-events-example.scss',
-  imports: [NgSelect, FormsModule, JsonPipe],
+  imports: [NgSelect, FormsModule, JsonPipe, AsyncPipe],
 })
-export class OutputEventsExample implements OnInit {
-  selectedItems: any;
-  items: any[] = [];
+export class OutputEventsExample {
+  private dataService = inject(DataService);
+
+  items$ = this.dataService.getPeople();
+  selectedItems: string[] = [];
 
   events: Event[] = [];
 
-  private dataService = inject(DataService);
-
-  constructor() {
-    this.dataService.getPeople().subscribe(items => {
-      this.items = items;
-    });
+  onChange(e: Event) {
+    this.events.push({ name: '(change)', value: e });
   }
 
-  ngOnInit() {}
-
-  onChange($event: Event) {
-    this.events.push({ name: '(change)', value: $event });
+  onFocus(e: FocusEvent) {
+    this.events.push({ name: '(focus)', value: e });
   }
 
-  onFocus($event: FocusEvent) {
-    this.events.push({ name: '(focus)', value: $event });
-  }
-
-  onBlur($event: FocusEvent) {
-    this.events.push({ name: '(blur)', value: $event });
+  onBlur(e: FocusEvent) {
+    this.events.push({ name: '(blur)', value: e });
   }
 
   onOpen() {
@@ -51,12 +43,12 @@ export class OutputEventsExample implements OnInit {
     this.events.push({ name: '(close)', value: null });
   }
 
-  onAdd($event: Event) {
-    this.events.push({ name: '(add)', value: $event });
+  onAdd(e: Event) {
+    this.events.push({ name: '(add)', value: e });
   }
 
-  onRemove($event: Event) {
-    this.events.push({ name: '(remove)', value: $event });
+  onRemove(e: Event) {
+    this.events.push({ name: '(remove)', value: e });
   }
 
   onClear() {
@@ -67,7 +59,7 @@ export class OutputEventsExample implements OnInit {
     this.events.push({ name: '(scrollToEnd)', value: null });
   }
 
-  onSearch($event: any) {
-    this.events.push({ name: '(search)', value: $event });
+  onSearch(e: any) {
+    this.events.push({ name: '(search)', value: e });
   }
 }

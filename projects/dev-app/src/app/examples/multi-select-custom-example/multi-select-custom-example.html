@@ -4,18 +4,18 @@
 </p>
 
 <ng-select
+  placeholder="Select items"
   [items]="githubUsers$ | async"
   [multiple]="true"
   bindLabel="login"
   bindValue="login"
-  placeholder="Select items"
   [(ngModel)]="selectedUsers"
 >
   <ng-template ngSelectMultiLabel let-items="items" let-clear="clear">
     @for (item of items | slice: 0 : 2; track item) {
       <div class="ng-select-value">
         <span class="ng-select-value-label">
-          <img [src]="$any(item).avatar_url" width="20px" height="20px" alt="" />
+          <img [src]="$any(item).avatar_url" width="20" height="20" alt="" />
           {{ $any(item).login }}
         </span>
         <span class="ng-select-value-remove right" (click)="clear(item)" aria-hidden="true">×</span>
