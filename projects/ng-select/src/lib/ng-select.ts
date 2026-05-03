@@ -751,6 +751,11 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     this.itemsList.markItem(item);
   }
 
+  updateViewPortItems(items: NgOptionItem[]) {
+    this.viewPortItems = items;
+    this._cdr.detectChanges();
+  }
+
   detectChanges() {
     if (!(this._cdr as any).destroyed) {
       this._cdr.detectChanges();
