@@ -136,7 +136,7 @@
     [filterValue]="searchTerm"
     [items]="itemsList.filteredItems"
     [markedItem]="itemsList.markedItem"
-    (update)="viewPortItems = $event"
+    (update)="updateViewPortItems($event)"
     (scroll)="scroll.emit($event)"
     (scrollToEnd)="scrollToEnd.emit()"
     (outsideClick)="close()"
