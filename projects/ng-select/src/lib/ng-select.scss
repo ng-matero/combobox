@@ -159,7 +159,7 @@
   -webkit-overflow-scrolling: touch;
 
   .ng-dropdown-panel-items {
-    display: block;
+    position: relative;
     height: auto;
     max-height: 240px;
     overflow-y: auto;
