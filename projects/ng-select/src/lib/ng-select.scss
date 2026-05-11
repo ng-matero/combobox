@@ -37,8 +37,8 @@
 
 .ng-select-value-remove {
   svg {
-    width: 14px;
-    height: 14px;
+    width: var(--ns-multi-value-remove-icon-size, 14px);
+    height: var(--ns-multi-value-remove-icon-size, 14px);
   }
 }
 
@@ -63,8 +63,8 @@
   user-select: none;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: var(--ns-indicator-icon-size, 20px);
+    height: var(--ns-indicator-icon-size, 20px);
   }
 }
 
@@ -156,7 +156,8 @@
 }
 
 .ng-select-listbox {
-  max-height: 300px;
+  position: relative;
+  max-height: var(--ns-panel-max-height, 300px);
   overflow-y: auto;
 }
 

@@ -26,56 +26,50 @@
   --ns-optgroup-text-color: light-dark(rgb(153, 153, 153), rgb(107, 119, 140));
 }
 
-.ng-select-single {
-  .ng-select-input-container {
-    padding: 0 8px;
-  }
-}
-
 .ng-select-multiple {
   .ng-select-value-container {
-    gap: 4px;
+    gap: var(--ns-multi-value-gap, 4px);
   }
 
   .ng-select-value {
-    font-size: 85%;
+    padding: var(--ns-multi-value-vertical-padding, 3px)
+      var(--ns-multi-value-horizontal-padding, 3px);
     color: var(--ns-multi-value-text-color, rgb(51, 51, 51));
     background-color: var(--ns-multi-value-background-color, rgb(230, 230, 230));
-    border-radius: 2px;
+    border-radius: var(--ns-multi-value-shape, 2px);
+    font-size: var(--ns-multi-value-text-size, 85%);
+    line-height: var(--ns-multi-value-line-height, 16px);
   }
 
   .ng-select-value-label {
-    padding: 3px 6px;
-    padding-inline: 6px 3px;
-    line-height: 16px;
+    padding: var(--ns-multi-value-label-padding, 0 3px);
     overflow: hidden;
-  }
-
-  &.ng-select-disabled,
-  .ng-select-value-disabled {
-    .ng-select-value-label {
-      padding-inline: 6px;
-    }
   }
 
   .ng-select-value-remove {
     display: inline-flex;
     align-items: center;
-    padding: 4px;
-    border-radius: 2px;
+    padding: var(--ns-multi-value-remove-padding, 4px);
+    margin-block: calc(var(--ns-multi-value-vertical-padding, 3px) * -1);
+    margin-inline-end: calc(var(--ns-multi-value-horizontal-padding, 3px) * -1);
+    border-radius: var(--ns-multi-value-shape, 2px);
 
     &:hover {
       color: var(--ns-multi-value-remove-hover-text-color, rgb(222, 53, 11));
       background-color: var(--ns-multi-value-remove-hover-background-color, rgb(255, 189, 173));
     }
   }
+
+  .ng-select-input-container {
+    padding: 0;
+  }
 }
 
 .ng-select-control {
-  min-height: 38px;
+  min-height: var(--ns-control-min-height, 38px);
   background-color: var(--ns-control-background-color, rgb(255, 255, 255));
   border: 1px solid var(--ns-control-outline-color, rgb(204, 204, 204));
-  border-radius: 4px;
+  border-radius: var(--ns-control-shape, 4px);
 
   &:hover {
     border-color: var(--ns-control-hover-outline-color, rgb(179, 179, 179));
@@ -93,7 +87,8 @@
 }
 
 .ng-select-value-container {
-  padding: 2px 8px;
+  padding: var(--ns-value-container-vertical-padding, 2px)
+    var(--ns-value-container-horizontal-padding, 8px);
   overflow: hidden;
 }
 
@@ -108,12 +103,15 @@
   color: var(--ns-placeholder-text-color, rgb(128, 128, 128));
 }
 
+.ng-select-input-container {
+  padding: 0 var(--ns-value-container-horizontal-padding, 8px);
+}
+
 .ng-select-clear,
 .ng-select-arrow {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 8px;
+  padding: var(--ns-indicator-padding, 8px);
   color: var(--ns-indicator-color, rgb(204, 204, 204));
   line-height: 1;
   transition: color 150ms;
@@ -134,7 +132,7 @@
 .ng-select-arrow::before {
   content: '';
   position: absolute;
-  inset-block: 8px;
+  inset-block: var(--ns-indicator-padding, 8px);
   inset-inline-start: 0;
   display: inline-block;
   width: 1px;
@@ -142,19 +140,19 @@
 }
 
 .ng-select-panel {
-  border-radius: 4px;
+  border-radius: var(--ns-panel-shape, 4px);
   background-color: var(--ns-panel-background-color, rgb(255, 255, 255));
   box-shadow: var(--ns-panel-shadow, rgba(0, 0, 0, 0.1) 0 0 0 1px, rgba(0, 0, 0, 0.1) 0 4px 12px);
   overflow: hidden;
 
   &.ng-select-bottom {
     top: 100%;
-    margin: 8px 0;
+    margin: var(--ns-panel-vertical-margin, 8px) 0;
   }
 
   &.ng-select-top {
     bottom: 100%;
-    margin: 8px 0;
+    margin: var(--ns-panel-vertical-margin, 8px) 0;
   }
 
   &.ng-select-right {
@@ -169,23 +167,23 @@
 }
 
 .ng-select-panel-header {
-  padding: 8px 12px;
+  padding: var(--ns-option-padding, 8px 12px);
   border-bottom: 1px solid var(--ns-control-outline-color, rgb(204, 204, 204));
 }
 
 .ng-select-panel-footer {
-  padding: 8px 12px;
+  padding: var(--ns-option-padding, 8px 12px);
   border-top: 1px solid var(--ns-control-outline-color, rgb(204, 204, 204));
 }
 
 .ng-select-listbox {
-  padding: 4px 0;
+  padding: var(--ns-panel-vertical-padding, 4px) 0;
 }
 
 .ng-select-optgroup {
-  padding: 8px 10px;
+  padding: var(--ns-optgroup-padding, 8px 10px);
   color: var(--ns-optgroup-text-color, rgb(153, 153, 153));
-  font-size: 75%;
+  font-size: var(--ns-optgroup-text-size, 75%);
 
   &.ng-select-option-marked {
     background-color: var(--ns-option-hover-background-color, rgb(222, 235, 255));
@@ -199,7 +197,7 @@
 }
 
 .ng-select-option {
-  padding: 8px 12px;
+  padding: var(--ns-option-padding, 8px 12px);
   color: inherit;
   background-color: transparent;
 
@@ -218,15 +216,15 @@
   }
 
   &.ng-select-option-child {
-    padding-inline-start: 20px;
+    padding-inline-start: var(--ns-option-child-indent, 20px);
   }
 }
 
 .ng-select-tag-option {
   display: flex;
-  gap: 8px;
+  gap: var(--ns-tag-option-gap, 8px);
 }
 
 .ng-select-virtual-scroll-content {
-  padding: 4px 0;
+  padding: var(--ns-panel-vertical-padding, 4px) 0;
 }
