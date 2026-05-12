@@ -1,4 +1,4 @@
-import { Component, DOCUMENT, inject } from '@angular/core';
+import { Component, DOCUMENT, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   NgbDropdown,
@@ -6,6 +6,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
+import { Settings } from '../settings';
 
 type langDir = 'ltr' | 'rtl';
 
@@ -30,7 +31,7 @@ type langDir = 'ltr' | 'rtl';
         </li>
         <li class="nav-item">
           <button class="btn nav-link lh-1" (click)="toggleTheme()">
-            @if (lightTheme) {
+            @if (isLightTheme()) {
               <svg viewBox="0 0 24 24" width="24" height="24">
                 <path
                   fill="currentColor"
@@ -48,7 +49,7 @@ type langDir = 'ltr' | 'rtl';
           </button>
         </li>
         <li class="nav-item" ngbDropdown>
-          <button class="btn nav-link text-uppercase" ngbDropdownToggle>{{ dir }}</button>
+          <button class="btn nav-link text-uppercase" ngbDropdownToggle>{{ dir() }}</button>
           <div ngbDropdownMenu class="dropdown-menu-end">
             <button class="text-uppercase" ngbDropdownItem (click)="changeDirTo('ltr')">ltr</button>
             <button class="text-uppercase" ngbDropdownItem (click)="changeDirTo('rtl')">rtl</button>
@@ -75,24 +76,27 @@ type langDir = 'ltr' | 'rtl';
 export class LayoutHeader {
   private readonly document = inject(DOCUMENT);
   private readonly htmlElement = this.document.querySelector('html')!;
+  private readonly settings = inject(Settings);
 
-  dir: langDir = 'ltr';
+  dir = signal<langDir>('ltr');
 
-  lightTheme = true;
+  isLightTheme = signal(true);
 
   changeDirTo(dir: langDir) {
-    this.dir = dir;
+    this.dir.set(dir);
     this.htmlElement.dir = dir;
   }
 
   toggleTheme() {
-    this.lightTheme = !this.lightTheme;
-    if (this.lightTheme) {
+    this.isLightTheme.update(v => !v);
+    if (this.isLightTheme()) {
       this.htmlElement.classList.remove('theme-dark');
       this.htmlElement.setAttribute('data-bs-theme', 'light');
+      this.settings.theme.set('light');
     } else {
       this.htmlElement.classList.add('theme-dark');
       this.htmlElement.setAttribute('data-bs-theme', 'dark');
+      this.settings.theme.set('dark');
     }
   }
 }

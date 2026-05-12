@@ -1,0 +1,23 @@
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.example-source {
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+.example-source-tabs {
+  padding: 0 var(--bs-card-spacer-x);
+  margin: calc(var(--bs-card-spacer-y) * -1) calc(var(--bs-card-spacer-x) * -1)
+    var(--bs-card-spacer-y);
+}
+
+pre {
+  margin: 0;
+}

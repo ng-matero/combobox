@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EXAMPLE_COMPONENTS } from '../../examples/examples';
 import { ExampleViewer } from '../example-viewer/example-viewer';
@@ -9,13 +9,14 @@ import { ExampleViewer } from '../example-viewer/example-viewer';
   imports: [ExampleViewer],
 })
 export class RouteViewer implements OnInit {
-  examples: string[] = [];
-
   private route = inject(ActivatedRoute);
+
+  examples = signal<string[]>([]);
 
   ngOnInit() {
     this.route.data.subscribe((data: any) => {
-      this.examples = Object.keys(EXAMPLE_COMPONENTS).filter(x => x.startsWith(data.examples));
+      const examples = Object.keys(EXAMPLE_COMPONENTS).filter(c => c.startsWith(data.examples));
+      this.examples.set(examples);
     });
   }
 }

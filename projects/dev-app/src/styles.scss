@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'bootstrap/scss/bootstrap';
+@use './styles/highlightjs';
 @use '../../ng-select';
-
-@import 'bootstrap/scss/bootstrap';
 
 body {
   position: relative;

@@ -48,14 +48,10 @@ import { routes } from '../app.routes';
   imports: [RouterLinkActive, RouterLink],
 })
 export class LayoutSidenav {
-  routes: any[] = [];
-
-  constructor() {
-    this.routes = routes
-      .filter(route => route.component)
-      .map(route => ({
-        title: route.data!['title'],
-        url: `/${route.path}`,
-      }));
-  }
+  routes = routes
+    .filter(route => route.component)
+    .map(route => ({
+      title: route.data?.['title'],
+      url: `/${route.path}`,
+    }));
 }
