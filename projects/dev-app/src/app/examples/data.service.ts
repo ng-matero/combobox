@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { delay, map, Observable, of, tap } from 'rxjs';
+import { delay, map, of, tap } from 'rxjs';
 
 export interface Person {
   id: string;
+  index: number;
   isActive: boolean;
+  picture: string;
   age: number;
   name: string;
   gender: string;
@@ -18,7 +20,7 @@ export interface Person {
   providedIn: 'root',
 })
 export class DataService {
-  private _gitHubAccountsCache = new Map<string, []>();
+  private _gitHubAccountsCache = new Map<string, any[]>();
 
   private http = inject(HttpClient);
 
@@ -28,8 +30,8 @@ export class DataService {
     }
 
     if (term) {
-      return this.http.get<any>(`https://api.github.com/search/users?q=${term}`).pipe(
-        map(rsp => rsp.items),
+      return this.http.get<{ items: any[] }>(`https://api.github.com/search/users?q=${term}`).pipe(
+        map(res => res.items),
         tap(data => this._gitHubAccountsCache.set(term, data))
       );
     } else {
@@ -45,16 +47,16 @@ export class DataService {
     return this.http.get<any[]>('https://jsonplaceholder.typicode.com/photos');
   }
 
-  getPeople(term?: string): Observable<Person[]> {
+  getPeople(term?: string) {
     let items = getMockPeople();
     if (term) {
-      items = items.filter(x => x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1);
+      items = items.filter(p => p.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1);
     }
     return of(items).pipe(delay(500));
   }
 }
 
-function getMockPeople() {
+function getMockPeople(): Person[] {
   return [
     {
       id: '5a15b13c36e7a7f00cf0d7cb',

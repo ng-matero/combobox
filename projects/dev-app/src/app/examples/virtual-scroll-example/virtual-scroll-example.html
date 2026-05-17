@@ -5,17 +5,17 @@
 
 <ng-select
   placeholder="Select photo"
-  [items]="photosBuffer"
+  [items]="photosBuffer()"
   bindLabel="title"
   bindValue="thumbnailUrl"
   [virtualScroll]="true"
-  [loading]="loading"
+  [loading]="loading()"
   (scroll)="onScroll($event)"
   (scrollToEnd)="onScrollToEnd()"
 >
   <ng-template ngSelectPanelHeader>
     <small class="form-text text-muted">
-      Loaded {{ photosBuffer.length }} of {{ photos.length }}
+      Loaded {{ photosBuffer().length }} of {{ photos().length }}
     </small>
   </ng-template>
   <ng-template ngSelectOption let-item="item" let-index="index">

@@ -22,7 +22,7 @@ export class TemplateHeaderFooterExample {
   selectedPeople = signal<string[]>([]);
 
   selectAll() {
-    this.selectedPeople.set(this.people().map(x => x.name));
+    this.selectedPeople.set(this.people().map(p => p.name));
   }
 
   unselectAll() {

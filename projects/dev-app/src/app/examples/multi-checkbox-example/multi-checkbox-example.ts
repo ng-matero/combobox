@@ -22,7 +22,7 @@ import { DataService } from '../data.service';
 export class MultiCheckboxExample {
   private dataService = inject(DataService);
 
-  people = toSignal(this.dataService.getPeople().pipe(map(x => x.filter(y => !y.disabled))), {
+  people = toSignal(this.dataService.getPeople().pipe(map(res => res.filter(p => !p.disabled))), {
     initialValue: [],
   });
 
