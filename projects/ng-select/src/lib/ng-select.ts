@@ -933,7 +933,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
     const model = [];
     for (const item of this.selectedItems) {
       if (this.bindValue) {
-        let value = null;
+        let value;
         if (item.children) {
           const groupKey = this.groupValue ? this.bindValue : (this.groupBy as string);
           value = item.value[groupKey || (this.groupBy as string)];
