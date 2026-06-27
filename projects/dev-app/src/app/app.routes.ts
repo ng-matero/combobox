@@ -68,6 +68,11 @@ export const routes: Routes = [
     data: { title: 'Append to element', examples: 'append-to' },
   },
   {
+    path: 'popover',
+    component: RouteViewer,
+    data: { title: 'Popover', examples: 'popover' },
+  },
+  {
     path: 'grouping',
     component: RouteViewer,
     data: { title: 'Grouping', examples: 'group' },

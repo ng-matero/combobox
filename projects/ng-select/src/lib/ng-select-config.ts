@@ -16,4 +16,5 @@ export class NgSelectConfig {
   bindLabel?: string;
   clearSearchOnAdd?: boolean;
   deselectOnClick?: boolean;
+  usePopover = false;
 }

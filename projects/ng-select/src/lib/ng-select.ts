@@ -129,6 +129,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   @Input({ transform: booleanAttribute }) selectOnTab = false;
   @Input({ transform: booleanAttribute }) openOnEnter = this._config.openOnEnter;
   @Input({ transform: booleanAttribute }) virtualScroll = this._config.virtualScroll;
+  @Input({ transform: booleanAttribute }) usePopover = this._config.usePopover;
   @Input({ transform: numberAttribute }) bufferAmount = 4;
   @Input({ transform: booleanAttribute }) selectableGroup = false;
   @Input({ transform: booleanAttribute }) selectableGroupAsModel = true;
@@ -989,7 +990,7 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   private _onSelectionChanged() {
-    if (this.isOpen && this.deselectOnClick && this.appendTo) {
+    if (this.isOpen && this.deselectOnClick && (this.appendTo || this.usePopover)) {
       // Make sure items are rendered.
       this._cdr.detectChanges();
       this.dropdownPanel.adjustPosition();

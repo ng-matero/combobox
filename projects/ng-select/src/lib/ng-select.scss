@@ -153,6 +153,12 @@
   width: 100%;
   opacity: 0;
   -webkit-overflow-scrolling: touch;
+
+  &.ng-select-popover {
+    position: fixed;
+    padding: 0;
+    border: none;
+  }
 }
 
 .ng-select-listbox {

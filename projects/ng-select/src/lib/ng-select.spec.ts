@@ -4517,6 +4517,125 @@ describe('NgSelect', () => {
     });
   }));
 });
+
+describe('usePopover', () => {
+  it('should have usePopover input with default value false', fakeAsync(() => {
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name"></ng-select>`
+    );
+
+    const select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(false);
+  }));
+
+  it('should pass usePopover false to dropdown panel by default', fakeAsync(() => {
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name"></ng-select>`
+    );
+
+    const select = fixture.componentInstance.select;
+    select.open();
+    tickAndDetectChanges(fixture);
+
+    const dropdownPanel = select.dropdownPanel;
+    expect(dropdownPanel.usePopover).toBe(false);
+
+    const panelElement = fixture.debugElement.nativeElement.querySelector('.ng-select-panel');
+    expect(panelElement?.matches(':popover-open')).toBe(false);
+  }));
+
+  it('should pass usePopover true to dropdown panel when set to true', fakeAsync(() => {
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name" [usePopover]="true"></ng-select>`
+    );
+
+    const select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(true);
+
+    select.open();
+    tickAndDetectChanges(fixture);
+
+    const dropdownPanel = select.dropdownPanel;
+    expect(dropdownPanel.usePopover).toBe(true);
+
+    const panelElement = fixture.debugElement.nativeElement.querySelector('.ng-select-panel');
+    expect(panelElement?.matches(':popover-open')).toBe(true);
+  }));
+
+  it('should pass usePopover false to dropdown panel when explicitly set to false', fakeAsync(() => {
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name" [usePopover]="false"></ng-select>`
+    );
+
+    const select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(false);
+
+    select.open();
+    tickAndDetectChanges(fixture);
+
+    const dropdownPanel = select.dropdownPanel;
+    expect(dropdownPanel.usePopover).toBe(false);
+
+    const panelElement = fixture.debugElement.nativeElement.querySelector('.ng-select-panel');
+    expect(panelElement?.matches(':popover-open')).toBe(false);
+  }));
+
+  it('should pass usePopover value dynamically', fakeAsync(() => {
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name" [usePopover]="popoverEnabled"></ng-select>`
+    );
+
+    const component = fixture.componentInstance;
+    component.popoverEnabled = false;
+    fixture.detectChanges();
+
+    let select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(false);
+
+    component.popoverEnabled = true;
+    fixture.detectChanges();
+
+    select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(true);
+
+    select.open();
+    tickAndDetectChanges(fixture);
+
+    const dropdownPanel = select.dropdownPanel;
+    expect(dropdownPanel.usePopover).toBe(true);
+
+    const panelElement = fixture.debugElement.nativeElement.querySelector('.ng-select-panel');
+    expect(panelElement?.matches(':popover-open')).toBe(true);
+  }));
+
+  it('should apply global usePopover from NgSelectConfig', fakeAsync(() => {
+    const config = new NgSelectConfig();
+    config.usePopover = true;
+    const fixture = createTestingModule(
+      NgSelectTestComponent,
+      `<ng-select [items]="cities" bindLabel="name"></ng-select>`,
+      config
+    );
+
+    const select = fixture.componentInstance.select;
+    expect(select.usePopover).toBe(true);
+
+    select.open();
+    tickAndDetectChanges(fixture);
+
+    const dropdownPanel = select.dropdownPanel;
+    expect(dropdownPanel.usePopover).toBe(true);
+
+    const panelElement = fixture.debugElement.nativeElement.querySelector('.ng-select-panel');
+    expect(panelElement?.matches(':popover-open')).toBe(true);
+  }));
+});
+
 describe('Grouping', () => {
   it('should group flat items list by group key', fakeAsync(() => {
     const fixture = createTestingModule(
@@ -4988,6 +5107,7 @@ function createEvent(target = {}) {
 class NgSelectTestComponent {
   @ViewChild(NgSelect, { static: false }) select!: NgSelect;
   multiple = false;
+  popoverEnabled = false;
   label = 'Yes';
   clearOnBackspace = false;
   disabled = false;

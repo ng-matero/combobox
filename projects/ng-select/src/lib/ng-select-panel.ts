@@ -68,6 +68,7 @@ const SCROLL_SCHEDULER =
   imports: [NgTemplateOutlet],
   host: {
     'class': 'ng-select-panel',
+    '[class.ng-select-popover]': 'usePopover',
     '[class.ng-select-multiple]': 'multiple',
   },
   encapsulation: ViewEncapsulation.None,
@@ -83,6 +84,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   @Input() bufferAmount = 4;
   @Input({ transform: booleanAttribute }) virtualScroll = false;
   @Input({ transform: booleanAttribute }) multiple = false;
+  @Input({ transform: booleanAttribute }) usePopover = false;
   @Input() headerTemplate?: TemplateRef<any>;
   @Input() footerTemplate?: TemplateRef<any>;
   @Input() filterValue: string | null = null;
@@ -99,7 +101,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   @ViewChild('scrollSpacer', { read: ElementRef, static: true })
   scrollSpacerElRef!: ElementRef<HTMLElement>;
 
-  private _document = inject(DOCUMENT, { optional: true });
+  private _document = inject(DOCUMENT);
   private _renderer = inject(Renderer2);
   private _zone = inject(NgZone);
   private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -150,6 +152,8 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
     this._handleOutsideClick();
     this._appendDropdown();
     this._setupMousedownListener();
+    this._showPopoverIfNeeded();
+    this._handleReposition();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -163,7 +167,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
     this._destroy$.next();
     this._destroy$.complete();
     this._destroy$.unsubscribe();
-    if (this.appendTo) {
+    if (this.appendTo || this.usePopover) {
       this._renderer.removeChild(this._dropdown.parentNode, this._dropdown);
     }
   }
@@ -214,7 +218,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
       this._updateDropdownClass('bottom');
     }
 
-    if (this.appendTo) {
+    if (this.appendTo || this.usePopover) {
       this._updateYPosition();
     }
 
@@ -417,11 +421,14 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
       return this.position;
     }
     const selectRect = this._select.getBoundingClientRect();
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollTop = this._document.documentElement.scrollTop || this._document.body.scrollTop;
     const offsetTop = selectRect.top + window.pageYOffset;
     const height = selectRect.height;
     const dropdownHeight = dropdownEl.getBoundingClientRect().height;
-    if (offsetTop + height + dropdownHeight > scrollTop + document.documentElement.clientHeight) {
+    if (
+      offsetTop + height + dropdownHeight >
+      scrollTop + this._document.documentElement.clientHeight
+    ) {
       return 'top';
     } else {
       return 'bottom';
@@ -435,7 +442,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
 
     this._parent = this._dropdown.shadowRoot
       ? this._dropdown.shadowRoot.querySelector(this.appendTo)!
-      : document.querySelector(this.appendTo)!;
+      : this._document.querySelector(this.appendTo)!;
 
     if (!this._parent) {
       throw new Error(`appendTo selector ${this.appendTo} did not found any parent element`);
@@ -448,7 +455,7 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   private _updateXPosition() {
     const select = this._select.getBoundingClientRect();
     const parent = this._parent.getBoundingClientRect();
-    const offsetLeft = select.left - parent.left;
+    const offsetLeft = this.usePopover ? select.left : select.left - parent.left;
 
     this._dropdown.style.left = offsetLeft + 'px';
     this._dropdown.style.width = select.width + 'px';
@@ -458,15 +465,18 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
   private _updateYPosition() {
     const select = this._select.getBoundingClientRect();
     const parent = this._parent.getBoundingClientRect();
-    const delta = select.height;
 
     if (this._currentPosition === 'top') {
-      const offsetBottom = parent.bottom - select.bottom;
-      this._dropdown.style.bottom = offsetBottom + delta + 'px';
+      const offsetBottom = this.usePopover
+        ? window.innerHeight - select.top
+        : parent.bottom - select.bottom + select.height;
+
+      this._dropdown.style.bottom = offsetBottom + 'px';
       this._dropdown.style.top = 'auto';
     } else if (this._currentPosition === 'bottom') {
-      const offsetTop = select.top - parent.top;
-      this._dropdown.style.top = offsetTop + delta + 'px';
+      const offsetTop = this.usePopover ? select.bottom : select.top - parent.top + select.height;
+
+      this._dropdown.style.top = offsetTop + 'px';
       this._dropdown.style.bottom = 'auto';
     }
   }
@@ -481,6 +491,36 @@ export class NgSelectPanel implements OnInit, OnChanges, OnDestroy {
             return;
           }
           event.preventDefault();
+        });
+    });
+  }
+
+  private _showPopoverIfNeeded() {
+    if (!this.usePopover) {
+      return;
+    }
+    if (typeof this._dropdown.showPopover === 'function') {
+      this._renderer.setAttribute(this._dropdown, 'popover', 'manual');
+      this._dropdown.showPopover();
+      this._parent = this._document.body;
+      this._updateXPosition();
+      this._updateYPosition();
+    }
+  }
+
+  private _handleReposition() {
+    if (!this.appendTo && !this.usePopover) {
+      return;
+    }
+    this._zone.runOutsideAngular(() => {
+      merge(
+        fromEvent(this._document, 'scroll', { capture: true, passive: true }),
+        fromEvent(window, 'resize', { passive: true })
+      )
+        .pipe(takeUntil(this._destroy$), auditTime(0, SCROLL_SCHEDULER))
+        .subscribe(() => {
+          this._updateXPosition();
+          this._updateYPosition();
         });
     });
   }

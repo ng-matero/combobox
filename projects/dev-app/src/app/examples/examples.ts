@@ -1,4 +1,5 @@
 import { AppendToExample } from './append-to-example/append-to-example';
+import { PopoverExample } from './popover-example/popover-example';
 import { BindingsCustomExample } from './bindings-custom-example/bindings-custom-example';
 import { BindingsDefaultExample } from './bindings-default-example/bindings-default-example';
 import { BindingsNestedExample } from './bindings-nested-example/bindings-nested-example';
@@ -229,5 +230,9 @@ export const EXAMPLE_COMPONENTS: Record<string, Example> = {
   'group-children-example': {
     component: GroupChildrenExample,
     title: 'Items with already grouped children array',
+  },
+  'popover-example': {
+    component: PopoverExample,
+    title: 'Popover top layer',
   },
 };
