@@ -151,13 +151,14 @@
   position: absolute;
   z-index: 1080;
   width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
   opacity: 0;
   -webkit-overflow-scrolling: touch;
 
   &.ng-select-popover {
     position: fixed;
-    padding: 0;
-    border: none;
   }
 }
 
