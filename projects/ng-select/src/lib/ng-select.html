@@ -186,9 +186,10 @@
     @if (showAddTag) {
       <div
         class="ng-select-option ng-select-tag-option"
+        [class.ng-select-option-disabled]="disabled"
         [class.ng-select-option-marked]="!itemsList.markedItem"
         role="option"
-        [attr.aria-disabled]="false"
+        [attr.aria-disabled]="disabled"
         [attr.aria-selected]="false"
         (click)="selectTag()"
         (mouseover)="itemsList.unmarkItem()"

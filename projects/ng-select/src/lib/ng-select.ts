@@ -671,6 +671,10 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
   }
 
   selectTag() {
+    if (this.disabled) {
+      return;
+    }
+
     let tag;
     if (isFunction(this.addTag)) {
       tag = (this.addTag as AddTagFn)(this.searchTerm || '');
@@ -678,14 +682,21 @@ export class NgSelect implements OnDestroy, OnChanges, OnInit, AfterViewInit, Co
       tag = this._primitive ? this.searchTerm : { [this.bindLabel as string]: this.searchTerm };
     }
 
-    const handleTag = (item: any) =>
-      this._isTypeahead || !this.isOpen
-        ? this.itemsList.mapItem(item, null)
-        : this.itemsList.addItem(item);
+    const commitTag = (item: any) => {
+      if (this.disabled) {
+        return;
+      }
+
+      const option =
+        this._isTypeahead || !this.isOpen
+          ? this.itemsList.mapItem(item, null)
+          : this.itemsList.addItem(item);
+      this.select(option);
+    };
     if (isPromise(tag)) {
-      tag.then(item => this.select(handleTag(item))).catch(() => {});
+      tag.then(commitTag).catch(() => {});
     } else if (tag) {
-      this.select(handleTag(tag));
+      commitTag(tag);
     }
   }
 
