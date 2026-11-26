@@ -2876,6 +2876,23 @@ describe('NgSelect', () => {
       expect(fixture.componentInstance.selectedCity).toBe('Copenhagen' as any);
     }));
 
+    it('should ignore clicks on the add-tag option after disabling', fakeAsync(() => {
+      const fixture = createTestingModule(
+        NgSelectTestComponent,
+        `<ng-select [items]="citiesNames" [addTag]="true" [(ngModel)]="selectedCity"></ng-select>`
+      );
+      tickAndDetectChanges(fixture);
+      fixture.componentInstance.select.filter('Copenhagen');
+      tickAndDetectChanges(fixture);
+
+      fixture.componentInstance.select.setDisabledState(true);
+      tickAndDetectChanges(fixture);
+      fixture.nativeElement.querySelector('.ng-select-tag-option').click();
+      tickAndDetectChanges(fixture);
+
+      expect(fixture.componentInstance.selectedCity).toBeNull();
+    }));
+
     it('should add tag as string when there are no items', fakeAsync(() => {
       const fixture = createTestingModule(
         NgSelectTestComponent,
@@ -2994,6 +3011,28 @@ describe('NgSelect', () => {
           valid: true,
         })
       );
+    }));
+
+    it('should ignore a pending tag when it resolves while disabled', fakeAsync(() => {
+      const fixture = createTestingModule(
+        NgSelectTestComponent,
+        `<ng-select [items]="cities" bindLabel="name" [addTag]="tagFuncPromise"
+                    [(ngModel)]="selectedCity"></ng-select>`
+      );
+      let resolveTag!: (tag: { id: number; name: string; valid: boolean }) => void;
+      spyOn(fixture.componentInstance, 'tagFuncPromise').and.returnValue(
+        new Promise(resolve => (resolveTag = resolve))
+      );
+      tickAndDetectChanges(fixture);
+      fixture.componentInstance.select.filter('Copenhagen');
+      tickAndDetectChanges(fixture);
+      fixture.nativeElement.querySelector('.ng-select-tag-option').click();
+
+      fixture.componentInstance.select.setDisabledState(true);
+      resolveTag({ id: 5, name: 'Copenhagen', valid: true });
+      tickAndDetectChanges(fixture);
+
+      expect(fixture.componentInstance.selectedCity).toBeNull();
     }));
 
     describe('show add tag', () => {
